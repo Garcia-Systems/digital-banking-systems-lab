@@ -56,3 +56,8 @@ Continue with
 [Chapter 16: Out-of-Order Events](../book/16-out-of-order-events.md) for scripted
 delivery reordering, deterministic buffering, stale-event rejection, and preserved
 ledger correctness.
+Continue with [Chapter 17: Dead-Letter Queues](../book/17-dead-letter-queues.md) for
+bounded retry exhaustion and permanent operational isolation. Volume I concludes
+with [Chapter 18: End-to-End Banking Operations Laboratory](../book/18-end-to-end-banking-operations-laboratory.md),
+which composes the complete deterministic payment lifecycle and independently
+reconciles its financial result.

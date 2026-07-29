@@ -24,6 +24,7 @@ from bank_sim.institutions import (
     describe_institution,
     harbor_community_credit_union,
 )
+from bank_sim.laboratory import describe_laboratory, describe_operational_summary
 from bank_sim.ledger import chapter_ledger, describe_ledger, describe_replay
 from bank_sim.onboarding import (
     describe_application,
@@ -119,6 +120,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("dead-letter", help="isolate permanently failed payments")
     subparsers.add_parser(
         "dead-letter-report", help="inspect the deterministic dead-letter queue"
+    )
+    subparsers.add_parser("laboratory", help="run the complete Volume I laboratory")
+    subparsers.add_parser(
+        "operational-summary", help="summarize end-to-end operational results"
     )
     return parser
 
@@ -236,5 +241,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "dead-letter-report":
         print(describe_dead_letter_report())
+        return 0
+    if args.command == "laboratory":
+        print(describe_laboratory())
+        return 0
+    if args.command == "operational-summary":
+        print(describe_operational_summary())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands
