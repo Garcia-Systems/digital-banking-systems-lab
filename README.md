@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0 and 1
+## Chapters 0–2
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -20,10 +20,12 @@ Chapter 0 introduced reusable simulation infrastructure:
 - synchronous events executed chronologically, with insertion order breaking ties;
 - no threads, asynchronous runtime, sleeping, network calls, database, or randomness.
 
-Chapter 1's `0.2.0` release adds immutable financial-institution identity and a
+Chapter 1's `0.2.0` release added immutable financial-institution identity and a
 deterministic comparison of shareholder-owned banks and member-owned credit unions.
-There are still deliberately no individual members, accounts, ledgers, balances,
-deposits, transfers, or other money movement. Later chapters will introduce banking
+Chapter 2's `0.3.0` release adds a validated, deterministic membership-application
+state machine with explicit decisions and ordered transition history. There are
+still deliberately no permanent members, accounts, ledgers, balances, deposits,
+transfers, or other money movement. Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
 banking software.
@@ -37,6 +39,8 @@ python -m pip install -e '.[dev]'
 bank-sim doctor
 bank-sim institution
 bank-sim compare-institutions
+bank-sim member-apply
+bank-sim member-onboarding
 pytest
 ruff check .
 ruff format --check .
@@ -46,7 +50,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.2.0
+Version 0.3.0
 Laboratory environment is ready.
 ```
 
@@ -55,6 +59,8 @@ Laboratory environment is ready.
 ```bash
 docker compose build
 docker compose run --rm lab bank-sim doctor
+docker compose run --rm lab bank-sim member-apply
+docker compose run --rm lab bank-sim member-onboarding
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -66,8 +72,9 @@ runs as a non-root user.
 ## Learning path
 
 The domain learning path begins with
-[Chapter 1: Bank or Credit Union?](book/01-bank-or-credit-union.md), then proceeds to
-representing money, deriving balances, and
+[Chapter 1: Bank or Credit Union?](book/01-bank-or-credit-union.md), continues with
+[Chapter 2: Member Onboarding](book/02-member-onboarding.md), then proceeds to
+account opening, representing money, deriving balances, and
 moving funds in core banking. It will then expand through payments and digital
 banking channels, distributed financial systems and reconciliation, lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable

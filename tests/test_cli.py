@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.2.0",
+        "Version 0.3.0",
         "Laboratory environment is ready.",
     ]
 
@@ -72,3 +72,42 @@ def test_comparison_output_is_deterministic(
         "- Security",
         "- Reporting",
     ]
+
+
+def test_member_apply_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["member-apply"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Application: HCCU-0001",
+        "Applicant: Alex Harbor",
+        "State progression:",
+        "1. Application created: Draft",
+        "2. Application submitted: Submitted",
+        "3. Review started: Under review",
+        "4. Eligibility evaluated: Eligible",
+        "5. Identity verification recorded: Passed",
+        "6. Application approved: Approved",
+        "Eligibility: Eligible",
+        "Identity verification: Passed",
+        "Final decision: Approved",
+    ]
+    assert main(["member-apply"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_member_onboarding_output_has_stable_multiple_outcomes(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["member-onboarding"]) == 0
+    output = capsys.readouterr().out
+    assert output.count("Final decision: Approved") == 1
+    assert output.count("Final decision: Rejected — Ineligible") == 1
+    assert output.count("Final decision: Rejected — Identity verification failed") == 1
+    assert output.index("Approved application") < output.index("Ineligible application")
+    assert output.index("Ineligible application") < output.index(
+        "Identity-verification failure"
+    )
+    assert main(["member-onboarding"]) == 0
+    assert capsys.readouterr().out == output
