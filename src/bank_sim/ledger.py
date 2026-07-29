@@ -39,6 +39,8 @@ class LedgerEntry:
     description: str
     sequence: int
     posted_at: int
+    original_transfer_id: str | None = None
+    ach_return_id: str | None = None
 
     def __post_init__(self) -> None:
         for field_name in ("entry_id", "account_id", "description"):
@@ -59,6 +61,14 @@ class LedgerEntry:
             raise LedgerValidationError("posting time must be an integer")
         if self.posted_at < 0:
             raise LedgerValidationError("posting time cannot be negative")
+        for reference_name in ("original_transfer_id", "ach_return_id"):
+            reference = getattr(self, reference_name)
+            if reference is not None and (
+                not isinstance(reference, str) or not reference.strip()
+            ):
+                raise LedgerValidationError(
+                    f"{reference_name.replace('_', ' ')} cannot be blank"
+                )
 
 
 class Ledger:

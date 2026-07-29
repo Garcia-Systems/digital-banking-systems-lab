@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.9.0",
+        "Version 0.10.0",
         "Laboratory environment is ready.",
     ]
 
@@ -301,4 +301,45 @@ def test_ach_timeline_output_is_deterministic(
         "T+10   Ledger debit posted",
     ]
     assert main(["ach-timeline"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ach_return_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["ach-return"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Original source balance: $1,000.00",
+        "Outbound ACH amount: $250.00",
+        "Balance after outbound posting: $750.00",
+        "Return reason: Account closed",
+        "Corrective ledger entry: RETURN-0001-CREDIT | Credit | $250.00",
+        "Final balance: $1,000.00",
+        "Preserved entries:",
+        "- ACH-0001-DEBIT | Debit | $250.00",
+        "- RETURN-0001-CREDIT | Credit | $250.00",
+    ]
+    assert main(["ach-return"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ach_return_timeline_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["ach-return-timeline"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "T+0    ACH transfer received",
+        "T+1    Transfer validated",
+        "T+2    Funds marked pending",
+        "T+3    Submitted to ACH network",
+        "T+5    Network processing",
+        "T+10   Transfer completed",
+        "T+10   Ledger debit posted",
+        "T+30   ACH return received",
+        "T+31   ACH return validated",
+        "T+32   ACH return processing",
+        "T+35   ACH return completed",
+        "T+35   Corrective credit posted",
+    ]
+    assert main(["ach-return-timeline"]) == 0
     assert capsys.readouterr().out == output

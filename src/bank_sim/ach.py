@@ -110,10 +110,14 @@ class AchNetwork:
         self.scheduler = scheduler if scheduler is not None else EventScheduler()
         self.pending: list[PendingTransaction] = []
         self.submissions: list[str] = []
+        self.transfers: dict[str, AchTransfer] = {}
 
     def receive(self, request: AchTransferRequest) -> AchTransfer:
         """Receive instructions and schedule their deterministic validation."""
         transfer = AchTransfer(request)
+        if request.transfer_id in self.transfers:
+            raise AchValidationError("ACH transfer identifier already exists")
+        self.transfers[request.transfer_id] = transfer
         self.scheduler.schedule_at(1, lambda: self._validate(transfer))
         return transfer
 

@@ -44,10 +44,15 @@ posts exactly one source debit at completion. It intentionally defers ACH return
 real payment formats and integrations, settlement, reconciliation, and complete
 retry and idempotency infrastructure.
 
+Chapter 9 introduces deterministic ACH returns. A return references one completed
+outbound transfer and appends a full corrective credit without editing the original
+debit. Production return rules, settlement, reconciliation, and generalized
+idempotency remain deferred.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;
-2. ACH returns and additional external-payment behavior;
+2. additional external-payment behavior;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
 5. lending and loan servicing;

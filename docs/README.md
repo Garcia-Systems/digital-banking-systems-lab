@@ -26,3 +26,6 @@ funds before successful requests append debit history, and then
 debit and credit entries with replay across two accounts, and then
 [Chapter 8: ACH Transfers](../book/08-ach-transfers.md) for a pending-first,
 deterministic outbound external-payment workflow.
+
+Continue with [Chapter 9: ACH Returns](../book/09-ach-returns.md) for a separate
+return workflow, append-only corrective credit, and replay preserving the debit.
