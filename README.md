@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–8
+## Chapters 0–9
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -37,6 +37,8 @@ Chapter 7's `0.8.0` release adds internal transfers as atomic source-debit and
 destination-credit pairs, with both account balances derived by replay. Chapter
 8's `0.9.0` release adds a deterministic outbound ACH workflow whose pending debit
 becomes one posted ledger debit only after simulated network completion.
+Chapter 9's `0.10.0` release adds a separate ACH return workflow that preserves
+that debit, appends one corrective credit, and derives the restored balance by replay.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -65,6 +67,8 @@ bank-sim transfer
 bank-sim transfers
 bank-sim ach
 bank-sim ach-timeline
+bank-sim ach-return
+bank-sim ach-return-timeline
 pytest
 ruff check .
 ruff format --check .
@@ -74,7 +78,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.9.0
+Version 0.10.0
 Laboratory environment is ready.
 ```
 
@@ -97,6 +101,8 @@ docker compose run --rm lab bank-sim transfer
 docker compose run --rm lab bank-sim transfers
 docker compose run --rm lab bank-sim ach
 docker compose run --rm lab bank-sim ach-timeline
+bank-sim ach-return
+bank-sim ach-return-timeline
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -116,7 +122,9 @@ then [Chapter 5: Deposits](book/05-deposits.md), and then
 [Chapter 6: Withdrawals](book/06-withdrawals.md).
 [Chapter 7: Internal Transfers](book/07-internal-transfers.md) follows with atomic
 paired ledger entries. [Chapter 8: ACH Transfers](book/08-ach-transfers.md) then
-introduces delayed external-payment coordination. The path will expand through digital
+introduces delayed external-payment coordination.
+[Chapter 9: ACH Returns](book/09-ach-returns.md) follows with append-only corrective
+history. The path will expand through digital
 banking channels, distributed financial systems and reconciliation, lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
 operations. Every capability will arrive with the chapter that explains it.
