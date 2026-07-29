@@ -9,6 +9,11 @@ from bank_sim.institutions import (
     describe_institution,
     harbor_community_credit_union,
 )
+from bank_sim.onboarding import (
+    describe_application,
+    describe_onboarding_scenarios,
+    successful_onboarding,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -19,6 +24,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("institution", help="describe the fictional institution")
     subparsers.add_parser(
         "compare-institutions", help="compare bank and credit-union ownership"
+    )
+    subparsers.add_parser("member-apply", help="run one successful member application")
+    subparsers.add_parser(
+        "member-onboarding", help="show deterministic member-application outcomes"
     )
     return parser
 
@@ -36,5 +45,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "compare-institutions":
         print(compare_institutions())
+        return 0
+    if args.command == "member-apply":
+        print(describe_application(successful_onboarding()))
+        return 0
+    if args.command == "member-onboarding":
+        print(describe_onboarding_scenarios())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

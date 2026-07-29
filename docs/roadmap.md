@@ -8,9 +8,15 @@ shareholder-owned bank with the fictional member-owned Harbor Community Credit
 Union while keeping their shared high-level software needs visible. It intentionally
 does not implement those capabilities.
 
+Chapter 2 introduces the first person-level workflow: a membership application
+with explicit submission, review, eligibility, simulated identity-verification,
+and decision states. It preserves ordered transition history while intentionally
+deferring permanent members, accounts, and all money movement.
+
 Future chapters are planned to progress incrementally through:
 
-1. core banking concepts, including representing money, ledger entries, and derived balances;
+1. account opening and core banking concepts, including representing money, ledger
+   entries, and derived balances;
 2. controlled movement of funds and payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
