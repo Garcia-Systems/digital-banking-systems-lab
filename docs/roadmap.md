@@ -71,6 +71,11 @@ Chapter 14 introduces scripted duplicate request delivery caused by client retry
 network duplication, and queue replay. Its isolated naïve processor intentionally
 creates duplicate ledger effects so Chapter 15 can motivate idempotent processing.
 
+Chapter 15 introduces deterministic idempotency keys and an in-memory result store.
+Repeated deliveries return the original completed result while exactly one unique
+business operation appends exactly one ledger debit. Distributed storage,
+expiration, consensus, and message ordering remain deferred.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;

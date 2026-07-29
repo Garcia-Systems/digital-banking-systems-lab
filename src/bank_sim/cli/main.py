@@ -14,6 +14,10 @@ from bank_sim.balances import (
 )
 from bank_sim.deposits import chapter_deposit_requests, describe_deposits
 from bank_sim.duplicates import describe_duplicate_timeline, describe_duplicates
+from bank_sim.idempotency import (
+    describe_idempotency,
+    describe_idempotency_comparison,
+)
 from bank_sim.institutions import (
     compare_institutions,
     describe_institution,
@@ -101,6 +105,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("duplicates", help="observe scripted duplicate payments")
     subparsers.add_parser(
         "duplicate-timeline", help="show a naïvely processed duplicate timeline"
+    )
+    subparsers.add_parser("idempotency", help="process duplicate deliveries safely")
+    subparsers.add_parser(
+        "idempotency-comparison", help="compare naïve and idempotent processing"
     )
     return parser
 
@@ -200,5 +208,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "duplicate-timeline":
         print(describe_duplicate_timeline())
+        return 0
+    if args.command == "idempotency":
+        print(describe_idempotency())
+        return 0
+    if args.command == "idempotency-comparison":
+        print(describe_idempotency_comparison())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

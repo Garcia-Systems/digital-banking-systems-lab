@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–14
+## Chapters 0–15
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -50,7 +50,8 @@ Chapter 13's `0.14.0` release adds scripted transient failures, fixed-delay retr
 bounded attempts, and recovery statistics without duplicating ledger effects.
 Chapter 14's `0.15.0` release scripts repeated request delivery and intentionally
 shows how naïve processing creates duplicate financial effects. Duplicate prevention
-is deferred to Chapter 15.
+is implemented by Chapter 15's `0.16.0` release with deterministic idempotency keys,
+stored results, duplicate acknowledgements, and exactly one financial effect.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -92,6 +93,8 @@ bank-sim retries
 bank-sim retry-timeline
 bank-sim duplicates
 bank-sim duplicate-timeline
+bank-sim idempotency
+bank-sim idempotency-comparison
 pytest
 ruff check .
 ruff format --check .
@@ -101,7 +104,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.15.0
+Version 0.16.0
 Laboratory environment is ready.
 ```
 
@@ -137,6 +140,8 @@ docker compose run --rm lab bank-sim retries
 docker compose run --rm lab bank-sim retry-timeline
 docker compose run --rm lab bank-sim duplicates
 docker compose run --rm lab bank-sim duplicate-timeline
+docker compose run --rm lab bank-sim idempotency
+docker compose run --rm lab bank-sim idempotency-comparison
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -170,7 +175,8 @@ adds scripted failures, fixed retry scheduling, and bounded recovery without dup
 financial effects.
 [Chapter 14: Duplicate Payment Requests](book/14-duplicate-payment-requests.md)
 then exposes how repeated delivery creates repeated ledger effects under intentionally
-naïve processing. The path
+naïve processing. [Chapter 15: Idempotent Payment Processing](book/15-idempotent-payment-processing.md)
+then recognizes repeated business identity before applying ledger effects. The path
 will expand through digital banking channels, distributed financial systems,
 lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
