@@ -36,3 +36,6 @@ preserved exceptions.
 Continue with [Chapter 11: Payment Queues](../book/11-payment-queues.md) for FIFO
 ACH scheduling, deterministic worker capacity, backlog metrics, and unchanged
 financial outcomes.
+Continue with [Chapter 12: Worker Capacity](../book/12-worker-capacity.md) for
+deterministic worker pools, throughput, utilization, and backlog reduction without
+changing ledger history.

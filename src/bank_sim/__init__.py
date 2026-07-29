@@ -1,3 +1,3 @@
 """Deterministic infrastructure for the Digital Banking Systems Laboratory."""
 
-__version__ = "0.12.0"
+__version__ = "0.13.0"
