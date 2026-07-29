@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.5.0",
+        "Version 0.6.0",
         "Laboratory environment is ready.",
     ]
 
@@ -174,4 +174,35 @@ def test_pending_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> 
         "$25.00",
     ]
     assert main(["pending"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_deposit_output_shows_request_entry_and_replayed_balance(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["deposit"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Request: DEP-0001 | HCCU-DEMO-001 | $500.00",
+        "Status: Received → Posted",
+        "Ledger entry: DEP-0001-ENTRY | Credit | $500.00",
+        "Running balance: $500.00",
+        "",
+        "Final balance:",
+        "$500.00",
+    ]
+    assert main(["deposit"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_deposits_output_replays_each_deposit_deterministically(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["deposits"]) == 0
+    output = capsys.readouterr().out
+    assert "Running balance: $500.00" in output
+    assert "Running balance: $750.00" in output
+    assert "Running balance: $825.50" in output
+    assert output.endswith("Final balance:\n$825.50\n")
+    assert main(["deposits"]) == 0
     assert capsys.readouterr().out == output
