@@ -78,8 +78,12 @@ expiration, and consensus remain deferred.
 
 Chapter 16 introduces scripted out-of-order delivery, per-payment sequences and
 revisions, deterministic future-event buffering, and explicit stale and duplicate
-rejection before ledger effects. Dead-letter queues and distributed ordering
-protocols remain deferred.
+rejection before ledger effects. Distributed ordering protocols remain deferred.
+
+Chapter 17 introduces a deterministic dead-letter queue for retry exhaustion,
+invalid workflow states, invalid payments, and stale events. Isolation stops future
+automatic retries and preserves diagnostic context without modifying financial
+history. Manual replay, operator approval, and automatic recovery remain deferred.
 
 Future chapters are planned to progress incrementally through:
 
