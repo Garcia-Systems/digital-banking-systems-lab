@@ -33,3 +33,6 @@ Continue with
 [Chapter 10: Settlement and Reconciliation](../book/10-settlement-and-reconciliation.md)
 for independently produced settlement records, deterministic comparison, and
 preserved exceptions.
+Continue with [Chapter 11: Payment Queues](../book/11-payment-queues.md) for FIFO
+ACH scheduling, deterministic worker capacity, backlog metrics, and unchanged
+financial outcomes.

@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.11.0",
+        "Version 0.12.0",
         "Laboratory environment is ready.",
     ]
 
@@ -198,6 +198,40 @@ def test_ledger_replay_output_is_deterministic(
         "$824.75",
     ]
     assert main(["ledger-replay"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_payment_queue_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["payment-queue"]) == 0
+    output = capsys.readouterr().out
+    assert output.startswith("Payment queue | capacity 2 payments/minute\n")
+    assert "T+0 Arrived    ACH-001" in output
+    assert "T+1 Processing ACH-001" in output
+    assert "Total processed: 6" in output
+    assert "Maximum queue depth: 6" in output
+    assert "Remaining queued items: 0" in output
+    assert main(["payment-queue"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_payment_capacity_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["payment-capacity"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Payment capacity comparison | identical workload",
+        "Capacity 1: completed T+6 | average wait 2 | longest wait 5 | "
+        "queued after T+1 5 | max depth 6 | final balance 100000 cents",
+        "Capacity 2: completed T+3 | average wait 1 | longest wait 2 | "
+        "queued after T+1 4 | max depth 6 | final balance 100000 cents",
+        "Capacity 4: completed T+2 | average wait 0 | longest wait 1 | "
+        "queued after T+1 2 | max depth 6 | final balance 100000 cents",
+        "Identical ledger outcomes: yes",
+    ]
+    assert main(["payment-capacity"]) == 0
     assert capsys.readouterr().out == output
 
 
