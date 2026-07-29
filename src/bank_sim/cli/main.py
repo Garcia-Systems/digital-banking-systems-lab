@@ -28,6 +28,7 @@ from bank_sim.payment_queues import (
     describe_payment_capacity,
     describe_payment_queue,
 )
+from bank_sim.retries import describe_retries, describe_retry_timeline
 from bank_sim.settlement import (
     describe_reconciliation,
     describe_reconciliation_exceptions,
@@ -92,6 +93,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     worker_capacity.add_argument("--workers", type=int, choices=(1, 2, 4, 8), default=1)
     subparsers.add_parser("capacity-comparison", help="compare worker-pool throughput")
+    subparsers.add_parser("retries", help="run deterministic transient-failure retries")
+    subparsers.add_parser(
+        "retry-timeline", help="show the deterministic retry timeline"
+    )
     return parser
 
 
@@ -178,5 +183,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "capacity-comparison":
         print(describe_capacity_comparison())
+        return 0
+    if args.command == "retries":
+        print(describe_retries())
+        return 0
+    if args.command == "retry-timeline":
+        print(describe_retry_timeline())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands
