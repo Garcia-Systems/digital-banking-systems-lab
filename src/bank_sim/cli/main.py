@@ -4,6 +4,12 @@ import argparse
 from collections.abc import Sequence
 
 from bank_sim import __version__
+from bank_sim.balances import (
+    chapter_pending_transactions,
+    describe_balance,
+    describe_pending,
+    project_balances,
+)
 from bank_sim.institutions import (
     compare_institutions,
     describe_institution,
@@ -32,6 +38,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers.add_parser("ledger", help="show the immutable ledger timeline")
     subparsers.add_parser("ledger-replay", help="replay the ledger balance projection")
+    subparsers.add_parser(
+        "balance", help="show current, pending, and available balances"
+    )
+    subparsers.add_parser(
+        "pending", help="show authorized transactions awaiting posting"
+    )
     return parser
 
 
@@ -60,5 +72,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "ledger-replay":
         print(describe_replay(chapter_ledger()))
+        return 0
+    if args.command == "balance":
+        projection = project_balances(chapter_ledger(), chapter_pending_transactions())
+        print(describe_balance(projection))
+        return 0
+    if args.command == "pending":
+        print(describe_pending(chapter_pending_transactions()))
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

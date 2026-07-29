@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.4.0",
+        "Version 0.5.0",
         "Laboratory environment is ready.",
     ]
 
@@ -141,4 +141,37 @@ def test_ledger_replay_output_is_deterministic(
         "$824.75",
     ]
     assert main(["ledger-replay"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_balance_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["balance"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Ledger Balance:        $824.75",
+        "Pending Debits:        $120.00",
+        "Pending Credits:        $25.00",
+        "Available Balance:     $729.75",
+    ]
+    assert main(["balance"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_pending_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["pending"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Pending Debit",
+        "Gas Station",
+        "$60.00",
+        "",
+        "Pending Debit",
+        "Restaurant",
+        "$60.00",
+        "",
+        "Pending Credit",
+        "Payroll",
+        "$25.00",
+    ]
+    assert main(["pending"]) == 0
     assert capsys.readouterr().out == output
