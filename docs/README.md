@@ -23,4 +23,6 @@ append ledger history and change balances only through replay, and then
 [Chapter 6: Withdrawals](../book/06-withdrawals.md) for approval against available
 funds before successful requests append debit history, and then
 [Chapter 7: Internal Transfers](../book/07-internal-transfers.md) for atomic paired
-debit and credit entries with replay across two accounts.
+debit and credit entries with replay across two accounts, and then
+[Chapter 8: ACH Transfers](../book/08-ach-transfers.md) for a pending-first,
+deterministic outbound external-payment workflow.

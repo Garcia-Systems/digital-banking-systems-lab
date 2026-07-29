@@ -4,6 +4,7 @@ import argparse
 from collections.abc import Sequence
 
 from bank_sim import __version__
+from bank_sim.ach import describe_ach, describe_ach_timeline
 from bank_sim.balances import (
     chapter_pending_transactions,
     describe_balance,
@@ -57,6 +58,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser(
         "transfers", help="show posted and rejected internal transfers"
     )
+    subparsers.add_parser("ach", help="run one outbound ACH transfer")
+    subparsers.add_parser("ach-timeline", help="show the outbound ACH timeline")
     return parser
 
 
@@ -110,5 +113,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "transfers":
         print(describe_transfers())
+        return 0
+    if args.command == "ach":
+        print(describe_ach())
+        return 0
+    if args.command == "ach-timeline":
+        print(describe_ach_timeline())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

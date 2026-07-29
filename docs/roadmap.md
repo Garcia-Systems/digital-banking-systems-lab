@@ -38,10 +38,16 @@ a source debit and destination credit as one atomic in-memory operation, then re
 both accounts. It intentionally defers external institutions, ACH, wires, payment
 networks, settlement, retries, reconciliation, and distributed transactions.
 
+Chapter 8 introduces outbound ACH credits as delayed workflows. A validated request
+places a pending debit, advances through a simulated network on virtual time, and
+posts exactly one source debit at completion. It intentionally defers ACH returns,
+real payment formats and integrations, settlement, reconciliation, and complete
+retry and idempotency infrastructure.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;
-2. external payment processing;
+2. ACH returns and additional external-payment behavior;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
 5. lending and loan servicing;
