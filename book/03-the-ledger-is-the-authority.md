@@ -89,8 +89,13 @@ authoritative.
 
 ## Try the deterministic timeline
 
-```console
-$ docker compose run --rm lab bank-sim ledger
+```bash
+docker compose run --rm lab bank-sim ledger
+```
+
+Expected output:
+
+```text
 Seq  Type      Amount
 1    Credit    +$1,000.00
 2    Debit       -$120.00
@@ -102,8 +107,13 @@ works directly from cents rather than converting through floating point.
 
 ## Replay it step by step
 
-```console
-$ docker compose run --rm lab bank-sim ledger-replay
+```bash
+docker compose run --rm lab bank-sim ledger-replay
+```
+
+Expected output:
+
+```text
 Ledger replay
 1. Credit +$1,000.00 → $1,000.00
 2. Debit -$120.00 → $880.00

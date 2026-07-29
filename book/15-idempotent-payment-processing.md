@@ -85,7 +85,7 @@ unique operation, two duplicates prevented, one stored record, and one debit.
 
 Run protected processing:
 
-```console
+```bash
 docker compose run --rm lab bank-sim idempotency
 ```
 
@@ -94,7 +94,7 @@ duplicate acknowledgements, the `$750.00` final balance, and one ledger debit.
 
 Compare the same workload under both approaches:
 
-```console
+```bash
 docker compose run --rm lab bank-sim idempotency-comparison
 ```
 

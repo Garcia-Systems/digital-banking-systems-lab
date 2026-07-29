@@ -61,11 +61,22 @@ Unknown or incomplete transfers, a second return, blank identifiers, unsupported
 
 ## CLI walkthroughs and expected output
 
-Run `docker compose run --rm lab bank-sim ach-return` to see the opening balance,
-outbound amount, $750.00 post-debit balance, return reason, correction, preserved
-entries, and restored $1,000.00 balance. Run
-`docker compose run --rm lab bank-sim ach-return-timeline` to see the exact timeline
-above. Both outputs have exact deterministic tests.
+Run the return scenario:
+
+```bash
+docker compose run --rm lab bank-sim ach-return
+```
+
+It shows the opening balance, outbound amount, $750.00 post-debit balance, return
+reason, correction, preserved entries, and restored $1,000.00 balance.
+
+See the exact timeline above:
+
+```bash
+docker compose run --rm lab bank-sim ach-return-timeline
+```
+
+Both outputs have exact deterministic tests.
 
 ## Engineering lesson
 

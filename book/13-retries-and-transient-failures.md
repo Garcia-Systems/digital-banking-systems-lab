@@ -57,7 +57,7 @@ attempts still have one financial result.
 
 Run the mixed workload:
 
-```console
+```bash
 docker compose run --rm lab bank-sim retries
 ```
 
@@ -68,7 +68,7 @@ queue size. Average attempts is computed in integer hundredths.
 
 Inspect the stable event sequence:
 
-```console
+```bash
 docker compose run --rm lab bank-sim retry-timeline
 ```
 

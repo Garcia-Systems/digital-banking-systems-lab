@@ -72,8 +72,13 @@ continues, while each failed item appears once in insertion order in the DLQ.
 
 Run the processing view:
 
-```console
-$ docker compose run --rm lab bank-sim dead-letter
+```bash
+docker compose run --rm lab bank-sim dead-letter
+```
+
+Selected expected output:
+
+```text
 Dead-letter processing | mixed deterministic workload
 T+1 PAY-SUCCESS-001 | succeeded | attempt 1
 ...
@@ -86,8 +91,13 @@ DLQ entries: 3
 
 Then inspect the isolated records:
 
-```console
-$ docker compose run --rm lab bank-sim dead-letter-report
+```bash
+docker compose run --rm lab bank-sim dead-letter-report
+```
+
+Expected output:
+
+```text
 Dead-letter queue report | insertion order
 PAY-INVALID-WORKFLOW | INVALID_WORKFLOW_STATE | retries 0 | state Received | isolated T+3
 PAY-STALE-EVENT | STALE_EVENT | retries 0 | state Completed | isolated T+4
