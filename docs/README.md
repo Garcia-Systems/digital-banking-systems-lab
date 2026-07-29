@@ -39,3 +39,7 @@ financial outcomes.
 Continue with [Chapter 12: Worker Capacity](../book/12-worker-capacity.md) for
 deterministic worker pools, throughput, utilization, and backlog reduction without
 changing ledger history.
+Continue with
+[Chapter 13: Retries and Transient Failures](../book/13-retries-and-transient-failures.md)
+for scripted operational failures, deterministic fixed-delay retries, bounded
+recovery, and exactly one financial effect after success.
