@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.7.0",
+        "Version 0.8.0",
         "Laboratory environment is ready.",
     ]
 
@@ -238,4 +238,29 @@ def test_withdrawals_output_includes_rejection_without_ledger_append(
     assert "Ledger entries appended: 0" in output
     assert output.endswith("Final ledger replay:\n$380.00\n")
     assert main(["withdrawals"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_transfer_output_shows_coordinated_entries_and_both_balances(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["transfer"]) == 0
+    output = capsys.readouterr().out
+    assert "Debit entry: TRF-0001-DEBIT | ACCOUNT-SOURCE | $150.00" in output
+    assert "Credit entry: TRF-0001-CREDIT | ACCOUNT-DESTINATION | $150.00" in output
+    assert output.endswith("Source balance: $850.00\nDestination balance: $400.00\n")
+    assert main(["transfer"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_transfers_output_contains_all_deterministic_outcomes(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["transfers"]) == 0
+    output = capsys.readouterr().out
+    assert "Successful transfer" in output
+    assert "Reason: Insufficient available funds" in output
+    assert "Reason: source and destination accounts must be different" in output
+    assert output.count("Ledger entries appended: 0") == 2
+    assert main(["transfers"]) == 0
     assert capsys.readouterr().out == output

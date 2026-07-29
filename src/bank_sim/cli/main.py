@@ -22,6 +22,7 @@ from bank_sim.onboarding import (
     describe_onboarding_scenarios,
     successful_onboarding,
 )
+from bank_sim.transfers import describe_transfer, describe_transfers
 from bank_sim.withdrawals import describe_withdrawal, describe_withdrawals
 
 
@@ -51,6 +52,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("withdrawal", help="approve one withdrawal and replay")
     subparsers.add_parser(
         "withdrawals", help="show approved and rejected withdrawal requests"
+    )
+    subparsers.add_parser("transfer", help="post one internal transfer and replay")
+    subparsers.add_parser(
+        "transfers", help="show posted and rejected internal transfers"
     )
     return parser
 
@@ -99,5 +104,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "withdrawals":
         print(describe_withdrawals())
+        return 0
+    if args.command == "transfer":
+        print(describe_transfer())
+        return 0
+    if args.command == "transfers":
+        print(describe_transfers())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands
