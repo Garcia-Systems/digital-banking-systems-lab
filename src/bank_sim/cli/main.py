@@ -9,6 +9,7 @@ from bank_sim.institutions import (
     describe_institution,
     harbor_community_credit_union,
 )
+from bank_sim.ledger import chapter_ledger, describe_ledger, describe_replay
 from bank_sim.onboarding import (
     describe_application,
     describe_onboarding_scenarios,
@@ -29,6 +30,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser(
         "member-onboarding", help="show deterministic member-application outcomes"
     )
+    subparsers.add_parser("ledger", help="show the immutable ledger timeline")
+    subparsers.add_parser("ledger-replay", help="replay the ledger balance projection")
     return parser
 
 
@@ -51,5 +54,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "member-onboarding":
         print(describe_onboarding_scenarios())
+        return 0
+    if args.command == "ledger":
+        print(describe_ledger(chapter_ledger()))
+        return 0
+    if args.command == "ledger-replay":
+        print(describe_replay(chapter_ledger()))
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

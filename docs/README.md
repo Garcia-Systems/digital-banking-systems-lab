@@ -13,4 +13,6 @@ Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md) for the determi
 laboratory foundation, then continue to
 [Chapter 1: Bank or Credit Union?](../book/01-bank-or-credit-union.md) for the first
 banking-domain model, then [Chapter 2: Member Onboarding](../book/02-member-onboarding.md)
-for a validated person-level application workflow.
+for a validated person-level application workflow, and then
+[Chapter 3: The Ledger Is the Authority](../book/03-the-ledger-is-the-authority.md)
+for immutable money history and deterministic current-balance replay.
