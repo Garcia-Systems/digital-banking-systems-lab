@@ -3,6 +3,11 @@
 Chapter 0 establishes deterministic virtual time, synchronous scheduling, tooling,
 and packaging. It implements no banking-domain behavior.
 
+Chapter 1 introduces immutable financial-institution identity. It compares a
+shareholder-owned bank with the fictional member-owned Harbor Community Credit
+Union while keeping their shared high-level software needs visible. It intentionally
+does not implement those capabilities.
+
 Future chapters are planned to progress incrementally through:
 
 1. core banking concepts, including representing money, ledger entries, and derived balances;
