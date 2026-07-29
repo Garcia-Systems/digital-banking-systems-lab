@@ -15,4 +15,6 @@ laboratory foundation, then continue to
 banking-domain model, then [Chapter 2: Member Onboarding](../book/02-member-onboarding.md)
 for a validated person-level application workflow, and then
 [Chapter 3: The Ledger Is the Authority](../book/03-the-ledger-is-the-authority.md)
-for immutable money history and deterministic current-balance replay.
+for immutable money history and deterministic current-balance replay, and then
+[Chapter 4: Understanding Balances](../book/04-understanding-balances.md) for
+current, pending, and available projections.

@@ -18,11 +18,15 @@ ledger entries using exact integer cents. A deterministic replay derives only th
 current balance, establishing that ledger history—not a balance—is authoritative.
 It intentionally defers business workflows and richer balance views.
 
+Chapter 4 derives current, pending, and available balances. Authorized pending
+transactions remain separate from the authoritative ledger, and the deterministic
+available-balance rule demonstrates why institutions show multiple balances. It
+intentionally defers posting, settlement, and all payment workflows.
+
 Future chapters are planned to progress incrementally through:
 
-1. account opening and richer balance concepts, including pending activity, holds,
-   and available funds;
-2. controlled movement of funds and payment processing;
+1. account opening and controlled movement of funds through deposits and withdrawals;
+2. payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
 5. lending and loan servicing;
