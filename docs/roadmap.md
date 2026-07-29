@@ -49,12 +49,18 @@ outbound transfer and appends a full corrective credit without editing the origi
 debit. Production return rules, settlement, reconciliation, and generalized
 idempotency remain deferred.
 
+Chapter 10 introduces settlement expectations derived from completed ACH transfers
+and returns, and reconciliation against an independently constructed external
+report. Stable classification and totals expose missing, unexpected, mismatched,
+and duplicate records without changing workflows or ledger history. Operational
+exception resolution and real network settlement remain deferred.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;
 2. additional external-payment behavior;
 3. digital banking channels and their operational boundaries;
-4. distributed financial systems, reconciliation, and failure handling;
+4. distributed financial systems and failure handling;
 5. lending and loan servicing;
 6. fraud signals, controls, and explainable detection;
 7. analytics and carefully evaluated machine learning; and

@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–9
+## Chapters 0–10
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -39,6 +39,8 @@ destination-credit pairs, with both account balances derived by replay. Chapter
 becomes one posted ledger debit only after simulated network completion.
 Chapter 9's `0.10.0` release adds a separate ACH return workflow that preserves
 that debit, appends one corrective credit, and derives the restored balance by replay.
+Chapter 10's `0.11.0` release independently compares completed ACH settlement
+expectations with a simulated external report and preserves reconciliation exceptions.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -69,6 +71,9 @@ bank-sim ach
 bank-sim ach-timeline
 bank-sim ach-return
 bank-sim ach-return-timeline
+bank-sim settlement
+bank-sim reconcile
+bank-sim reconciliation-exceptions
 pytest
 ruff check .
 ruff format --check .
@@ -78,7 +83,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.10.0
+Version 0.11.0
 Laboratory environment is ready.
 ```
 
@@ -101,8 +106,11 @@ docker compose run --rm lab bank-sim transfer
 docker compose run --rm lab bank-sim transfers
 docker compose run --rm lab bank-sim ach
 docker compose run --rm lab bank-sim ach-timeline
-bank-sim ach-return
-bank-sim ach-return-timeline
+docker compose run --rm lab bank-sim ach-return
+docker compose run --rm lab bank-sim ach-return-timeline
+docker compose run --rm lab bank-sim settlement
+docker compose run --rm lab bank-sim reconcile
+docker compose run --rm lab bank-sim reconciliation-exceptions
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -124,8 +132,11 @@ then [Chapter 5: Deposits](book/05-deposits.md), and then
 paired ledger entries. [Chapter 8: ACH Transfers](book/08-ach-transfers.md) then
 introduces delayed external-payment coordination.
 [Chapter 9: ACH Returns](book/09-ach-returns.md) follows with append-only corrective
-history. The path will expand through digital
-banking channels, distributed financial systems and reconciliation, lending and
+history.
+[Chapter 10: Settlement and Reconciliation](book/10-settlement-and-reconciliation.md)
+then separates external financial results from independent verification. The path
+will expand through digital banking channels, distributed financial systems,
+lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
 operations. Every capability will arrive with the chapter that explains it.
 

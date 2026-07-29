@@ -29,3 +29,7 @@ deterministic outbound external-payment workflow.
 
 Continue with [Chapter 9: ACH Returns](../book/09-ach-returns.md) for a separate
 return workflow, append-only corrective credit, and replay preserving the debit.
+Continue with
+[Chapter 10: Settlement and Reconciliation](../book/10-settlement-and-reconciliation.md)
+for independently produced settlement records, deterministic comparison, and
+preserved exceptions.

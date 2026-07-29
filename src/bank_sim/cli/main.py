@@ -24,6 +24,11 @@ from bank_sim.onboarding import (
     describe_onboarding_scenarios,
     successful_onboarding,
 )
+from bank_sim.settlement import (
+    describe_reconciliation,
+    describe_reconciliation_exceptions,
+    describe_settlement,
+)
 from bank_sim.transfers import describe_transfer, describe_transfers
 from bank_sim.withdrawals import describe_withdrawal, describe_withdrawals
 
@@ -64,6 +69,11 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("ach-return", help="return one completed outbound ACH")
     subparsers.add_parser(
         "ach-return-timeline", help="show the ACH transfer and return timeline"
+    )
+    subparsers.add_parser("settlement", help="show internal settlement expectations")
+    subparsers.add_parser("reconcile", help="reconcile a matched external report")
+    subparsers.add_parser(
+        "reconciliation-exceptions", help="show settlement discrepancies"
     )
     return parser
 
@@ -130,5 +140,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "ach-return-timeline":
         print(describe_ach_return_timeline())
+        return 0
+    if args.command == "settlement":
+        print(describe_settlement())
+        return 0
+    if args.command == "reconcile":
+        print(describe_reconciliation())
+        return 0
+    if args.command == "reconciliation-exceptions":
+        print(describe_reconciliation_exceptions())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands
