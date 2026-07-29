@@ -89,7 +89,7 @@ without erasing the business distinction.
 Describe Harbor Community Credit Union:
 
 ```console
-$ bank-sim institution
+$ docker compose run --rm lab bank-sim institution
 Harbor Community Credit Union
 Institution type: Credit union
 Ownership model: Member-owned
@@ -100,7 +100,7 @@ Purpose: Serve families and businesses by strengthening the financial well-being
 Compare the two ownership models:
 
 ```console
-$ bank-sim compare-institutions
+$ docker compose run --rm lab bank-sim compare-institutions
 Institution ownership comparison
 
 Tidewater Regional Bank

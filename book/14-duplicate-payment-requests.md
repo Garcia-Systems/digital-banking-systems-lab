@@ -88,7 +88,7 @@ hundredths rather than floating-point arithmetic.
 Observe every workload:
 
 ```console
-bank-sim duplicates
+docker compose run --rm lab bank-sim duplicates
 ```
 
 The observation report displays every delivery and debit, then contrasts requests
@@ -98,7 +98,7 @@ is deliberate: every delivery is processed and duplicate effects remain visible.
 Inspect the canonical timeline:
 
 ```console
-bank-sim duplicate-timeline
+docker compose run --rm lab bank-sim duplicate-timeline
 ```
 
 ```text

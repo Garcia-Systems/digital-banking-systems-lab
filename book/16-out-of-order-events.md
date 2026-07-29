@@ -104,14 +104,14 @@ entry.
 Run the baseline:
 
 ```console
-bank-sim ordering
+docker compose run --rm lab bank-sim ordering
 ```
 
 It prints each sequence decision and the final completed state and `$750.00`
 balance. Then run the disrupted delivery:
 
 ```console
-bank-sim out-of-order
+docker compose run --rm lab bank-sim out-of-order
 ```
 
 It prints expected order, arrival order, buffer and rejection decisions, stale and

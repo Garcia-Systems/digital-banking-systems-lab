@@ -77,7 +77,7 @@ final balance even though entry timestamps differ.
 Run:
 
 ```console
-bank-sim payment-queue
+docker compose run --rm lab bank-sim payment-queue
 ```
 
 The output lists all arrivals and queue sizes, followed by processing and completion
@@ -87,7 +87,7 @@ integer waits, maximum depth, an empty queue, and the replayed balance.
 Then compare one workload without changing its instructions:
 
 ```console
-bank-sim payment-capacity
+docker compose run --rm lab bank-sim payment-capacity
 ```
 
 Capacity one finishes at T+6, capacity two at T+3, and capacity four at T+2. The

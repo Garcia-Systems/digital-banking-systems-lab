@@ -66,7 +66,7 @@ and destination `$400.00`. Rejected scenarios add no facts, so replay is unchang
 Run the successful scenario:
 
 ```bash
-bank-sim transfer
+docker compose run --rm lab bank-sim transfer
 ```
 
 The command displays the request, validation, paired debit and credit, replay, and
@@ -75,7 +75,7 @@ both resulting balances.
 Run all three teaching outcomes:
 
 ```bash
-bank-sim transfers
+docker compose run --rm lab bank-sim transfers
 ```
 
 This adds a $100.00 request against $50.00 and a same-account request. Each is

@@ -1,6 +1,8 @@
 # CLI Reference
 
-`bank-sim --help` and `bank-sim --version` are top-level interfaces and do not
+Run CLI examples through `docker compose run --rm lab bank-sim <command>`. The
+short command names below are inventory entries, not a requirement to install
+Python on the host. `--help` and `--version` are top-level interfaces and do not
 require a subcommand. Every subcommand below runs a deterministic default
 experiment without additional arguments.
 

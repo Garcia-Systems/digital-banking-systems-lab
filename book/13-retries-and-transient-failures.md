@@ -58,7 +58,7 @@ attempts still have one financial result.
 Run the mixed workload:
 
 ```console
-bank-sim retries
+docker compose run --rm lab bank-sim retries
 ```
 
 The report includes immediate success, one retry, two retries, and exhaustion. It
@@ -69,7 +69,7 @@ queue size. Average attempts is computed in integer hundredths.
 Inspect the stable event sequence:
 
 ```console
-bank-sim retry-timeline
+docker compose run --rm lab bank-sim retry-timeline
 ```
 
 A failure on an attempt at `T+1` schedules retry eligibility for `T+3`; queue

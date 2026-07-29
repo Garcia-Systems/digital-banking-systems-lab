@@ -77,10 +77,10 @@ change.
 Run the heavy workload with a chosen pool:
 
 ```console
-bank-sim worker-capacity --workers 1
-bank-sim worker-capacity --workers 2
-bank-sim worker-capacity --workers 4
-bank-sim worker-capacity --workers 8
+docker compose run --rm lab bank-sim worker-capacity --workers 1
+docker compose run --rm lab bank-sim worker-capacity --workers 2
+docker compose run --rm lab bank-sim worker-capacity --workers 4
+docker compose run --rm lab bank-sim worker-capacity --workers 8
 ```
 
 The timeline shows arrivals, deterministic assignments, queue depth at each event,
@@ -88,7 +88,7 @@ completion order, and per-worker utilization. Then compare the required scenario
 side by side:
 
 ```console
-bank-sim capacity-comparison
+docker compose run --rm lab bank-sim capacity-comparison
 ```
 
 All rows process the identical twelve-payment workload. Completion time, waits, depth,

@@ -94,12 +94,12 @@ and retry architecture reserved for later distributed-systems lessons.
 
 ## CLI walkthroughs
 
-Run `bank-sim ach` to see the source, fictional destination, amount, initial and
-final balances, status, and ledger debit. Its successful scenario begins with
-$1,000.00, sends $250.00, and finishes at $750.00.
+Run `docker compose run --rm lab bank-sim ach` to see the source, fictional
+destination, amount, initial and final balances, status, and ledger debit. Its
+successful scenario begins with $1,000.00, sends $250.00, and finishes at $750.00.
 
-Run `bank-sim ach-timeline` to print the exact timeline above. Both commands are
-deterministic and covered by exact-output tests.
+Run `docker compose run --rm lab bank-sim ach-timeline` to print the exact timeline
+above. Both commands are deterministic and covered by exact-output tests.
 
 ## Engineering lesson
 

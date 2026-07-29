@@ -57,7 +57,7 @@ and returns $825.50, with exact integer-cent precision.
 Run one request from receipt through replay:
 
 ```bash
-bank-sim deposit
+docker compose run --rm lab bank-sim deposit
 ```
 
 ```text
@@ -73,7 +73,7 @@ $500.00
 Run all three requests and observe replay after each append:
 
 ```bash
-bank-sim deposits
+docker compose run --rm lab bank-sim deposits
 ```
 
 The running balances are `$500.00`, `$750.00`, and `$825.50`, in that order.

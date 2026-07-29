@@ -90,7 +90,7 @@ authoritative.
 ## Try the deterministic timeline
 
 ```console
-$ bank-sim ledger
+$ docker compose run --rm lab bank-sim ledger
 Seq  Type      Amount
 1    Credit    +$1,000.00
 2    Debit       -$120.00
@@ -103,7 +103,7 @@ works directly from cents rather than converting through floating point.
 ## Replay it step by step
 
 ```console
-$ bank-sim ledger-replay
+$ docker compose run --rm lab bank-sim ledger-replay
 Ledger replay
 1. Credit +$1,000.00 → $1,000.00
 2. Debit -$120.00 → $880.00
