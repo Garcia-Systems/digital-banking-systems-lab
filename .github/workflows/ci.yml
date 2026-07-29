@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure container user
+        run: |
+          echo "LAB_UID=$(id -u)" >> "$GITHUB_ENV"
+          echo "LAB_GID=$(id -g)" >> "$GITHUB_ENV"
+      - name: Build laboratory image
+        run: docker compose -f docker-compose.yml build
+      - name: Lint
+        run: docker compose -f docker-compose.yml run --rm lab ruff check .
+      - name: Check formatting
+        run: docker compose -f docker-compose.yml run --rm lab ruff format --check .
+      - name: Test with branch coverage
+        run: >-
+          docker compose -f docker-compose.yml run --rm lab
+          pytest --cov=lab_sim --cov-branch --cov-report=term-missing
+          --cov-report=xml:coverage.xml
+      - name: Verify coverage artifact
+        run: test -s coverage.xml
+      - name: Smoke test CLI
+        run: docker compose -f docker-compose.yml run --rm lab lab-sim doctor
+      - name: Build distributions
+        run: docker compose -f docker-compose.yml run --rm lab python -m build
+      - name: Validate distributions
+        run: docker compose -f docker-compose.yml run --rm lab twine check dist/*
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        continue-on-error: true
+        with:
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
