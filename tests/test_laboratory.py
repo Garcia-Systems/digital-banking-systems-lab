@@ -74,6 +74,20 @@ def test_settlement_reconciliation_and_financial_correctness() -> None:
     assert result.reconciliation.matched_count == 5
     assert result.reconciliation.exception_count == 0
     assert result.statistics.ledger_effects == 5
+    assert len(result.ledger.entries) == len(
+        {entry.entry_id for entry in result.ledger.entries}
+    )
+    assert {entry.entry_id for entry in result.ledger.entries} == {
+        "OPEN",
+        "PAY-A-DEBIT",
+        "PAY-B-DEBIT",
+        "PAY-C-DEBIT",
+        "PAY-D-SETTLEMENT",
+        "PAY-F-DEBIT",
+    }
+    assert not any(
+        entry.entry_id.startswith("PAY-E") for entry in result.ledger.entries
+    )
     assert (
         result.statistics.final_balance_cents == replay(result.ledger.entries) == 85_000
     )

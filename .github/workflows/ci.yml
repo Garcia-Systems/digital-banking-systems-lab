@@ -32,8 +32,20 @@ jobs:
           --cov-report=xml:coverage.xml
       - name: Verify coverage artifact
         run: test -s coverage.xml
-      - name: Smoke test CLI
-        run: docker compose -f docker-compose.yml run --rm lab bank-sim doctor
+      - name: Smoke test release CLI
+        run: |
+          docker compose -f docker-compose.yml run --rm lab bank-sim --help
+          docker compose -f docker-compose.yml run --rm lab bank-sim --version
+          docker compose -f docker-compose.yml run --rm lab bank-sim laboratory
+          docker compose -f docker-compose.yml run --rm lab bank-sim operational-summary
+      - name: Verify deterministic capstone output
+        run: |
+          docker compose -f docker-compose.yml run --rm lab bank-sim laboratory > /tmp/laboratory-1.txt
+          docker compose -f docker-compose.yml run --rm lab bank-sim laboratory > /tmp/laboratory-2.txt
+          diff -u /tmp/laboratory-1.txt /tmp/laboratory-2.txt
+          docker compose -f docker-compose.yml run --rm lab bank-sim operational-summary > /tmp/summary-1.txt
+          docker compose -f docker-compose.yml run --rm lab bank-sim operational-summary > /tmp/summary-2.txt
+          diff -u /tmp/summary-1.txt /tmp/summary-2.txt
       - name: Build distributions
         run: docker compose -f docker-compose.yml run --rm lab python -m build
       - name: Validate distributions

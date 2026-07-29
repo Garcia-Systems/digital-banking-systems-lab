@@ -53,6 +53,9 @@ from bank_sim.worker_capacity import (
 def build_parser() -> argparse.ArgumentParser:
     """Build the command parser."""
     parser = argparse.ArgumentParser(prog="bank-sim")
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("doctor", help="verify the laboratory environment")
     subparsers.add_parser("institution", help="describe the fictional institution")
