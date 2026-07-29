@@ -29,6 +29,7 @@ from bank_sim.onboarding import (
     describe_onboarding_scenarios,
     successful_onboarding,
 )
+from bank_sim.ordering import describe_ordering, describe_out_of_order
 from bank_sim.payment_queues import (
     describe_payment_capacity,
     describe_payment_queue,
@@ -109,6 +110,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("idempotency", help="process duplicate deliveries safely")
     subparsers.add_parser(
         "idempotency-comparison", help="compare naïve and idempotent processing"
+    )
+    subparsers.add_parser("ordering", help="process correctly ordered payment events")
+    subparsers.add_parser(
+        "out-of-order", help="detect and safely process out-of-order events"
     )
     return parser
 
@@ -214,5 +219,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "idempotency-comparison":
         print(describe_idempotency_comparison())
+        return 0
+    if args.command == "ordering":
+        print(describe_ordering())
+        return 0
+    if args.command == "out-of-order":
+        print(describe_out_of_order())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

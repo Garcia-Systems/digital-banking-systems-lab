@@ -51,3 +51,8 @@ Continue with
 [Chapter 15: Idempotent Payment Processing](../book/15-idempotent-payment-processing.md)
 for stable business keys, stored results, duplicate acknowledgements, and exactly
 one ledger effect across repeated delivery.
+
+Continue with
+[Chapter 16: Out-of-Order Events](../book/16-out-of-order-events.md) for scripted
+delivery reordering, deterministic buffering, stale-event rejection, and preserved
+ledger correctness.

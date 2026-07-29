@@ -74,7 +74,12 @@ creates duplicate ledger effects so Chapter 15 can motivate idempotent processin
 Chapter 15 introduces deterministic idempotency keys and an in-memory result store.
 Repeated deliveries return the original completed result while exactly one unique
 business operation appends exactly one ledger debit. Distributed storage,
-expiration, consensus, and message ordering remain deferred.
+expiration, and consensus remain deferred.
+
+Chapter 16 introduces scripted out-of-order delivery, per-payment sequences and
+revisions, deterministic future-event buffering, and explicit stale and duplicate
+rejection before ledger effects. Dead-letter queues and distributed ordering
+protocols remain deferred.
 
 Future chapters are planned to progress incrementally through:
 

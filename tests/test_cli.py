@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.16.0",
+        "Version 0.17.0",
         "Laboratory environment is ready.",
     ]
 
@@ -479,3 +479,58 @@ def test_idempotency_comparison_output_is_deterministic(
     ]
     assert main(["idempotency-comparison"]) == 0
     assert capsys.readouterr().out == output
+
+
+@pytest.mark.parametrize(
+    ("command", "expected_lines"),
+    [
+        (
+            "ordering",
+            [
+                "Payment event ordering | correct delivery",
+                "Expected order: 1 -> 2 -> 3 -> 4",
+                "Sequence 1 | PaymentReceived | processed",
+                "Sequence 2 | PaymentValidated | processed",
+                "Sequence 3 | PaymentQueued | processed",
+                "Sequence 4 | PaymentCompleted | processed",
+                "Final payment state: PaymentCompleted",
+                "Final balance: $750.00",
+                "Financial effect: exactly one settlement debit",
+            ],
+        ),
+        (
+            "out-of-order",
+            [
+                "Payment event ordering | out-of-order delivery",
+                "Expected order: 1 -> 2 -> 3 -> 4",
+                "Arrival order: 3 -> 2 -> 1 -> 4 -> 4 (duplicate) -> 2 (late)",
+                "Processing decisions:",
+                "Arrival 1 | sequence 3 | buffered: waiting for an earlier event",
+                "Arrival 2 | sequence 2 | buffered: waiting for an earlier event",
+                "Arrival 3 | sequence 1 | processed",
+                "Arrival 2 | sequence 2 | processed",
+                "Arrival 1 | sequence 3 | processed",
+                "Arrival 4 | sequence 4 | processed",
+                "Arrival 5 | sequence 4 | rejected: event already processed",
+                "Arrival 6 | sequence 2 | rejected: stale revision",
+                "Stale events detected: 1",
+                "Out-of-order events detected: 2",
+                "Buffered events: 2",
+                "Duplicate events: 1",
+                "Rejected events: 2",
+                "Final payment state: PaymentCompleted",
+                "Final balance: $750.00",
+                "Ledger settlement entries: 1",
+                "Financial outcome: correct; stale and duplicate events had no effect",
+            ],
+        ),
+    ],
+)
+def test_ordering_commands_are_deterministic(
+    command: str, expected_lines: list[str], capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main([command]) == 0
+    first = capsys.readouterr().out
+    assert first.splitlines() == expected_lines
+    assert main([command]) == 0
+    assert capsys.readouterr().out == first
