@@ -24,6 +24,10 @@ from bank_sim.onboarding import (
     describe_onboarding_scenarios,
     successful_onboarding,
 )
+from bank_sim.payment_queues import (
+    describe_payment_capacity,
+    describe_payment_queue,
+)
 from bank_sim.settlement import (
     describe_reconciliation,
     describe_reconciliation_exceptions,
@@ -74,6 +78,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("reconcile", help="reconcile a matched external report")
     subparsers.add_parser(
         "reconciliation-exceptions", help="show settlement discrepancies"
+    )
+    subparsers.add_parser("payment-queue", help="run queued ACH work")
+    subparsers.add_parser(
+        "payment-capacity", help="compare deterministic worker capacities"
     )
     return parser
 
@@ -149,5 +157,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "reconciliation-exceptions":
         print(describe_reconciliation_exceptions())
+        return 0
+    if args.command == "payment-queue":
+        print(describe_payment_queue())
+        return 0
+    if args.command == "payment-capacity":
+        print(describe_payment_capacity())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

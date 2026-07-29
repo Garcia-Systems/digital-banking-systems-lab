@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–10
+## Chapters 0–11
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -41,6 +41,9 @@ Chapter 9's `0.10.0` release adds a separate ACH return workflow that preserves
 that debit, appends one corrective credit, and derives the restored balance by replay.
 Chapter 10's `0.11.0` release independently compares completed ACH settlement
 expectations with a simulated external report and preserves reconciliation exceptions.
+Chapter 11's `0.12.0` release schedules accepted ACH transfers and returns through
+a deterministic FIFO queue and compares fixed worker capacities without changing
+financial outcomes.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -74,6 +77,8 @@ bank-sim ach-return-timeline
 bank-sim settlement
 bank-sim reconcile
 bank-sim reconciliation-exceptions
+bank-sim payment-queue
+bank-sim payment-capacity
 pytest
 ruff check .
 ruff format --check .
@@ -83,7 +88,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.11.0
+Version 0.12.0
 Laboratory environment is ready.
 ```
 
@@ -111,6 +116,8 @@ docker compose run --rm lab bank-sim ach-return-timeline
 docker compose run --rm lab bank-sim settlement
 docker compose run --rm lab bank-sim reconcile
 docker compose run --rm lab bank-sim reconciliation-exceptions
+docker compose run --rm lab bank-sim payment-queue
+docker compose run --rm lab bank-sim payment-capacity
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -134,7 +141,9 @@ introduces delayed external-payment coordination.
 [Chapter 9: ACH Returns](book/09-ach-returns.md) follows with append-only corrective
 history.
 [Chapter 10: Settlement and Reconciliation](book/10-settlement-and-reconciliation.md)
-then separates external financial results from independent verification. The path
+then separates external financial results from independent verification.
+[Chapter 11: Payment Queues](book/11-payment-queues.md) adds FIFO waiting and
+deterministic processing capacity while preserving financial results. The path
 will expand through digital banking channels, distributed financial systems,
 lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable

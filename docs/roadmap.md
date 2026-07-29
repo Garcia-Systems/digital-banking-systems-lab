@@ -55,6 +55,11 @@ report. Stable classification and totals expose missing, unexpected, mismatched,
 and duplicate records without changing workflows or ledger history. Operational
 exception resolution and real network settlement remain deferred.
 
+Chapter 11 introduces a deterministic FIFO queue for accepted ACH transfers and
+returns. Fixed per-minute worker capacity changes backlog and completion latency
+without changing ordered ledger outcomes. Retries, failures, dead-letter queues,
+distributed workers, and load balancing remain deferred.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;
