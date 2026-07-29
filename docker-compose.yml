@@ -6,4 +6,4 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace
-    command: ["lab-sim", "doctor"]
+    command: ["bank-sim", "doctor"]

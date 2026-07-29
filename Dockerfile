@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --editable '.[dev]'
 
 USER lab
 
-CMD ["lab-sim", "doctor"]
+CMD ["bank-sim", "doctor"]

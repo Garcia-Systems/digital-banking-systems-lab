@@ -4,7 +4,7 @@ An executable textbook treats prose, code, and tests as one teaching artifact. P
 
 ## Small mechanisms, strong contracts
 
-The reusable layer contains only virtual time, event ordering, and environment verification. It avoids speculative frameworks. A future laboratory can build a focused lesson on these mechanisms without inheriting unrelated abstractions.
+Chapter 0 contains only virtual time, event ordering, and environment verification. It avoids speculative frameworks. Future banking chapters can build focused lessons on these mechanisms without inheriting unrelated abstractions.
 
 ## Virtual rather than real time
 
@@ -14,6 +14,6 @@ Wall-clock behavior makes education slow and flaky. Explicit integer time lets a
 
 Focused tests document normal behavior, boundaries, and failures. A callback that raises is removed, its exception remains visible, and later work stays queued. Stating and testing this behavior is more valuable than hiding it behind recovery policy.
 
-## A template, not a monolith
+## An incremental textbook, not a production monolith
 
-Each subject starts from a copy or GitHub template. The copy should adopt its own identity and learning path while preserving the simple infrastructure contracts. Improvements that benefit every future laboratory belong here; subject features do not.
+Harbor Community Credit Union provides a consistent fictional setting, not a claim of production readiness. Banking models should appear only when their business and engineering lessons are explained, while the simple infrastructure contracts remain stable.

@@ -10,7 +10,7 @@ coverage:
       default:
         target: 95%
         paths:
-          - src/lab_sim/
+          - src/bank_sim/
     patch:
       default:
         target: 95%

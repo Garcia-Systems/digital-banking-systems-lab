@@ -1,10 +1,30 @@
-# Garcia Systems Laboratory Skeleton
+# Digital Banking Systems Laboratory
 
-> **This repository is a reusable educational simulation foundation, not production business software.**
+> **An executable textbook and educational simulation—not production banking software.**
 
-This project is the Chapter 0 starting point for Garcia Systems executable textbooks. An executable textbook combines explanation, runnable examples, and tests so readers can inspect claims rather than merely accept them. Deterministic simulations are useful because the same inputs always produce the same event order, state transitions, and observations, making lessons reproducible and failures explainable.
+The **Digital Banking Systems Laboratory** teaches modern banking software
+engineering through deterministic simulations. Its fictional institution,
+**Harbor Community Credit Union**, gives future lessons a consistent setting
+without implying that this repository is a real financial system.
 
-The skeleton supplies dependency-free runtime infrastructure for integer virtual time and synchronous event scheduling. It contains **no domain simulation yet**. Future laboratories should add their subject matter in later chapters without changing the stable foundation merely to suit one lesson.
+Each chapter will connect one business concept, one software-engineering concept,
+one deterministic simulation, one command-line experiment, and one engineering
+lesson. Readers can run the examples and tests, inspect every mechanism, and
+repeat an experiment exactly rather than merely accepting claims in prose.
+
+## Chapter 0: a trustworthy foundation
+
+This initial `0.1.0` release contains only reusable simulation infrastructure:
+
+- nonnegative integer virtual time advanced only by explicit calls;
+- synchronous events executed chronologically, with insertion order breaking ties;
+- no threads, asynchronous runtime, sleeping, network calls, database, or randomness.
+
+There are deliberately no accounts, members, ledgers, balances, deposits,
+transfers, or other banking-domain models yet. Later chapters will introduce
+banking concepts incrementally without pretending this educational environment has
+the security, compliance, resilience, controls, or integrations required of
+production banking software.
 
 ## Quick start
 
@@ -12,38 +32,49 @@ Python 3.13 is required.
 
 ```bash
 python -m pip install -e '.[dev]'
-lab-sim doctor
+bank-sim doctor
 pytest
 ruff check .
 ruff format --check .
 ```
 
-The health check prints the project identity, package version, and readiness status. The sole command at this milestone is `lab-sim doctor`.
+The health check prints:
+
+```text
+Digital Banking Systems Laboratory
+Version 0.1.0
+Laboratory environment is ready.
+```
 
 ## Docker
 
 ```bash
-docker compose -f docker-compose.yml build
-docker compose -f docker-compose.yml run --rm lab lab-sim doctor
-docker compose -f docker-compose.yml run --rm lab pytest
-docker compose -f docker-compose.yml run --rm lab ruff check .
-docker compose -f docker-compose.yml run --rm lab ruff format --check .
+docker compose build
+docker compose run --rm lab bank-sim doctor
+docker compose run --rm lab pytest
+docker compose run --rm lab ruff check .
+docker compose run --rm lab ruff format --check .
 ```
 
-The Compose service bind-mounts the checkout for an immediate development loop and runs as a non-root user.
+The Compose service bind-mounts the checkout for an immediate development loop and
+runs as a non-root user.
 
-## Creating a laboratory
+## Learning path
 
-Copy this repository or use it as a GitHub template. Do not turn the skeleton itself into one permanent domain project. In the copy:
+The planned progression begins with representing money, deriving balances, and
+moving funds in core banking. It will then expand through payments and digital
+banking channels, distributed financial systems and reconciliation, lending and
+loan servicing, fraud detection, analytics, machine learning, and reliable
+operations. Every capability will arrive with the chapter that explains it.
 
-1. replace project identity, URLs, and introductory prose;
-2. retain and test the virtual clock and scheduler as shared infrastructure;
-3. introduce one major educational concept per new chapter;
-4. place subject-specific code outside the infrastructure modules;
-5. keep tests and prose synchronized with every lesson.
-
-See [Chapter 0](book/00-setting-up-your-laboratory.md), the [documentation index](docs/README.md), and the [architecture principles](docs/architecture-principles.md).
+This repository originated from Garcia Systems' reusable laboratory template. See
+[Chapter 0](book/00-setting-up-your-laboratory.md), the
+[documentation index](docs/README.md), and the
+[architecture principles](docs/architecture-principles.md) for the adapted learning
+foundation.
 
 ## License and participation
 
-Contributions follow [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). The project is available under the [MIT License](LICENSE).
+Contributions follow [CONTRIBUTING.md](CONTRIBUTING.md) and
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). The project is available under the
+[MIT License](LICENSE).
