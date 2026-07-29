@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.8.0",
+        "Version 0.9.0",
         "Laboratory environment is ready.",
     ]
 
@@ -263,4 +263,42 @@ def test_transfers_output_contains_all_deterministic_outcomes(
     assert "Reason: source and destination accounts must be different" in output
     assert output.count("Ledger entries appended: 0") == 2
     assert main(["transfers"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ach_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["ach"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "ACH transfer: ACH-0001",
+        "Source account: HCCU-DEMO-001",
+        "Destination institution: Blue Ridge National Bank",
+        "Destination reference: EXTERNAL-ACCOUNT-001",
+        "Amount: $250.00",
+        "Initial current balance: $1,000.00",
+        "Initial available balance: $1,000.00",
+        "Final status: Completed",
+        "Final current balance: $750.00",
+        "Final available balance: $750.00",
+        "Ledger effect: ACH-0001-DEBIT | Debit | $250.00",
+    ]
+    assert main(["ach"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ach_timeline_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["ach-timeline"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "T+0    ACH transfer received",
+        "T+1    Transfer validated",
+        "T+2    Funds marked pending",
+        "T+3    Submitted to ACH network",
+        "T+5    Network processing",
+        "T+10   Transfer completed",
+        "T+10   Ledger debit posted",
+    ]
+    assert main(["ach-timeline"]) == 0
     assert capsys.readouterr().out == output

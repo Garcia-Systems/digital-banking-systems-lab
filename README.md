@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–7
+## Chapters 0–8
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -34,7 +34,9 @@ only requests within available funds append debit entries, while rejected reques
 leave the ledger unchanged. There are still deliberately no permanent members,
 account lifecycle, external payments, settlement, or other payment workflows.
 Chapter 7's `0.8.0` release adds internal transfers as atomic source-debit and
-destination-credit pairs, with both account balances derived by replay.
+destination-credit pairs, with both account balances derived by replay. Chapter
+8's `0.9.0` release adds a deterministic outbound ACH workflow whose pending debit
+becomes one posted ledger debit only after simulated network completion.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -61,6 +63,8 @@ bank-sim withdrawal
 bank-sim withdrawals
 bank-sim transfer
 bank-sim transfers
+bank-sim ach
+bank-sim ach-timeline
 pytest
 ruff check .
 ruff format --check .
@@ -70,7 +74,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.8.0
+Version 0.9.0
 Laboratory environment is ready.
 ```
 
@@ -91,6 +95,8 @@ docker compose run --rm lab bank-sim withdrawal
 docker compose run --rm lab bank-sim withdrawals
 docker compose run --rm lab bank-sim transfer
 docker compose run --rm lab bank-sim transfers
+docker compose run --rm lab bank-sim ach
+docker compose run --rm lab bank-sim ach-timeline
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -109,7 +115,8 @@ then [Chapter 4: Understanding Balances](book/04-understanding-balances.md), and
 then [Chapter 5: Deposits](book/05-deposits.md), and then
 [Chapter 6: Withdrawals](book/06-withdrawals.md).
 [Chapter 7: Internal Transfers](book/07-internal-transfers.md) follows with atomic
-paired ledger entries. The path will then expand through external payments and digital
+paired ledger entries. [Chapter 8: ACH Transfers](book/08-ach-transfers.md) then
+introduces delayed external-payment coordination. The path will expand through digital
 banking channels, distributed financial systems and reconciliation, lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
 operations. Every capability will arrive with the chapter that explains it.
