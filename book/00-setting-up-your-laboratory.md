@@ -38,7 +38,7 @@ Expected output:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.1.0
+Version 1.0.0
 Laboratory environment is ready.
 ```
 
@@ -64,9 +64,10 @@ the contracts, including chronological execution and insertion-order tie breakin
 
 ## Before Chapter 1
 
-Harbor Community Credit Union is currently only the fictional setting for the
-curriculum. No financial institution, member, account, ledger, balance, deposit, or
-transfer has been implemented. Later chapters will add banking behavior one concept
-at a time, pairing each business idea with a software mechanism, simulation,
-command-line experiment, and engineering lesson. This laboratory is educational
-software and must not be used as production banking software.
+At this point in the learning sequence, Harbor Community Credit Union is only the
+fictional setting: the laboratory does not yet model members, accounts, balances,
+or transfers. Chapters 1–18 add those capabilities one concept at a time while
+preserving this deterministic foundation. The current completed Volume I repository
+therefore contains banking behavior that is intentionally outside Chapter 0's
+teaching scope. This laboratory is educational software and must not be used as
+production banking software.

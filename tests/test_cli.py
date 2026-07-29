@@ -1,8 +1,103 @@
-"""Tests for the deliberately small command line."""
+"""Tests for the command line and its authoritative command inventory."""
+
+import argparse
+from pathlib import Path
 
 import pytest
 
+from bank_sim import __version__
 from bank_sim.cli import main
+from bank_sim.cli.main import build_parser
+
+EXPECTED_COMMANDS = {
+    "doctor",
+    "institution",
+    "compare-institutions",
+    "member-apply",
+    "member-onboarding",
+    "ledger",
+    "ledger-replay",
+    "balance",
+    "pending",
+    "deposit",
+    "deposits",
+    "withdrawal",
+    "withdrawals",
+    "transfer",
+    "transfers",
+    "ach",
+    "ach-timeline",
+    "ach-return",
+    "ach-return-timeline",
+    "settlement",
+    "reconcile",
+    "reconciliation-exceptions",
+    "payment-queue",
+    "payment-capacity",
+    "worker-capacity",
+    "capacity-comparison",
+    "retries",
+    "retry-timeline",
+    "duplicates",
+    "duplicate-timeline",
+    "idempotency",
+    "idempotency-comparison",
+    "ordering",
+    "out-of-order",
+    "dead-letter",
+    "dead-letter-report",
+    "laboratory",
+    "operational-summary",
+}
+
+
+def command_names() -> list[str]:
+    """Introspect the parser rather than maintaining a second implementation list."""
+    action = next(
+        action
+        for action in build_parser()._actions
+        if isinstance(action, argparse._SubParsersAction)
+    )
+    return list(action.choices)
+
+
+def test_version_and_help_work_without_a_subcommand(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    with pytest.raises(SystemExit) as version_exit:
+        main(["--version"])
+    assert version_exit.value.code == 0
+    assert capsys.readouterr().out == f"bank-sim {__version__}\n"
+
+    with pytest.raises(SystemExit) as help_exit:
+        main(["--help"])
+    assert help_exit.value.code == 0
+    assert "usage: bank-sim" in capsys.readouterr().out
+
+
+def test_command_inventory_is_complete_unique_documented_and_in_help(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    commands = command_names()
+    assert set(commands) == EXPECTED_COMMANDS
+    assert len(commands) == len(set(commands))
+
+    with pytest.raises(SystemExit) as help_exit:
+        main(["--help"])
+    assert help_exit.value.code == 0
+    help_output = capsys.readouterr().out
+    reference = Path("docs/cli-reference.md").read_text()
+    for command in commands:
+        assert command in help_output
+        assert f"`{command}`" in reference
+
+
+@pytest.mark.parametrize("command", sorted(EXPECTED_COMMANDS))
+def test_every_command_default_demonstration_succeeds(
+    command: str, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main([command]) == 0
+    assert capsys.readouterr().out
 
 
 def test_doctor_reports_identity_and_version(

@@ -8,6 +8,9 @@ Community Credit Union:
 - [Design philosophy](design-philosophy.md) explains how prose, code, tests, and
   command-line experiments work together.
 - [Roadmap](roadmap.md) outlines the planned progression of banking lessons.
+- [CLI reference](cli-reference.md) inventories every executable experiment.
+- [Volume I release readiness](volume-1-release-readiness.md) records the v1.0.0
+  stabilization and executable validation.
 
 Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md) for the deterministic
 laboratory foundation, then continue to
