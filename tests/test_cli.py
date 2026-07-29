@@ -2,7 +2,7 @@
 
 import pytest
 
-from lab_sim.cli import main
+from bank_sim.cli import main
 
 
 def test_doctor_reports_identity_and_version(
@@ -10,7 +10,7 @@ def test_doctor_reports_identity_and_version(
 ) -> None:
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
-        "Garcia Systems Laboratory Skeleton",
+        "Digital Banking Systems Laboratory",
         "Version 0.1.0",
         "Laboratory environment is ready.",
     ]

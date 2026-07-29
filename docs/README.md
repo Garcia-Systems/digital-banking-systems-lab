@@ -1,9 +1,13 @@
-# Documentation
+# Digital Banking Systems Laboratory Documentation
 
-This directory explains decisions shared by laboratories created from the skeleton:
+This documentation supports an executable textbook set at the fictional Harbor
+Community Credit Union:
 
-- [Architecture principles](architecture-principles.md) defines nonnegotiable boundaries.
-- [Design philosophy](design-philosophy.md) explains the executable-textbook approach.
-- [Roadmap](roadmap.md) lists improvements to the reusable template itself.
+- [Architecture principles](architecture-principles.md) defines the boundaries that
+  keep simulations deterministic and inspectable.
+- [Design philosophy](design-philosophy.md) explains how prose, code, tests, and
+  command-line experiments work together.
+- [Roadmap](roadmap.md) outlines the planned progression of banking lessons.
 
-The runnable introduction is [Chapter 0](../book/00-setting-up-your-laboratory.md). Subject-specific copies should add their own documentation rather than placing domain behavior in this skeleton.
+Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md). It establishes the
+environment only; banking-domain behavior is intentionally deferred.

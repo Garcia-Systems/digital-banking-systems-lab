@@ -1,15 +1,20 @@
-# Skeleton Roadmap
+# Learning Roadmap
 
-This roadmap concerns the reusable skeleton, not functionality for any future subject.
+Chapter 0 establishes deterministic virtual time, synchronous scheduling, tooling,
+and packaging. It implements no banking-domain behavior.
 
-## Candidate improvements
+Future chapters are planned to progress incrementally through:
 
-- project initialization tooling that creates a clean laboratory copy;
-- placeholder-based identity customization for package names, commands, and links;
-- reusable, dependency-light reporting support;
-- optional chart-generation conventions that keep generated files reproducible;
-- documented release procedures and distribution checks;
-- documentation link, spelling, and command validation;
-- template versioning and an upgrade guide for existing copies.
+1. core banking concepts, including representing money, ledger entries, and derived balances;
+2. controlled movement of funds and payment processing;
+3. digital banking channels and their operational boundaries;
+4. distributed financial systems, reconciliation, and failure handling;
+5. lending and loan servicing;
+6. fraud signals, controls, and explainable detection;
+7. analytics and carefully evaluated machine learning; and
+8. observability, reliability, and operations.
 
-Example copies may teach finance, field services, healthcare operations, markets, or creative technology. Those projects define their own models and chapters; none are implemented here.
+The sequence may evolve as the textbook grows, but every chapter must connect one
+business concept, one software-engineering concept, one deterministic simulation,
+one command-line experiment, and one engineering lesson. Models appear only when
+their lessons arrive; placeholders do not substitute for explanations.

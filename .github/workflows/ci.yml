@@ -28,12 +28,12 @@ jobs:
       - name: Test with branch coverage
         run: >-
           docker compose -f docker-compose.yml run --rm lab
-          pytest --cov=lab_sim --cov-branch --cov-report=term-missing
+          pytest --cov=bank_sim --cov-branch --cov-report=term-missing
           --cov-report=xml:coverage.xml
       - name: Verify coverage artifact
         run: test -s coverage.xml
       - name: Smoke test CLI
-        run: docker compose -f docker-compose.yml run --rm lab lab-sim doctor
+        run: docker compose -f docker-compose.yml run --rm lab bank-sim doctor
       - name: Build distributions
         run: docker compose -f docker-compose.yml run --rm lab python -m build
       - name: Validate distributions

@@ -2,7 +2,7 @@
 
 import pytest
 
-from lab_sim.clock import VirtualClock
+from bank_sim.clock import VirtualClock
 
 
 def test_clock_starts_at_zero_by_default() -> None:

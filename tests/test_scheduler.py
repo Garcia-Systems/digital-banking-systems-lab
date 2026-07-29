@@ -2,8 +2,8 @@
 
 import pytest
 
-from lab_sim.clock import VirtualClock
-from lab_sim.scheduler import EventScheduler, Execution
+from bank_sim.clock import VirtualClock
+from bank_sim.scheduler import EventScheduler, Execution
 
 
 def test_events_run_chronologically_with_insertion_order_ties() -> None:

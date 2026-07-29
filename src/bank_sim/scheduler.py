@@ -10,7 +10,7 @@ import heapq
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
-from lab_sim.clock import VirtualClock
+from bank_sim.clock import VirtualClock
 
 Callback = Callable[[], None]
 

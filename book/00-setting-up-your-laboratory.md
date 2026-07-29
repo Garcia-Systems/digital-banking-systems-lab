@@ -1,12 +1,22 @@
-# Chapter 0: Setting Up Your Laboratory
+# Chapter 0: Setting Up Your Digital Banking Laboratory
 
 ## Learning objective
 
-Establish a repeatable environment before introducing any subject-specific behavior. By the end of this chapter, the package, tests, formatter, linter, and container health check should all run.
+Establish a repeatable, trustworthy environment before introducing banking
+behavior. By the end of this chapter, the package, tests, formatter, linter, build,
+and container health check should all run.
 
-## Why begin with determinism?
+## Why banking education begins with determinism
 
-A simulation teaches most clearly when a reader can repeat it. This foundation therefore represents time as a nonnegative integer and advances it only through explicit calls. The scheduler runs callbacks synchronously in chronological order and uses insertion order for ties. It does not consult a clock outside the simulation, sleep, create threads, or choose random outcomes.
+Financial-system behavior must be explainable. A simulation teaches most clearly
+when a reader can repeat it: the same inputs should create the same ordering and
+observations. This foundation represents time as a nonnegative integer and advances
+it only through explicit calls. The scheduler runs callbacks synchronously in
+chronological order and uses insertion order for ties.
+
+Chapter 0 uses no wall clock, sleep, thread, asynchronous runtime, network,
+database, or randomness. These boundaries keep causality visible; they are not a
+claim that real banking systems avoid distributed infrastructure.
 
 ## Prepare Python
 
@@ -21,31 +31,42 @@ python -m pip install -e '.[dev]'
 Confirm the environment:
 
 ```bash
-lab-sim doctor
+bank-sim doctor
 ```
 
 Expected output:
 
 ```text
-Garcia Systems Laboratory Skeleton
+Digital Banking Systems Laboratory
 Version 0.1.0
 Laboratory environment is ready.
 ```
 
-## Check the foundation
+## Check and package the foundation
 
 ```bash
 pytest
 ruff check .
 ruff format --check .
+python -m build
+twine check dist/*
 ```
 
-Alternatively, build and run the `lab` Compose service as shown in the project README. Bind mounting keeps local edits visible inside the container.
+Alternatively, build and run the `lab` Compose service as shown in the README. Its
+bind mount keeps local edits visible inside the container.
 
 ## Explore the contracts
 
-Read `lab_sim.clock.VirtualClock`, then its focused tests. Next read `lab_sim.scheduler.EventScheduler` and trace equal-time events, dynamically scheduled events, and callback failures. The tests are executable statements of the contracts.
+Read `bank_sim.clock.VirtualClock`, then its focused tests. Next read
+`bank_sim.scheduler.EventScheduler` and trace equal-time events, dynamically
+scheduled events, and callback failures. These tests are executable statements of
+the contracts, including chronological execution and insertion-order tie breaking.
 
 ## Before Chapter 1
 
-A laboratory created from this skeleton may add its own Chapter 1. This repository intentionally does not. First customize identity and learning goals, keep reusable infrastructure separate from subject behavior, and verify all checks remain green.
+Harbor Community Credit Union is currently only the fictional setting for the
+curriculum. No financial institution, member, account, ledger, balance, deposit, or
+transfer has been implemented. Later chapters will add banking behavior one concept
+at a time, pairing each business idea with a software mechanism, simulation,
+command-line experiment, and engineering lesson. This laboratory is educational
+software and must not be used as production banking software.

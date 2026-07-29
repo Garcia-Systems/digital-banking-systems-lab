@@ -11,6 +11,6 @@
 9. **Dependency-free runtime code where practical.** Development tooling must not leak into the package contract.
 10. **No randomness unless a lesson explicitly introduces controlled randomness.** Any such lesson must seed and explain it.
 11. **No concurrency unless a lesson explicitly teaches concurrency.** The reusable scheduler remains synchronous.
-12. **Separate reusable laboratory infrastructure from domain behavior.** The clock and scheduler are long-lived foundations; copies add subject code elsewhere.
+12. **Separate laboratory infrastructure from banking behavior.** The clock and scheduler are long-lived foundations; later chapters add focused subject code elsewhere.
 
 These constraints make examples small enough to reason about and stable enough to serve as executable documentation.

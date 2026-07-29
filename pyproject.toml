@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "garcia-systems-lab-skeleton"
+name = "digital-banking-systems-lab"
 dynamic = ["version"]
-description = "A reusable foundation for deterministic executable laboratories."
+description = "An executable textbook that teaches modern banking software engineering through deterministic simulations."
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
 authors = [{ name = "Garcia Systems" }]
-keywords = ["education", "simulation", "deterministic-systems"]
+keywords = ["banking", "education", "simulation", "deterministic-systems"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Console",
@@ -23,9 +23,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Documentation = "https://github.com/Garcia-Systems/lab-skeleton#readme"
-Issues = "https://github.com/Garcia-Systems/lab-skeleton/issues"
-Source = "https://github.com/Garcia-Systems/lab-skeleton"
+Documentation = "https://github.com/Garcia-Systems/digital-banking-systems-lab#readme"
+Issues = "https://github.com/Garcia-Systems/digital-banking-systems-lab/issues"
+Source = "https://github.com/Garcia-Systems/digital-banking-systems-lab"
 
 [project.optional-dependencies]
 dev = [
@@ -37,13 +37,13 @@ dev = [
 ]
 
 [project.scripts]
-lab-sim = "lab_sim.cli:main"
+bank-sim = "bank_sim.cli:main"
 
 [tool.hatch.version]
-path = "src/lab_sim/__init__.py"
+path = "src/bank_sim/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/lab_sim"]
+packages = ["src/bank_sim"]
 
 [tool.hatch.build.targets.sdist]
 include = ["/CONTRIBUTING.md", "/LICENSE", "/README.md", "/book", "/diagrams", "/docs", "/pyproject.toml", "/src", "/tests"]
@@ -55,8 +55,8 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 branch = true
-data_file = "/tmp/lab-skeleton.coverage"
-source = ["lab_sim"]
+data_file = "/tmp/digital-banking-systems-lab.coverage"
+source = ["bank_sim"]
 
 [tool.coverage.report]
 show_missing = true
