@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–4
+## Chapters 0–5
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -27,9 +27,11 @@ state machine with explicit decisions and ordered transition history. Chapter 3'
 `0.4.0` release introduces immutable ledger entries, exact integer-cent money, and
 a current balance derived by deterministic replay. Chapter 4's `0.5.0` release adds
 current, pending, and available balance projections while keeping authorized pending
-activity separate from ledger facts. There are still deliberately no permanent
-members, account lifecycle, deposits, withdrawals, transfers, payments, settlement,
-or other money-movement workflows. Later chapters will introduce banking
+activity separate from ledger facts. Chapter 5's `0.6.0` release introduces
+validated deposits that append credit entries and derives every updated balance by
+ledger replay. There are still deliberately no permanent members, account lifecycle,
+withdrawals, transfers, payments, settlement, or other money-movement workflows.
+Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
 banking software.
@@ -49,6 +51,8 @@ bank-sim ledger
 bank-sim ledger-replay
 bank-sim balance
 bank-sim pending
+bank-sim deposit
+bank-sim deposits
 pytest
 ruff check .
 ruff format --check .
@@ -58,7 +62,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.5.0
+Version 0.6.0
 Laboratory environment is ready.
 ```
 
@@ -73,6 +77,8 @@ docker compose run --rm lab bank-sim ledger
 docker compose run --rm lab bank-sim ledger-replay
 docker compose run --rm lab bank-sim balance
 docker compose run --rm lab bank-sim pending
+docker compose run --rm lab bank-sim deposit
+docker compose run --rm lab bank-sim deposits
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -87,8 +93,9 @@ The domain learning path begins with
 [Chapter 1: Bank or Credit Union?](book/01-bank-or-credit-union.md), continues with
 [Chapter 2: Member Onboarding](book/02-member-onboarding.md), then proceeds to
 [Chapter 3: The Ledger Is the Authority](book/03-the-ledger-is-the-authority.md),
-and then [Chapter 4: Understanding Balances](book/04-understanding-balances.md).
-The path then proceeds to account opening and moving funds in core banking. It
+then [Chapter 4: Understanding Balances](book/04-understanding-balances.md), and
+then [Chapter 5: Deposits](book/05-deposits.md).
+The path then proceeds to account opening and additional movement of funds. It
 will then expand through payments and digital
 banking channels, distributed financial systems and reconciliation, lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable

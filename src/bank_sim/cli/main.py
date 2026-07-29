@@ -10,6 +10,7 @@ from bank_sim.balances import (
     describe_pending,
     project_balances,
 )
+from bank_sim.deposits import chapter_deposit_requests, describe_deposits
 from bank_sim.institutions import (
     compare_institutions,
     describe_institution,
@@ -44,6 +45,8 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser(
         "pending", help="show authorized transactions awaiting posting"
     )
+    subparsers.add_parser("deposit", help="post one deposit and replay its balance")
+    subparsers.add_parser("deposits", help="post several deposits with replay")
     return parser
 
 
@@ -79,5 +82,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "pending":
         print(describe_pending(chapter_pending_transactions()))
+        return 0
+    if args.command == "deposit":
+        print(describe_deposits(chapter_deposit_requests()[:1]))
+        return 0
+    if args.command == "deposits":
+        print(describe_deposits(chapter_deposit_requests()))
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

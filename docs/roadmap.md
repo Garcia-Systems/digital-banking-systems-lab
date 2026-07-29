@@ -23,9 +23,14 @@ transactions remain separate from the authoritative ledger, and the deterministi
 available-balance rule demonstrates why institutions show multiple balances. It
 intentionally defers posting, settlement, and all payment workflows.
 
+Chapter 5 introduces the first ledger-appending business operation. Valid deposits
+append immutable credit entries, and replay after each append derives the updated
+balance. It intentionally defers withdrawals, payment rails, pending deposits,
+settlement, reconciliation, and operational concerns.
+
 Future chapters are planned to progress incrementally through:
 
-1. account opening and controlled movement of funds through deposits and withdrawals;
+1. account opening and controlled movement of funds through withdrawals;
 2. payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
