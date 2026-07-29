@@ -13,6 +13,7 @@ from bank_sim.balances import (
     project_balances,
 )
 from bank_sim.deposits import chapter_deposit_requests, describe_deposits
+from bank_sim.duplicates import describe_duplicate_timeline, describe_duplicates
 from bank_sim.institutions import (
     compare_institutions,
     describe_institution,
@@ -96,6 +97,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("retries", help="run deterministic transient-failure retries")
     subparsers.add_parser(
         "retry-timeline", help="show the deterministic retry timeline"
+    )
+    subparsers.add_parser("duplicates", help="observe scripted duplicate payments")
+    subparsers.add_parser(
+        "duplicate-timeline", help="show a naïvely processed duplicate timeline"
     )
     return parser
 
@@ -189,5 +194,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "retry-timeline":
         print(describe_retry_timeline())
+        return 0
+    if args.command == "duplicates":
+        print(describe_duplicates())
+        return 0
+    if args.command == "duplicate-timeline":
+        print(describe_duplicate_timeline())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

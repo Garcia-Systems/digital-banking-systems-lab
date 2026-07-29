@@ -60,6 +60,17 @@ returns. Fixed per-minute worker capacity changes backlog and completion latency
 without changing ordered ledger outcomes. Retries, failures, dead-letter queues,
 distributed workers, and load balancing remain deferred.
 
+Chapter 12 introduces deterministic worker pools and compares throughput, wait time,
+utilization, and backlog under fixed capacities without changing ledger outcomes.
+
+Chapter 13 introduces scripted transient failures, fixed-delay retries, and bounded
+attempts. Successful recovery creates one financial effect, while exhausted work
+creates none.
+
+Chapter 14 introduces scripted duplicate request delivery caused by client retry,
+network duplication, and queue replay. Its isolated naïve processor intentionally
+creates duplicate ledger effects so Chapter 15 can motivate idempotent processing.
+
 Future chapters are planned to progress incrementally through:
 
 1. account opening;

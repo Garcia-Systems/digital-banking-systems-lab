@@ -43,3 +43,7 @@ Continue with
 [Chapter 13: Retries and Transient Failures](../book/13-retries-and-transient-failures.md)
 for scripted operational failures, deterministic fixed-delay retries, bounded
 recovery, and exactly one financial effect after success.
+Continue with
+[Chapter 14: Duplicate Payment Requests](../book/14-duplicate-payment-requests.md)
+for scripted client retries, network duplicates, and queue replays that expose the
+incorrect repeated ledger effects of naïve processing.

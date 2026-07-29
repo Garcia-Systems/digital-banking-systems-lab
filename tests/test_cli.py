@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.14.0",
+        "Version 0.15.0",
         "Laboratory environment is ready.",
     ]
 
