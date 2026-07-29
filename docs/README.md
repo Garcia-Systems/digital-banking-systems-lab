@@ -9,5 +9,7 @@ Community Credit Union:
   command-line experiments work together.
 - [Roadmap](roadmap.md) outlines the planned progression of banking lessons.
 
-Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md). It establishes the
-environment only; banking-domain behavior is intentionally deferred.
+Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md) for the deterministic
+laboratory foundation, then continue to
+[Chapter 1: Bank or Credit Union?](../book/01-bank-or-credit-union.md) for the first
+banking-domain model.

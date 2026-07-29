@@ -12,19 +12,21 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapter 0: a trustworthy foundation
+## Chapters 0 and 1
 
-This initial `0.1.0` release contains only reusable simulation infrastructure:
+Chapter 0 introduced reusable simulation infrastructure:
 
 - nonnegative integer virtual time advanced only by explicit calls;
 - synchronous events executed chronologically, with insertion order breaking ties;
 - no threads, asynchronous runtime, sleeping, network calls, database, or randomness.
 
-There are deliberately no accounts, members, ledgers, balances, deposits,
-transfers, or other banking-domain models yet. Later chapters will introduce
-banking concepts incrementally without pretending this educational environment has
-the security, compliance, resilience, controls, or integrations required of
-production banking software.
+Chapter 1's `0.2.0` release adds immutable financial-institution identity and a
+deterministic comparison of shareholder-owned banks and member-owned credit unions.
+There are still deliberately no individual members, accounts, ledgers, balances,
+deposits, transfers, or other money movement. Later chapters will introduce banking
+concepts incrementally without pretending this educational environment has the
+security, compliance, resilience, controls, or integrations required of production
+banking software.
 
 ## Quick start
 
@@ -33,6 +35,8 @@ Python 3.13 is required.
 ```bash
 python -m pip install -e '.[dev]'
 bank-sim doctor
+bank-sim institution
+bank-sim compare-institutions
 pytest
 ruff check .
 ruff format --check .
@@ -42,7 +46,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.1.0
+Version 0.2.0
 Laboratory environment is ready.
 ```
 
@@ -61,7 +65,9 @@ runs as a non-root user.
 
 ## Learning path
 
-The planned progression begins with representing money, deriving balances, and
+The domain learning path begins with
+[Chapter 1: Bank or Credit Union?](book/01-bank-or-credit-union.md), then proceeds to
+representing money, deriving balances, and
 moving funds in core banking. It will then expand through payments and digital
 banking channels, distributed financial systems and reconciliation, lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
