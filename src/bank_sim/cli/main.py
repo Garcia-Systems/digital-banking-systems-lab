@@ -35,6 +35,10 @@ from bank_sim.settlement import (
 )
 from bank_sim.transfers import describe_transfer, describe_transfers
 from bank_sim.withdrawals import describe_withdrawal, describe_withdrawals
+from bank_sim.worker_capacity import (
+    describe_capacity_comparison,
+    describe_worker_capacity,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -83,6 +87,11 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser(
         "payment-capacity", help="compare deterministic worker capacities"
     )
+    worker_capacity = subparsers.add_parser(
+        "worker-capacity", help="run a deterministic payment worker pool"
+    )
+    worker_capacity.add_argument("--workers", type=int, choices=(1, 2, 4, 8), default=1)
+    subparsers.add_parser("capacity-comparison", help="compare worker-pool throughput")
     return parser
 
 
@@ -163,5 +172,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "payment-capacity":
         print(describe_payment_capacity())
+        return 0
+    if args.command == "worker-capacity":
+        print(describe_worker_capacity(args.workers))
+        return 0
+    if args.command == "capacity-comparison":
+        print(describe_capacity_comparison())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands
