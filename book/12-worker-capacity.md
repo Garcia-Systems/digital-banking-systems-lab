@@ -76,7 +76,7 @@ change.
 
 Run the heavy workload with a chosen pool:
 
-```console
+```bash
 docker compose run --rm lab bank-sim worker-capacity --workers 1
 docker compose run --rm lab bank-sim worker-capacity --workers 2
 docker compose run --rm lab bank-sim worker-capacity --workers 4
@@ -87,7 +87,7 @@ The timeline shows arrivals, deterministic assignments, queue depth at each even
 completion order, and per-worker utilization. Then compare the required scenarios
 side by side:
 
-```console
+```bash
 docker compose run --rm lab bank-sim capacity-comparison
 ```
 

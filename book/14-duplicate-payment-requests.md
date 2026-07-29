@@ -87,7 +87,7 @@ hundredths rather than floating-point arithmetic.
 
 Observe every workload:
 
-```console
+```bash
 docker compose run --rm lab bank-sim duplicates
 ```
 
@@ -97,7 +97,7 @@ is deliberate: every delivery is processed and duplicate effects remain visible.
 
 Inspect the canonical timeline:
 
-```console
+```bash
 docker compose run --rm lab bank-sim duplicate-timeline
 ```
 

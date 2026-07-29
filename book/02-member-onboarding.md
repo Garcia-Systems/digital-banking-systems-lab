@@ -89,8 +89,13 @@ are non-sensitive teaching data, and scenario and event order never vary.
 
 Run the successful path:
 
-```console
-$ docker compose run --rm lab bank-sim member-apply
+```bash
+docker compose run --rm lab bank-sim member-apply
+```
+
+Expected output:
+
+```text
 Application: HCCU-0001
 Applicant: Alex Harbor
 State progression:
@@ -107,8 +112,13 @@ Final decision: Approved
 
 Run all three outcomes:
 
-```console
-$ docker compose run --rm lab bank-sim member-onboarding
+```bash
+docker compose run --rm lab bank-sim member-onboarding
+```
+
+Expected output:
+
+```text
 Member onboarding outcomes
 
 Approved application

@@ -76,7 +76,7 @@ final balance even though entry timestamps differ.
 
 Run:
 
-```console
+```bash
 docker compose run --rm lab bank-sim payment-queue
 ```
 
@@ -86,7 +86,7 @@ integer waits, maximum depth, an empty queue, and the replayed balance.
 
 Then compare one workload without changing its instructions:
 
-```console
+```bash
 docker compose run --rm lab bank-sim payment-capacity
 ```
 
