@@ -112,6 +112,29 @@ def test_doctor_reports_identity_and_version(
 
 
 @pytest.mark.parametrize(
+    "document",
+    [Path("README.md"), Path("book/00-setting-up-your-laboratory.md")],
+)
+def test_setup_documents_use_the_canonical_compose_cli(document: Path) -> None:
+    """Keep the beginner setup aligned with the real Compose command runner."""
+    text = document.read_text()
+    required_commands = {
+        "docker compose build",
+        "docker compose run --rm lab bank-sim doctor",
+        "docker compose run --rm lab bank-sim --help",
+        "docker compose run --rm lab bank-sim --version",
+        "docker compose run --rm lab bank-sim laboratory",
+        "docker compose run --rm lab bank-sim operational-summary",
+        "docker compose run --rm lab pytest",
+        "docker compose run --rm lab ruff check .",
+        "docker compose run --rm lab ruff format --check .",
+        "docker compose run --rm lab twine check dist/*",
+    }
+
+    assert required_commands <= set(text.splitlines())
+
+
+@pytest.mark.parametrize(
     ("command", "expected"),
     [
         (

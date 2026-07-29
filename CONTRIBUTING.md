@@ -11,20 +11,26 @@ limited to the trustworthy laboratory foundation.
 
 ## Development
 
-Use Python 3.13, create an isolated environment, and install `.[dev]`. Before
-opening a pull request, run:
+Use Docker Compose and the canonical `lab` service. The image supplies Python 3.13,
+the editable package, and `.[dev]`; contributors do not need those tools installed
+on the host. Before opening a pull request, run:
 
 ```bash
-pytest --cov=bank_sim --cov-branch --cov-report=term-missing
-ruff check .
-ruff format --check .
-bank-sim doctor
-python -m build
-twine check dist/*
+docker compose build
+docker compose run --rm lab pytest --cov=bank_sim --cov-branch \
+  --cov-report=term-missing --cov-report=xml:coverage.xml
+docker compose run --rm lab ruff check .
+docker compose run --rm lab ruff format --check .
+docker compose run --rm lab bank-sim doctor
+docker compose run --rm lab rm -rf build dist
+docker compose run --rm lab python -m build
+docker compose run --rm lab twine check dist/*
 ```
 
-Docker equivalents are documented in the README. Add focused tests for contract
-changes and update prose whenever behavior changes.
+Run `docker compose run --rm lab ruff format .` only when deliberately applying
+formatting. A direct host-Python environment is an optional advanced workflow
+documented in Chapter 0; Docker and CI results are canonical. Add focused tests for
+contract changes and update prose whenever behavior changes.
 
 ## Pull requests
 

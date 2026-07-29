@@ -89,9 +89,11 @@ resolution could conceal the very evidence an investigation needs.
 
 ## CLI walkthroughs
 
-`bank-sim settlement` lists the two expectations and their T+40 generation time.
-`bank-sim reconcile` prints two matches, zero exceptions, separate direction totals,
-and `Final result: Reconciled`. `bank-sim reconciliation-exceptions` deterministically
+`docker compose run --rm lab bank-sim settlement` lists the two expectations and
+their T+40 generation time. `docker compose run --rm lab bank-sim reconcile` prints
+two matches, zero exceptions, separate direction totals, and `Final result:
+Reconciled`. The longer command
+`docker compose run --rm lab bank-sim reconciliation-exceptions` deterministically
 shows ACH-002 missing, ACH-003 short by $1.00, ACH-004 duplicated, and
 ACH-EXTERNAL-999 unexpected. Run the commands repeatedly: wording, ordering,
 amounts, and timestamps remain identical.

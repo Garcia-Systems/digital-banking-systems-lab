@@ -86,7 +86,7 @@ unique operation, two duplicates prevented, one stored record, and one debit.
 Run protected processing:
 
 ```console
-bank-sim idempotency
+docker compose run --rm lab bank-sim idempotency
 ```
 
 The report shows all three deliveries, their shared key, original processing,
@@ -95,7 +95,7 @@ duplicate acknowledgements, the `$750.00` final balance, and one ledger debit.
 Compare the same workload under both approaches:
 
 ```console
-bank-sim idempotency-comparison
+docker compose run --rm lab bank-sim idempotency-comparison
 ```
 
 Chapter 14 produces three debits and `$250.00`; Chapter 15 produces one debit and

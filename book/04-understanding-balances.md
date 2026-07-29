@@ -77,7 +77,7 @@ transparent teaching rule, not production policy.
 Run the projection repeatedly:
 
 ```bash
-bank-sim balance
+docker compose run --rm lab bank-sim balance
 ```
 
 ```text
@@ -90,7 +90,7 @@ Available Balance:     $729.75
 Inspect the ordered pending input separately:
 
 ```bash
-bank-sim pending
+docker compose run --rm lab bank-sim pending
 ```
 
 ```text

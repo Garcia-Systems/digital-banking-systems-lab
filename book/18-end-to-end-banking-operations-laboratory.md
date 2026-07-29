@@ -133,7 +133,7 @@ evidence but does not authorize replay or modify the ledger.
 Install the project, then print the full timeline:
 
 ```console
-$ bank-sim laboratory
+$ docker compose run --rm lab bank-sim laboratory
 End-to-End Banking Operations Laboratory
 Receiving payments
 T+0 PAY-A..PAY-F | received, validated, and placed in FIFO queue
@@ -156,7 +156,7 @@ Final balance: $850.00
 For a concise operating report, run:
 
 ```console
-$ bank-sim operational-summary
+$ docker compose run --rm lab bank-sim operational-summary
 Operational Summary | deterministic end-to-end workload
 Throughput: 5 completions / 12 time units (0.41 per unit)
 ...

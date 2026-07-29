@@ -67,7 +67,7 @@ the same result as replaying immediately before it.
 Run a successful $120.00 withdrawal against $500.00:
 
 ```bash
-bank-sim withdrawal
+docker compose run --rm lab bank-sim withdrawal
 ```
 
 The output shows the request, validation, posted debit, replay, and final balance of
@@ -76,7 +76,7 @@ The output shows the request, validation, posted debit, replay, and final balanc
 Run both a successful request and an insufficient-funds request:
 
 ```bash
-bank-sim withdrawals
+docker compose run --rm lab bank-sim withdrawals
 ```
 
 The rejected request reports `Insufficient available funds` and zero appended

@@ -3,6 +3,10 @@
 This documentation supports an executable textbook set at the fictional Harbor
 Community Credit Union:
 
+Docker Compose is the canonical environment throughout the documentation. Commands
+run through the `lab` service unless explicitly labeled as optional host-Python
+instructions; CI uses that same container environment.
+
 - [Architecture principles](architecture-principles.md) defines the boundaries that
   keep simulations deterministic and inspectable.
 - [Design philosophy](design-philosophy.md) explains how prose, code, tests, and
