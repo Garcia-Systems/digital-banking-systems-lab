@@ -12,6 +12,7 @@ from bank_sim.balances import (
     describe_pending,
     project_balances,
 )
+from bank_sim.dead_letters import describe_dead_letter_report, describe_dead_letters
 from bank_sim.deposits import chapter_deposit_requests, describe_deposits
 from bank_sim.duplicates import describe_duplicate_timeline, describe_duplicates
 from bank_sim.idempotency import (
@@ -114,6 +115,10 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("ordering", help="process correctly ordered payment events")
     subparsers.add_parser(
         "out-of-order", help="detect and safely process out-of-order events"
+    )
+    subparsers.add_parser("dead-letter", help="isolate permanently failed payments")
+    subparsers.add_parser(
+        "dead-letter-report", help="inspect the deterministic dead-letter queue"
     )
     return parser
 
@@ -225,5 +230,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.command == "out-of-order":
         print(describe_out_of_order())
+        return 0
+    if args.command == "dead-letter":
+        print(describe_dead_letters())
+        return 0
+    if args.command == "dead-letter-report":
+        print(describe_dead_letter_report())
         return 0
     return 2  # pragma: no cover - argparse rejects unknown commands

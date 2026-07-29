@@ -148,6 +148,8 @@ docker compose run --rm lab bank-sim idempotency
 docker compose run --rm lab bank-sim idempotency-comparison
 docker compose run --rm lab bank-sim ordering
 docker compose run --rm lab bank-sim out-of-order
+docker compose run --rm lab bank-sim dead-letter
+docker compose run --rm lab bank-sim dead-letter-report
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -184,7 +186,9 @@ then exposes how repeated delivery creates repeated ledger effects under intenti
 naïve processing. [Chapter 15: Idempotent Payment Processing](book/15-idempotent-payment-processing.md)
 then recognizes repeated business identity before applying ledger effects.
 [Chapter 16: Out-of-Order Events](book/16-out-of-order-events.md) validates event
-sequence and freshness before allowing business effects. The path
+sequence and freshness before allowing business effects.
+[Chapter 17: Dead-Letter Queues](book/17-dead-letter-queues.md) isolates exhausted
+and permanently invalid work while normal payment processing continues. The path
 will expand through digital banking channels, distributed financial systems,
 lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
