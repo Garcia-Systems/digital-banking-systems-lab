@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.15.0",
+        "Version 0.16.0",
         "Laboratory environment is ready.",
     ]
 
@@ -433,4 +433,49 @@ def test_ach_return_timeline_output_is_deterministic(
         "T+35   Corrective credit posted",
     ]
     assert main(["ach-return-timeline"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_idempotency_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["idempotency"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Idempotent payment processing | protection enabled",
+        "Initial balance: $1,000.00",
+        "Delivery 1: PAY-001 | key IDEMPOTENCY-PAY-001 | original processed",
+        "Delivery 2: PAY-001 | key IDEMPOTENCY-PAY-001 | duplicate acknowledged; "
+        "original result returned",
+        "Delivery 3: PAY-001 | key IDEMPOTENCY-PAY-001 | duplicate acknowledged; "
+        "original result returned",
+        "Deliveries: 3",
+        "Original processing: 1",
+        "Duplicate acknowledgements: 2",
+        "Final balance: $750.00",
+        "Ledger entry count: 1",
+        "Financial effect: exactly one debit of $250.00",
+    ]
+    assert main(["idempotency"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_idempotency_comparison_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["idempotency-comparison"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Duplicate processing comparison | identical triple-delivery workload",
+        "Workload: 3 deliveries | key IDEMPOTENCY-PAY-001 | payment $250.00",
+        "Chapter 14 | naïve duplicate processing",
+        "Ledger debits: 3",
+        "Final balance: $250.00 | INCORRECT",
+        "Chapter 15 | idempotent processing",
+        "Ledger debits: 1",
+        "Duplicate requests prevented: 2",
+        "Final balance: $750.00 | CORRECT",
+        "Result: duplicate deliveries produced exactly one financial effect.",
+    ]
+    assert main(["idempotency-comparison"]) == 0
     assert capsys.readouterr().out == output

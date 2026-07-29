@@ -47,3 +47,7 @@ Continue with
 [Chapter 14: Duplicate Payment Requests](../book/14-duplicate-payment-requests.md)
 for scripted client retries, network duplicates, and queue replays that expose the
 incorrect repeated ledger effects of naïve processing.
+Continue with
+[Chapter 15: Idempotent Payment Processing](../book/15-idempotent-payment-processing.md)
+for stable business keys, stored results, duplicate acknowledgements, and exactly
+one ledger effect across repeated delivery.
