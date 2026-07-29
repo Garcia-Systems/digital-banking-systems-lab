@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–16
+## Volume I: Chapters 0–18
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -54,10 +54,13 @@ is implemented by Chapter 15's `0.16.0` release with deterministic idempotency k
 stored results, duplicate acknowledgements, and exactly one financial effect.
 Chapter 16's `0.17.0` release adds deterministic event sequences, revision checks,
 future-event buffering, and stale-event rejection without changing ledger truth.
-Later chapters will introduce banking
-concepts incrementally without pretending this educational environment has the
-security, compliance, resilience, controls, or integrations required of production
-banking software.
+Chapter 17's `0.18.0` release adds bounded permanent-failure isolation and an
+inspectable dead-letter queue. Chapter 18 completes Volume I with the `1.0.0`
+end-to-end banking operations laboratory: one reproducible workload composes the
+ledger, balances, queue, worker, retries, idempotency, ordering, dead letters,
+settlement, and reconciliation. This completion does not imply the security,
+compliance, resilience, controls, or integrations required of production banking
+software.
 
 ## Quick start
 
@@ -99,6 +102,10 @@ bank-sim idempotency
 bank-sim idempotency-comparison
 bank-sim ordering
 bank-sim out-of-order
+bank-sim dead-letter
+bank-sim dead-letter-report
+bank-sim laboratory
+bank-sim operational-summary
 pytest
 ruff check .
 ruff format --check .
@@ -108,7 +115,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.17.0
+Version 1.0.0
 Laboratory environment is ready.
 ```
 
@@ -150,6 +157,8 @@ docker compose run --rm lab bank-sim ordering
 docker compose run --rm lab bank-sim out-of-order
 docker compose run --rm lab bank-sim dead-letter
 docker compose run --rm lab bank-sim dead-letter-report
+docker compose run --rm lab bank-sim laboratory
+docker compose run --rm lab bank-sim operational-summary
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -188,11 +197,20 @@ then recognizes repeated business identity before applying ledger effects.
 [Chapter 16: Out-of-Order Events](book/16-out-of-order-events.md) validates event
 sequence and freshness before allowing business effects.
 [Chapter 17: Dead-Letter Queues](book/17-dead-letter-queues.md) isolates exhausted
-and permanently invalid work while normal payment processing continues. The path
-will expand through digital banking channels, distributed financial systems,
-lending and
-loan servicing, fraud detection, analytics, machine learning, and reliable
-operations. Every capability will arrive with the chapter that explains it.
+and permanently invalid work while normal payment processing continues.
+[Chapter 18: End-to-End Banking Operations Laboratory](book/18-end-to-end-banking-operations-laboratory.md)
+completes Volume I by running all of those mechanisms as one payment system.
+
+To reproduce the capstone, install the development environment and run
+`bank-sim laboratory`; then use `bank-sim operational-summary` for its concise
+throughput, reliability, outcome, and financial-correctness report. Both commands
+start at virtual time zero and produce identical output on every execution.
+
+Volume II will build from this foundation toward digital banking channels,
+distributed financial systems, durable operations, and observability. Later work
+may explore lending, loan servicing, fraud, analytics, and machine learning. Every
+capability will arrive with the chapter that explains it rather than being implied
+by this intentionally small Volume I simulation.
 
 This repository originated from Garcia Systems' reusable laboratory template. See
 [Chapter 0](book/00-setting-up-your-laboratory.md), the

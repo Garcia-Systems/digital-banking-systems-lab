@@ -12,7 +12,7 @@ license = "MIT"
 authors = [{ name = "Garcia Systems" }]
 keywords = ["banking", "education", "simulation", "deterministic-systems"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
