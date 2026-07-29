@@ -33,10 +33,15 @@ available-balance projection before debit entries are appended; invalid and
 insufficient-funds requests leave the ledger unchanged. It intentionally defers
 overdrafts, fees, transfers, payment rails, fraud detection, and settlement.
 
+Chapter 7 introduces internal transfers. Valid, sufficiently funded requests append
+a source debit and destination credit as one atomic in-memory operation, then replay
+both accounts. It intentionally defers external institutions, ACH, wires, payment
+networks, settlement, retries, reconciliation, and distributed transactions.
+
 Future chapters are planned to progress incrementally through:
 
-1. account opening and internal transfers;
-2. payment processing;
+1. account opening;
+2. external payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;
 5. lending and loan servicing;

@@ -91,6 +91,32 @@ class Ledger:
         self._entries.append(entry)
         self._entry_ids.add(entry.entry_id)
 
+    def append_batch(self, entries: tuple[LedgerEntry, ...]) -> None:
+        """Validate and append a group of facts as one in-memory operation."""
+        if not isinstance(entries, tuple) or not entries:
+            raise LedgerValidationError("ledger batch must be a nonempty tuple")
+
+        expected_sequence = len(self._entries) + 1
+        known_ids = set(self._entry_ids)
+        last_posted_at = self._entries[-1].posted_at if self._entries else 0
+        for entry in entries:
+            if not isinstance(entry, LedgerEntry):
+                raise LedgerValidationError("ledger accepts only LedgerEntry values")
+            if entry.sequence != expected_sequence:
+                raise LedgerValidationError(
+                    f"sequence must be {expected_sequence}, received {entry.sequence}"
+                )
+            if entry.entry_id in known_ids:
+                raise LedgerValidationError("entry identifier must be unique")
+            if entry.posted_at < last_posted_at:
+                raise LedgerValidationError("posting time cannot move backward")
+            known_ids.add(entry.entry_id)
+            last_posted_at = entry.posted_at
+            expected_sequence += 1
+
+        self._entries.extend(entries)
+        self._entry_ids.update(entry.entry_id for entry in entries)
+
 
 def replay(entries: tuple[LedgerEntry, ...] | list[LedgerEntry]) -> int:
     """Project current balance in cents by replaying entries in sequence order."""

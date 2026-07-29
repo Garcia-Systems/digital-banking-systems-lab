@@ -21,4 +21,6 @@ current, pending, and available projections, and then
 [Chapter 5: Deposits](../book/05-deposits.md) for validated business requests that
 append ledger history and change balances only through replay, and then
 [Chapter 6: Withdrawals](../book/06-withdrawals.md) for approval against available
-funds before successful requests append debit history.
+funds before successful requests append debit history, and then
+[Chapter 7: Internal Transfers](../book/07-internal-transfers.md) for atomic paired
+debit and credit entries with replay across two accounts.
