@@ -11,9 +11,66 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.10.0",
+        "Version 0.11.0",
         "Laboratory environment is ready.",
     ]
+
+
+@pytest.mark.parametrize(
+    ("command", "expected"),
+    [
+        (
+            "settlement",
+            [
+                "Internal settlement expectations",
+                "Record count: 2",
+                "ACH-001 | Outbound | $250.00 | T+40",
+                "RETURN-001 | Return | $250.00 | T+40",
+            ],
+        ),
+        (
+            "reconcile",
+            [
+                "Settlement reconciliation",
+                "Internal records: 2",
+                "External records: 2",
+                "Matched: 2",
+                "Exceptions: 0",
+                "Outbound totals: internal $250.00 | external $250.00 | "
+                "difference $0.00",
+                "Return totals: internal $250.00 | external $250.00 | difference $0.00",
+                "Final result: Reconciled",
+            ],
+        ),
+        (
+            "reconciliation-exceptions",
+            [
+                "Reconciliation exception report",
+                "ACH-002 | Missing externally | Outbound | Difference: -$125.00 | "
+                "External: -",
+                "ACH-003 | Amount mismatch | Outbound | Difference: -$1.00 | "
+                "External: EXT-003",
+                "ACH-004 | Duplicate externally | Outbound | Difference: $50.00 | "
+                "External: EXT-004-A, EXT-004-B",
+                "ACH-EXTERNAL-999 | Unexpected externally | Outbound | "
+                "Difference: $80.00 | External: EXT-999",
+                "Matched: 0",
+                "Exceptions: 4",
+                "Outbound totals: internal $475.00 | external $479.00 | "
+                "difference $4.00",
+                "Return totals: internal $0.00 | external $0.00 | difference $0.00",
+            ],
+        ),
+    ],
+)
+def test_settlement_commands_are_deterministic(
+    command: str, expected: list[str], capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert main([command]) == 0
+    first = capsys.readouterr().out
+    assert first.splitlines() == expected
+    assert main([command]) == 0
+    assert capsys.readouterr().out == first
 
 
 @pytest.mark.parametrize("arguments", [[], ["unknown"]])
