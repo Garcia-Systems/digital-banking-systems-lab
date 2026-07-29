@@ -28,9 +28,14 @@ append immutable credit entries, and replay after each append derives the update
 balance. It intentionally defers withdrawals, payment rails, pending deposits,
 settlement, reconciliation, and operational concerns.
 
+Chapter 6 introduces withdrawal approval. Valid requests are checked against the
+available-balance projection before debit entries are appended; invalid and
+insufficient-funds requests leave the ledger unchanged. It intentionally defers
+overdrafts, fees, transfers, payment rails, fraud detection, and settlement.
+
 Future chapters are planned to progress incrementally through:
 
-1. account opening and controlled movement of funds through withdrawals;
+1. account opening and internal transfers;
 2. payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;

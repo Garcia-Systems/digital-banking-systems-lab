@@ -19,4 +19,6 @@ for immutable money history and deterministic current-balance replay, and then
 [Chapter 4: Understanding Balances](../book/04-understanding-balances.md) for
 current, pending, and available projections, and then
 [Chapter 5: Deposits](../book/05-deposits.md) for validated business requests that
-append ledger history and change balances only through replay.
+append ledger history and change balances only through replay, and then
+[Chapter 6: Withdrawals](../book/06-withdrawals.md) for approval against available
+funds before successful requests append debit history.

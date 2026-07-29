@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.6.0",
+        "Version 0.7.0",
         "Laboratory environment is ready.",
     ]
 
@@ -205,4 +205,37 @@ def test_deposits_output_replays_each_deposit_deterministically(
     assert "Running balance: $825.50" in output
     assert output.endswith("Final balance:\n$825.50\n")
     assert main(["deposits"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_withdrawal_output_shows_validation_entry_and_replay(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["withdrawal"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Request: WDR-0001 | HCCU-DEMO-001 | $120.00",
+        "Validation: Request valid; available funds sufficient",
+        "Status: Received → Posted",
+        "Ledger entry: WDR-0001-ENTRY | Debit | $120.00",
+        "Replay: opening credit, then posted debit",
+        "",
+        "Final balance:",
+        "$380.00",
+    ]
+    assert main(["withdrawal"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_withdrawals_output_includes_rejection_without_ledger_append(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["withdrawals"]) == 0
+    output = capsys.readouterr().out
+    assert "Status: Received → Posted" in output
+    assert "Status: Received → Rejected" in output
+    assert "Reason: Insufficient available funds" in output
+    assert "Ledger entries appended: 0" in output
+    assert output.endswith("Final ledger replay:\n$380.00\n")
+    assert main(["withdrawals"]) == 0
     assert capsys.readouterr().out == output
