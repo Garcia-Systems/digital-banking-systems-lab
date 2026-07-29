@@ -12,7 +12,7 @@ one deterministic simulation, one command-line experiment, and one engineering
 lesson. Readers can run the examples and tests, inspect every mechanism, and
 repeat an experiment exactly rather than merely accepting claims in prose.
 
-## Chapters 0–13
+## Chapters 0–14
 
 Chapter 0 introduced reusable simulation infrastructure:
 
@@ -48,6 +48,9 @@ Chapter 12's `0.13.0` release adds deterministic payment-worker pools and compar
 throughput, queue depth, wait time, and utilization while preserving ledger history.
 Chapter 13's `0.14.0` release adds scripted transient failures, fixed-delay retries,
 bounded attempts, and recovery statistics without duplicating ledger effects.
+Chapter 14's `0.15.0` release scripts repeated request delivery and intentionally
+shows how naïve processing creates duplicate financial effects. Duplicate prevention
+is deferred to Chapter 15.
 Later chapters will introduce banking
 concepts incrementally without pretending this educational environment has the
 security, compliance, resilience, controls, or integrations required of production
@@ -87,6 +90,8 @@ bank-sim worker-capacity --workers 1
 bank-sim capacity-comparison
 bank-sim retries
 bank-sim retry-timeline
+bank-sim duplicates
+bank-sim duplicate-timeline
 pytest
 ruff check .
 ruff format --check .
@@ -96,7 +101,7 @@ The health check prints:
 
 ```text
 Digital Banking Systems Laboratory
-Version 0.14.0
+Version 0.15.0
 Laboratory environment is ready.
 ```
 
@@ -130,6 +135,8 @@ docker compose run --rm lab bank-sim worker-capacity --workers 1
 docker compose run --rm lab bank-sim capacity-comparison
 docker compose run --rm lab bank-sim retries
 docker compose run --rm lab bank-sim retry-timeline
+docker compose run --rm lab bank-sim duplicates
+docker compose run --rm lab bank-sim duplicate-timeline
 docker compose run --rm lab pytest
 docker compose run --rm lab ruff check .
 docker compose run --rm lab ruff format --check .
@@ -160,7 +167,10 @@ deterministic processing capacity while preserving financial results.
 pools, utilization, and throughput comparisons.
 [Chapter 13: Retries and Transient Failures](book/13-retries-and-transient-failures.md)
 adds scripted failures, fixed retry scheduling, and bounded recovery without duplicate
-financial effects. The path
+financial effects.
+[Chapter 14: Duplicate Payment Requests](book/14-duplicate-payment-requests.md)
+then exposes how repeated delivery creates repeated ledger effects under intentionally
+naïve processing. The path
 will expand through digital banking channels, distributed financial systems,
 lending and
 loan servicing, fraud detection, analytics, machine learning, and reliable
