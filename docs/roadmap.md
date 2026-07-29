@@ -13,10 +13,15 @@ with explicit submission, review, eligibility, simulated identity-verification,
 and decision states. It preserves ordered transition history while intentionally
 deferring permanent members, accounts, and all money movement.
 
+Chapter 3 introduces the first representation of money: immutable, append-only
+ledger entries using exact integer cents. A deterministic replay derives only the
+current balance, establishing that ledger history—not a balance—is authoritative.
+It intentionally defers business workflows and richer balance views.
+
 Future chapters are planned to progress incrementally through:
 
-1. account opening and core banking concepts, including representing money, ledger
-   entries, and derived balances;
+1. account opening and richer balance concepts, including pending activity, holds,
+   and available funds;
 2. controlled movement of funds and payment processing;
 3. digital banking channels and their operational boundaries;
 4. distributed financial systems, reconciliation, and failure handling;

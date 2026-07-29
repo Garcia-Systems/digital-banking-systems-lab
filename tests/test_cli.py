@@ -11,7 +11,7 @@ def test_doctor_reports_identity_and_version(
     assert main(["doctor"]) == 0
     assert capsys.readouterr().out.splitlines() == [
         "Digital Banking Systems Laboratory",
-        "Version 0.3.0",
+        "Version 0.4.0",
         "Laboratory environment is ready.",
     ]
 
@@ -110,4 +110,35 @@ def test_member_onboarding_output_has_stable_multiple_outcomes(
         "Identity-verification failure"
     )
     assert main(["member-onboarding"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ledger_output_is_deterministic(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["ledger"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Seq  Type      Amount",
+        "1    Credit    +$1,000.00",
+        "2    Debit       -$120.00",
+        "3    Debit        -$55.25",
+    ]
+    assert main(["ledger"]) == 0
+    assert capsys.readouterr().out == output
+
+
+def test_ledger_replay_output_is_deterministic(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["ledger-replay"]) == 0
+    output = capsys.readouterr().out
+    assert output.splitlines() == [
+        "Ledger replay",
+        "1. Credit +$1,000.00 → $1,000.00",
+        "2. Debit -$120.00 → $880.00",
+        "3. Debit -$55.25 → $824.75",
+        "",
+        "Final balance:",
+        "$824.75",
+    ]
+    assert main(["ledger-replay"]) == 0
     assert capsys.readouterr().out == output
