@@ -1,5 +1,7 @@
 # Chapter 9: ACH Returns
 
+![An ACH return preserving the original debit and appending a corrective credit](../images/chapters/chapter-09-ach-returns.png)
+
 ## Learning objectives
 
 This chapter explains why a completed external payment can later receive a return outcome and why the response must be a new financial fact. You will model a return as its own workflow, append a corrective credit, and replay both facts to rebuild the source balance.

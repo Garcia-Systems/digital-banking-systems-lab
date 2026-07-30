@@ -1,5 +1,7 @@
 # Chapter 15: Idempotent Payment Processing
 
+![An idempotency key linking repeated payment deliveries to exactly one financial effect](../images/chapters/chapter-15-idempotent-payment-processing.png)
+
 ## Learning objectives
 
 This chapter answers two related questions. **Business:** how can an institution

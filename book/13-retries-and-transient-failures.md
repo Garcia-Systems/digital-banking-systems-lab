@@ -1,5 +1,7 @@
 # Chapter 13: Retries and Transient Failures
 
+![A payment recovering from transient failures through bounded retries with deterministic backoff](../images/chapters/chapter-13-retries-and-transient-failures.png)
+
 ## Learning objectives
 
 This chapter explains why temporary operational trouble delays a payment rather than

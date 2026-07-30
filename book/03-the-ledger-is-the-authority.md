@@ -1,5 +1,7 @@
 # Chapter 3: The Ledger Is the Authority
 
+![An append-only ledger recording authoritative financial history from which balances are derived](../images/chapters/chapter-03-the-ledger-is-the-authority.png)
+
 ## Learning objectives
 
 After this chapter, you should be able to:

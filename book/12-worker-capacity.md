@@ -1,5 +1,7 @@
 # Chapter 12: Worker Capacity
 
+![Worker pool capacity affecting payment queue depth, throughput, utilization, and completion time](../images/chapters/chapter-12-worker-capacity.png)
+
 ## Learning objectives
 
 This chapter separates financial correctness from operational performance. You will

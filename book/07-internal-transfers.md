@@ -1,5 +1,7 @@
 # Chapter 7: Internal Transfers
 
+![An atomic internal transfer creating a source debit and destination credit](../images/chapters/chapter-07-internal-transfers.png)
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:

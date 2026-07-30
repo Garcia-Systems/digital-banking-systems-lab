@@ -1,5 +1,7 @@
 # Chapter 17: Dead-Letter Queues
 
+![Permanently failed payment operations isolated in a dead-letter queue after retries are exhausted](../images/chapters/chapter-17-dead-letter-queues.png)
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:

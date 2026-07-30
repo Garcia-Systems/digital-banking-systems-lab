@@ -1,5 +1,7 @@
 # Chapter 1: Bank or Credit Union?
 
+![A comparison of shareholder-owned banks and member-owned credit unions](../images/chapters/chapter-01-bank-or-credit-union.png)
+
 ## Learning objectives
 
 After this chapter, you should be able to:

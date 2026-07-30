@@ -1,5 +1,7 @@
 # Chapter 11: Payment Queues
 
+![Payment requests waiting in a FIFO queue before workers process them at finite capacity](../images/chapters/chapter-11-payment-queues.png)
+
 ## Learning objectives
 
 This chapter explains why accepted payment requests may wait, how FIFO ordering and

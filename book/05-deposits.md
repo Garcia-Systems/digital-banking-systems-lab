@@ -1,5 +1,7 @@
 # Chapter 5: Deposits
 
+![A validated deposit appending an immutable credit entry to an account ledger](../images/chapters/chapter-05-deposits.png)
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:
