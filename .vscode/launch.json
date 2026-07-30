@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug: Post One Deposit",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "bank_sim.cli",
+      "args": ["deposit"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}

@@ -1,6 +1,8 @@
 """Tests for the command line and its authoritative command inventory."""
 
 import argparse
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -73,6 +75,16 @@ def test_version_and_help_work_without_a_subcommand(
         main(["--help"])
     assert help_exit.value.code == 0
     assert "usage: bank-sim" in capsys.readouterr().out
+
+
+def test_cli_module_supports_debugger_launch() -> None:
+    result = subprocess.run(
+        [sys.executable, "-m", "bank_sim.cli", "deposit"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert "Ledger entry: DEP-0001-ENTRY | Credit | $500.00" in result.stdout
 
 
 def test_command_inventory_is_complete_unique_documented_and_in_help(

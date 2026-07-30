@@ -23,7 +23,9 @@ docker compose run --rm lab bank-sim doctor
 
 You do not need Python, pip, pytest, Ruff, Build, or Twine on the host. See
 [Chapter 0](book/00-setting-up-your-laboratory.md) for a beginner-friendly setup,
-source-mount explanation, and troubleshooting.
+source-mount explanation, and troubleshooting. To observe one simulation line by
+line without leaving Docker, follow the optional [VS Code debugging
+guide](book/debugging.md).
 
 ## Run and validate through Compose
 
