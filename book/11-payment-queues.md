@@ -124,28 +124,31 @@ The next lesson can introduce retries without confusing them with basic queueing
 
 ### Goal
 
-Observe accepted payment work becoming decoupled from arrival time.
+Observe FIFO work leave waiting state and execute separately from enqueueing.
 
 ### Open the Source
 
-Open `src/bank_sim/payment_queues.py` and find `QueueWorker._process_tick`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/payment_queues.py` and find `QueueWorker._process_tick`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the `popleft()` that dequeues work. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on `item = self.queue._waiting.popleft()`. Before this assignment, the selected frame has `self` and loop `_`; `item` and `now` do not yet exist.
 
 ### Launch the Debugger
 
-Select **Debug: Process Payment Queue** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Process Payment Queue**.
 
 ### Observe
 
-Inspect `self.queue._waiting`, `item`, `now`, `self.queue._completed`, `self.queue._events`, and the scenario ledger. Before stepping, expect the following: At the tick, accepted items wait in FIFO order, completed work excludes the next item, and its ledger effect has not happened.
+Inspect only objects reachable in this frame: `self.queue._waiting`, `self.queue._completed`, `self.queue._events`, `self.queue.scheduler.clock.time`, and `self.capacity`. Waiting items are in FIFO arrival order; completed work excludes the next item. The scenario's ledger is captured by callbacks but is not a local in `_process_tick`, so do not look for a “scenario ledger” here.
 
 ### Step Through
 
-Step over `popleft`: queue depth falls and `item` is the oldest arrival. Step over `item._work()`: the corresponding ledger effect appears. Completion time and the completed collection are then updated. Continue to see the queue drain in the same order.
+1. Step Over `popleft()`. `item` appears as the oldest arrival and queue length falls by one; `now` still does not exist.
+2. Step Over `now = ...`. `now` appears, then processing start time and the processing event are recorded.
+3. Step Into `item._work()` to follow the callback if you want to observe its financial effect in the callback's own frame. Return to `_process_tick`; completion time, `_completed`, and the completion event update afterward.
+4. Continue to see FIFO draining. Enqueue events happened earlier; processing and its callback effects happen only at worker ticks.
 
 ### Engineering Observation
 
-A queue separates request acceptance from execution. In production this absorbs uneven demand and changes latency without changing the ordered financial intent.
+A queue separates acceptance from execution. FIFO waiting state preserves order while worker callbacks make the eventual effect explicit in the frame where it actually occurs.

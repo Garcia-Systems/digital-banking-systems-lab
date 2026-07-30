@@ -195,3 +195,36 @@ The approved result establishes only that this educational membership applicatio
 completed. A later chapter can teach account opening as a separate workflow with
 its own domain rules. Keeping it deferred prevents membership approval from being
 confused with creating or funding an account.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe guarded onboarding transitions, their ordered history, and both approved and explicitly rejected outcomes.
+
+### Open the Source
+
+Open `src/bank_sim/onboarding.py`. Find `MemberApplication.evaluate_eligibility`; the `member-onboarding` scenario reaches it once for each of three applications.
+
+### Set the Breakpoint
+
+Set a breakpoint on the assignment to `self._eligibility_status` inside `evaluate_eligibility`. The status guard has already confirmed `UNDER_REVIEW`, while eligibility is still `NOT_EVALUATED` and the eligibility-history record has not been added.
+
+### Launch the Debugger
+
+Select **Debug: Run Member Onboarding**, which runs the approved, ineligible, and failed-identity-verification paths.
+
+### Observe
+
+At each pause, inspect `self.status`, `self.eligibility_status`, `self.identity_verification_status`, `self.rejection_reason`, and `self.history`. The first application is `UNDER_REVIEW`, eligibility is `NOT_EVALUATED`, identity verification is `NOT_STARTED`, rejection reason is `None`, and history already contains creation, submission, and review-start records. The guarded calls that produced that history prevent skipped or repeated transitions.
+
+### Step Through
+
+1. Step Over the eligibility assignment. For Alex Harbor it becomes `ELIGIBLE`; the next `_record` call adds the fourth ordered event without changing application status.
+2. Continue through identity verification and approval: identity becomes `PASSED`, status becomes `APPROVED`, and history ends with those explained transitions.
+3. At the next pause Morgan Bay becomes `INELIGIBLE`; `reject(RejectionReason.INELIGIBLE)` later sets status to `REJECTED`, records that reason, and appends the rejection event.
+4. Continue through Taylor Shoal: eligibility becomes `ELIGIBLE`, identity becomes `FAILED`, and the guarded rejection records `IDENTITY_VERIFICATION_FAILED`. The final CLI output shows all three histories.
+
+### Engineering Observation
+
+Explicit state transitions and immutable history snapshots prevent invalid, unexplained, or silently skipped onboarding outcomes. A decision is supported by the eligibility and identity facts that led to it, including a specific rejection reason.

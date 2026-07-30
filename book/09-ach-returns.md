@@ -100,28 +100,31 @@ Returns show that external outcomes can correct completed-looking history. A lat
 
 ### Goal
 
-Observe an ACH return correcting history by addition rather than mutation.
+Observe an ACH return reach completion and add a corrective credit without mutating the original debit.
 
 ### Open the Source
 
-Open `src/bank_sim/ach_returns.py` and find `AchReturnProcessor.complete`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/ach_returns.py` and find `AchReturnProcessor.complete`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the call to `self.network.ledger.append`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on the call to `item.transition(AchReturnStatus.COMPLETED, ...)`. This pauses before completion. A later pause at `self.network.ledger.append(...)` occurs after completion status and corrective-entry construction metadata (`request` and `entry_id`) already exist.
 
 ### Launch the Debugger
 
-Select **Debug: Run ACH Return Timeline** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Run ACH Return Timeline**.
 
 ### Observe
 
-Inspect `item`, `request`, `self.network.ledger.entries`, `item.completed_at`, and `item.corrective_entry_id`. Before stepping, expect the following: The original ACH is complete and its debit remains in the ledger; the return is processing, with no corrective entry identifier yet.
+At the first pause, `item.status` is `PROCESSING`, `completed_at` and `corrective_entry_id` are `None`, and the original completed ACH debit remains in the ledger. `request` and `entry_id` do not exist until their later assignments.
 
 ### Step Through
 
-Step over the guarded transition, then step into the ledger append. A new credit referencing both transfer and return is added. After stepping onward, `completed_at` and `corrective_entry_id` are set; the old debit is unchanged.
+1. Step Over the transition: status becomes `COMPLETED`; completion metadata is still unset and the ledger is unchanged.
+2. Step Over `request = item.request` and `entry_id = ...`. Those locals appear; `entry_id` is `RETURN-0001-CREDIT` in the fixed scenario.
+3. Step Into the append. The corrective credit is added while the original debit remains unchanged.
+4. Step onward: `completed_at` becomes `35`, `corrective_entry_id` becomes `RETURN-0001-CREDIT`, and the history records the posted correction. The balance returns from `75000` to `100000` cents.
 
 ### Engineering Observation
 
-Append-only correction preserves what was true before the return and explains what became true afterward. Production audit and reconciliation depend on retaining both facts.
+Append-only correction preserves both what was originally posted and why its financial effect was later reversed, supporting audit and reconciliation.

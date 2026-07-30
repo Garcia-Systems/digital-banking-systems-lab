@@ -138,28 +138,31 @@ separate coordination problem.
 
 ### Goal
 
-Observe duplicate recognition occurring before a second financial effect.
+Observe lookup by stable business identity preventing duplicate financial effects.
 
 ### Open the Source
 
-Open `src/bank_sim/idempotency.py` and find `IdempotentPaymentProcessor.process`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/idempotency.py` and find `IdempotentPaymentProcessor.process`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the lookup `record = self.store.get(key)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on `record = self.store.get(key)`. The type guards have run, but the lookup has not: `delivery`, `key`, and `self` exist; `record` does not.
 
 ### Launch the Debugger
 
-Select **Debug: Process Idempotently** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Process Idempotently**.
 
 ### Observe
 
-Inspect `delivery`, `key`, `record`, `self.store.records()`, `self.ledger.entries`, and `self._acknowledgements`. Before stepping, expect the following: For the first delivery no record exists and only opening history is present. For later deliveries the same key resolves to a completed record before any append.
+Before the first lookup, inspect `delivery`, `key`, `self.store.records` (a property, not a method), `self.ledger.entries`, and `_acknowledgements`. The store is empty and the ledger has only opening history. On later calls the same objects exist before lookup, but the store already holds the completed record and the ledger already holds one debit.
 
 ### Step Through
 
-On the first call, step through remembering the result and posting its debit. On the next call, the stored-record branch returns the stored result and records a duplicate acknowledgement; confirm the ledger entry count and balance do not change.
+1. Step Over the first lookup. `record` appears as `None`. The first-request path appends one 25000-cent debit, builds and remembers the completed result, increments `_ledger_entries_created`, and returns a nonduplicate acknowledgement.
+2. Continue to the second lookup. Before stepping, do not inspect `record`; Step Over and it appears as the existing `IdempotencyRecord`.
+3. Follow the duplicate branch: it reuses `record.result`, increments duplicate bookkeeping, and returns an acknowledgement without reaching `ledger.append`. The third delivery behaves the same way.
+4. Confirm one stored operation, one debit, and a final 75000-cent balance: no second financial effect occurs.
 
 ### Engineering Observation
 
-Idempotency makes repeated delivery safe by storing the result of stable business identity. This permits production retries and replays without repeating financial effects.
+Idempotency makes repeated delivery safe by resolving stable business identity before applying money movement and returning the result already earned by the first request.

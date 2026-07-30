@@ -143,28 +143,31 @@ rewriting the evidence or silently changing financial history.
 
 ### Goal
 
-Observe independent internal expectations being compared with external evidence.
+Observe expected internal settlement facts and actual external evidence being classified without changing either source.
 
 ### Open the Source
 
-Open `src/bank_sim/settlement.py` and find `reconcile`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/settlement.py` and find `reconcile`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the loop over sorted payment identities. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on `expected = internal_by_id.get(payment_id)`, inside the loop rather than on its header. At this pause the loop has assigned `payment_id`; `expected` and `actual` do not exist until their highlighted assignments execute.
 
 ### Launch the Debugger
 
-Select **Debug: Reconcile Settlement** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Reconcile Settlement**.
 
 ### Observe
 
-Inspect `internal_by_id`, `external_by_id`, `payment_id`, `expected`, `actual`, and `items`. Before stepping, expect the following: The two snapshots are indexed but unchanged. Before each iteration, `items` contains only classifications already made; no discrepancy has altered either source.
+Inspect `internal_by_id`, `external_by_id`, `items`, and the current `payment_id`. The indexed source snapshots are unchanged. Before Step Over there is no current `expected` or `actual`; `items` contains only earlier classifications.
 
 ### Step Through
 
-Step through missing, amount-mismatch, duplicate, and unexpected identities. Watch one `ReconciliationItem` enter `items` for each classified result (or the duplicate aggregate), then inspect sorted `items` and `status_totals` in the returned report.
+1. Step Over the two assignments so `expected` is a `SettlementRecord` or `None` and `actual` is the sorted list of matching external rows.
+2. Follow classification precedence. The enum defines the exact categories `MATCHED`, `MISSING_EXTERNALLY`, `UNEXPECTED_EXTERNALLY`, `AMOUNT_MISMATCH`, `DIRECTION_MISMATCH`, and `DUPLICATE_EXTERNALLY`; this exception workload exercises four of them.
+3. Inspect the scenario's exact cents: `ACH-002` is `MISSING_EXTERNALLY` with 12500 expected and no actual row; `ACH-003` is `AMOUNT_MISMATCH` with 30000 expected and 29900 actual; `ACH-004` is `DUPLICATE_EXTERNALLY` with 5000 expected and two 5000 actual rows (10000 aggregated); `ACH-EXTERNAL-999` is `UNEXPECTED_EXTERNALLY` with no expected row and 8000 actual.
+4. Continue through sorting and `status_totals`: `MATCHED` is 0 and the four exercised exception categories are each 1. Neither input snapshot changes.
 
 ### Engineering Observation
 
-Reconciliation detects disagreement without “fixing” its evidence. Banking operations need stable exceptions so people and controls can investigate external settlement differences safely.
+Reconciliation classifies disagreement from stable expected and actual facts; it does not “fix” the evidence it is responsible for comparing.

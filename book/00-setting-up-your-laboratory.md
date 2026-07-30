@@ -263,23 +263,6 @@ On Windows PowerShell, activate with `.venv\Scripts\Activate.ps1`. After activat
 the shorter `bank-sim`, `pytest`, `ruff`, `python -m build`, and `twine` commands are
 available. If their results differ, reproduce the check through the `lab` service.
 
-## Chapter summary
-
-You have established a consistent Docker-based laboratory: the image supplies
-Python and development tools, Compose runs commands through `lab`, the bind mount
-exposes edits, and the same environment validates changes locally and in CI. The
-next section adds a second way to learn from that environment: observing the
-simulation as it executes.
-
-At this point in the book's learning sequence, banking behavior has not yet been
-introduced. The completed checkout does contain the later Volume I implementation;
-Chapter 0 simply keeps it outside the current teaching scope.
-
-## Transition to Chapter 1
-
-Chapter 1 begins the banking domain by distinguishing banks from credit unions and
-introducing Harbor Community Credit Union as a member-owned institution.
-
 # Debugging the Laboratory
 
 The command-line experiments in this book are **Run Mode**. They answer **“What happened?”** by showing a deterministic result. The debugger provides **Debug Mode**. It answers **“How did it happen?”** by pausing the same program so that you can follow requests, decisions, ledger records, and projections as they are created.
@@ -362,7 +345,7 @@ The exact function-key behavior can depend on a laptop's keyboard settings. The 
 
 ## Read the state of the banking system
 
-While execution is paused, the Run and Debug panel provides several views. Expand values with the arrow beside them; hovering over a name in the editor also shows its current value.
+While execution is paused, the Run and Debug panel provides several views. The **Variables** view is the containing debugger section for program state; expand it and its groups with the arrows beside them. Depending on the paused frame and VS Code version, it commonly contains **Locals**, **Globals**, special variables, and returned values when VS Code exposes them. Hovering over a name in the editor can also show its current value.
 
 - **Locals** contains names belonging to the paused function. This is usually the best starting point: a deposit function may show its `request`, `ledger`, and sequence number, while a retry worker may show the current attempt counter.
 - **Globals** contains module-level names shared outside the current function, such as imported classes and constants. Globals provide context, but the current customer request is normally in Locals.
@@ -387,7 +370,7 @@ This function is the boundary where a validated customer request becomes a perma
 
 ### 2. Set the breakpoint
 
-Click the margin beside the `sequence` line (currently line 64) so that a red dot appears. The debugger will pause _before_ calculating the next ledger sequence. That timing matters: you can see the ledger before the deposit changes it.
+Click the margin beside the operation that calculates `sequence` inside `post_deposit()` so that a red dot appears. The debugger will pause _before_ calculating the next ledger sequence. That timing matters: you can see the ledger before the deposit changes it.
 
 ### 3. Launch the debugger
 
@@ -409,7 +392,7 @@ Back in `post_deposit`, `len(ledger.entries)` in Watch is now `1`. Expand the fi
 
 ### 6. Watch the result object get returned
 
-Step to the `return Deposit(...)` statement. Use **F10** to execute it. VS Code may briefly show the returned value in the editor or VARIABLES view before moving back to the caller. Inspect it when available: the `Deposit` has status `POSTED` and summarizes the workflow result, while the corresponding ledger entry remains the authority. Keeping those roles separate prevents application status objects from silently replacing financial history.
+Step to the `return Deposit(...)` statement. Use **F10** to execute it. VS Code may briefly expose the returned value in the editor or Variables view before moving back to the caller. If it is available, inspect it, but do not rely on it remaining visible after stepping out: the `Deposit` has status `POSTED` and summarizes the workflow result, while the corresponding ledger entry remains the authority. Keeping those roles separate prevents application status objects from silently replacing financial history.
 
 ### 7. Continue the experiment
 
@@ -424,3 +407,20 @@ bank-sim deposit
 ```
 
 Compare its request, posted status, ledger entry, and final balance with the output from the debug session. They should match exactly. Run Mode gave you a concise, repeatable answer to **“What happened?”** Debug Mode showed **how** the customer's request became an immutable credit and how that fact supported the reported balance. Later Debugging Laboratory sections build on these same skills to explain queues, projections, revisions, retries, and dead-letter handling rather than asking you to trust only their final output.
+
+## Chapter summary
+
+You have established a consistent Docker-based laboratory: the image supplies
+Python and development tools, Compose runs commands through `lab`, the bind mount
+exposes edits, and the same environment validates changes locally and in CI. The
+next section adds a second way to learn from that environment: observing the
+simulation as it executes.
+
+At this point in the book's learning sequence, banking behavior has not yet been
+introduced. The completed checkout does contain the later Volume I implementation;
+Chapter 0 simply keeps it outside the current teaching scope.
+
+## Transition to Chapter 1
+
+Chapter 1 begins the banking domain by distinguishing banks from credit unions and
+introducing Harbor Community Credit Union as a member-owned institution.

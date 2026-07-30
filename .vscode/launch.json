@@ -2,6 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug: Compare Institutions",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["compare-institutions"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run Member Onboarding",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["member-onboarding"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Replay Chapter Ledger",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["ledger-replay"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Project Balances",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["balance"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
       "name": "Debug: Post One Deposit",
       "type": "debugpy",
       "request": "launch",

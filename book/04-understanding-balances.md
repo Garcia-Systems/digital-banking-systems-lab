@@ -136,3 +136,35 @@ Those boundaries keep this lesson focused.
 The next chapter can introduce deposits and withdrawals as explicit workflows.
 Those workflows will create new ledger facts; they must not weaken the rule learned
 here that balance views are derived rather than authoritative.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe posted history and pending activity feeding distinct current and available balance projections.
+
+### Open the Source
+
+Open `src/bank_sim/balances.py`. Find `project_balances`, which validates and totals pending activity before replaying the posted ledger.
+
+### Set the Breakpoint
+
+Set a breakpoint on `current = replay(ledger.entries)`. By this pause, the pending loop has completed: `debits` and `credits` exist, but `current` does not exist until the highlighted line executes and no `BalanceProjection` has yet been returned.
+
+### Launch the Debugger
+
+Select **Debug: Project Balances**, which runs the `balance` command with the fixed Chapter 3 ledger and Chapter 4 pending transactions.
+
+### Observe
+
+Inspect `ledger.entries`, `pending`, `debits`, and `credits`. Posted history is the immutable 100000-cent credit and 12000- and 5525-cent debits, producing 82475 cents. Pending activity remains separate: two 6000-cent debits and one 2500-cent credit produce `debits == 12000` and `credits == 2500`. `current` is not yet in scope.
+
+### Step Through
+
+1. Step Over replay. `current` appears as `82475`; neither ledger history nor pending transactions changed.
+2. Step over the return and inspect the returned projection in the caller when VS Code exposes it: `current_balance=82475`, `pending_debits=12000`, `pending_credits=2500`, and `available_balance=72975`.
+3. Continue. The CLI prints `$824.75`, `$120.00`, `$25.00`, and `$729.75` respectively.
+
+### Engineering Observation
+
+Pending activity can change available funds without becoming posted ledger history. Current balance comes only from authoritative entries, while available balance is a deliberately derived view that also reserves or anticipates pending effects.
