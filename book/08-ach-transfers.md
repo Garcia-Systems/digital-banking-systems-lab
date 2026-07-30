@@ -1,5 +1,7 @@
 # Chapter 8: ACH Transfers
 
+![An outbound ACH transfer progressing from validation and a pending hold to external completion](../images/chapters/chapter-08-ach-transfers.png)
+
 ## Learning objectives
 
 This chapter explains how money can move electronically from Harbor Community

@@ -1,5 +1,7 @@
 # Chapter 6: Withdrawals
 
+![A withdrawal workflow checking available funds before appending an immutable debit entry](../images/chapters/chapter-06-withdrawals.png)
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:

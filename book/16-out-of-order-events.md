@@ -1,5 +1,7 @@
 # Chapter 16: Out-of-Order Events
 
+![Payment events arriving out of sequence and being buffered or rejected according to state and revision](../images/chapters/chapter-16-out-of-order-events.png)
+
 ## Learning objectives
 
 This chapter answers two questions. **Business:** why might payment-related events

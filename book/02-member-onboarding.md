@@ -1,5 +1,7 @@
 # Chapter 2: Member Onboarding
 
+![A credit union member application moving through validation, review, approval, and rejection states](../images/chapters/chapter-02-member-onboarding.png)
+
 ## Learning objectives
 
 After this chapter, you should be able to:

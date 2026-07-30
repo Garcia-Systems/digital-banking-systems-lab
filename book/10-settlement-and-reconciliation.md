@@ -1,5 +1,7 @@
 # Chapter 10: Settlement and Reconciliation
 
+![Internal settlement expectations compared with an independent external report to identify exceptions](../images/chapters/chapter-10-settlement-and-reconciliation.png)
+
 ## Learning objectives
 
 This chapter distinguishes a payment's workflow, its member-account ledger effects,

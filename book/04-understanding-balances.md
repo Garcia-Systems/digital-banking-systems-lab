@@ -1,5 +1,7 @@
 # Chapter 4: Understanding Balances
 
+![Posted ledger entries and pending transactions contributing to current, pending, and available balances](../images/chapters/chapter-04-understanding-balances.png)
+
 ## Learning objectives
 
 By the end of this chapter, you will be able to:

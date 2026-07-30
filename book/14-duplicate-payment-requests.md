@@ -1,5 +1,7 @@
 # Chapter 14: Duplicate Payment Requests
 
+![Multiple deliveries of one payment request causing duplicate financial effects without protection](../images/chapters/chapter-14-duplicate-payment-requests.png)
+
 ## Learning objectives
 
 This chapter explains why a financial institution can receive one payment request

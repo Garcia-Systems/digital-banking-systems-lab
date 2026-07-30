@@ -1,5 +1,7 @@
 # Chapter 18: End-to-End Banking Operations Laboratory
 
+![An end-to-end banking pipeline connecting validation, queues, retries, idempotency, the ledger, settlement, and reconciliation](../images/chapters/chapter-18-end-to-end-banking-operations-laboratory.png)
+
 ## Learning objectives
 
 By the end of this capstone, you will be able to:
