@@ -8,59 +8,58 @@ business concept, software-engineering concept, executable code, command-line
 experiment, and tests. Volume I contains Chapters 0–18 and culminates in the
 [end-to-end laboratory](book/18-end-to-end-banking-operations-laboratory.md).
 
-## Docker-first quick start
+## Dev Container quick start
 
-Git, Docker with Compose v2, and an editor are the only host requirements. Docker
-supplies Python 3.13, the package, and all development tools; the `lab` Compose
-service is the canonical command runner locally and in CI.
+Git, Docker with Compose v2, Visual Studio Code, and its Dev Containers extension
+are the supported host tools. Docker supplies Python 3.13, the package, and all
+development tools beneath the Dev Container; no host Python toolchain is required.
 
 ```bash
+# Host terminal
 git clone https://github.com/Garcia-Systems/digital-banking-systems-lab.git
 cd digital-banking-systems-lab
+# Optional initial pre-build (VS Code can also build it when reopening)
 docker compose build
-docker compose run --rm lab bank-sim doctor
 ```
 
-You do not need Python, pip, pytest, Ruff, Build, or Twine on the host. See
-[Chapter 0](book/00-setting-up-your-laboratory.md) for beginner-friendly setup,
-source-mount and troubleshooting guidance, and a complete first debugging exercise
-inside the VS Code Dev Container. The shorter [debugging guide](book/debugging.md)
-points returning readers back to that foundational lesson.
-
-## Run and validate through Compose
+Open the repository in VS Code, run **Dev Containers: Reopen in Container**, wait
+for initialization, and then use direct commands in the Dev Container terminal:
 
 ```bash
-# Tests and the same branch-coverage report used by CI
-docker compose run --rm lab pytest
-docker compose run --rm lab pytest --cov=bank_sim --cov-branch \
-  --cov-report=term-missing --cov-report=xml:coverage.xml
-
-# Lint, verify formatting, or deliberately format
-docker compose run --rm lab ruff check .
-docker compose run --rm lab ruff format --check .
-docker compose run --rm lab ruff format .
-
-# Clean, build, and validate distributions
-docker compose run --rm lab rm -rf build dist
-docker compose run --rm lab python -m build
-docker compose run --rm lab twine check dist/*
-
-# CLI and capstone smoke checks
-docker compose run --rm lab bank-sim --help
-docker compose run --rm lab bank-sim --version
-docker compose run --rm lab bank-sim laboratory
-docker compose run --rm lab bank-sim operational-summary
+bank-sim --help
+bank-sim institution
+pytest
+ruff check .
 ```
 
-The bind-mounted checkout makes local edits visible to the container. The
-[CLI reference](docs/cli-reference.md) inventories all deterministic experiments,
-and the [documentation index](docs/README.md) links the full learning sequence.
+The host checkout is mounted into the container, so edits are immediately visible.
+Use Git from a normal host terminal; use the Dev Container for simulations, tests,
+linting, packaging, and debugging. See [Chapter 0](book/00-setting-up-your-laboratory.md)
+for guided setup and troubleshooting, and the [debugging guide](book/debugging.md)
+for the learning workflow.
+
+## Host-side Compose alternatives and validation
+
+Docker Compose remains available to readers without VS Code and for independent,
+CI-equivalent, or troubleshooting checks. Run these from the host repository
+folder, not from inside the current Dev Container:
+
+```bash
+docker compose run --rm lab bank-sim institution
+docker compose run --rm lab pytest
+docker compose run --rm lab ruff check .
+docker compose run --rm lab python -m build
+```
+
+Maintainers can use the complete CI-equivalent Compose command set in
+[CONTRIBUTING.md](CONTRIBUTING.md). The [CLI reference](docs/cli-reference.md)
+inventories all deterministic experiments.
 
 ## Optional host-Python workflow
 
 Experienced readers may manage a Python 3.13 virtual environment and install
-`.[dev]` directly. This is optional; Docker Compose remains the canonical and
-CI-aligned result. The commands are documented at the end of Chapter 0.
+`.[dev]` directly. This is secondary to the Docker-backed Dev Container. The
+commands are documented at the end of Chapter 0.
 
 ## Intentional limitations
 

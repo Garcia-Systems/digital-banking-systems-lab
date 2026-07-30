@@ -1,8 +1,17 @@
 # CLI Reference
 
-Run CLI examples through `docker compose run --rm lab bank-sim <command>`. The
-short command names below are inventory entries, not a requirement to install
-Python on the host. `--help` and `--version` are top-level interfaces and do not
+Run CLI examples directly in the Dev Container terminal:
+
+```bash
+bank-sim institution
+bank-sim deposit
+bank-sim laboratory
+```
+
+These commands do not require Python or `bank-sim` to be installed on the host.
+Readers not using VS Code, or those performing host-side validation, can use the
+generic alternative `docker compose run --rm lab bank-sim <command>` from the host
+repository folder. `--help` and `--version` are top-level interfaces and do not
 require a subcommand. Every subcommand below runs a deterministic default
 experiment without additional arguments.
 

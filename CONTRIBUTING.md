@@ -11,9 +11,14 @@ limited to the trustworthy laboratory foundation.
 
 ## Development
 
-Use Docker Compose and the canonical `lab` service. The image supplies Python 3.13,
-the editable package, and `.[dev]`; contributors do not need those tools installed
-on the host. Before opening a pull request, run:
+The VS Code Dev Container is the normal environment for interactive editing,
+testing, and debugging. Run commands such as `pytest`, `ruff check .`, and
+`bank-sim deposit` directly in its terminal. Use Git from the host repository
+folder. The image supplies Python 3.13, the editable package, and `.[dev]`;
+contributors do not need those tools installed on the host.
+
+Before opening a pull request, use these host-side Compose commands for
+reproducible, CI-equivalent validation:
 
 ```bash
 docker compose build

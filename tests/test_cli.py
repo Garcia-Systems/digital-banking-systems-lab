@@ -127,23 +127,45 @@ def test_doctor_reports_identity_and_version(
     "document",
     [Path("README.md"), Path("book/00-setting-up-your-laboratory.md")],
 )
-def test_setup_documents_use_the_canonical_compose_cli(document: Path) -> None:
-    """Keep the beginner setup aligned with the real Compose command runner."""
+def test_setup_documents_describe_the_dev_container_workflow(document: Path) -> None:
+    """Keep setup aligned with direct Dev Container and host-side workflows."""
     text = document.read_text()
-    required_commands = {
+    lines = set(text.splitlines())
+
+    direct_commands = {
+        "bank-sim --help",
+        "bank-sim institution",
+        "pytest",
+        "ruff check .",
+    }
+    host_docker_commands = {
         "docker compose build",
-        "docker compose run --rm lab bank-sim doctor",
-        "docker compose run --rm lab bank-sim --help",
-        "docker compose run --rm lab bank-sim --version",
-        "docker compose run --rm lab bank-sim laboratory",
-        "docker compose run --rm lab bank-sim operational-summary",
-        "docker compose run --rm lab pytest",
-        "docker compose run --rm lab ruff check .",
-        "docker compose run --rm lab ruff format --check .",
-        "docker compose run --rm lab twine check dist/*",
+        "docker compose run --rm lab bank-sim institution",
     }
 
-    assert required_commands <= set(text.splitlines())
+    assert direct_commands <= lines
+    assert host_docker_commands <= lines
+    clone_command = (
+        "git clone https://github.com/Garcia-Systems/digital-banking-systems-lab.git"
+    )
+    assert clone_command in lines
+
+    lower_text = text.lower()
+    assert "dev container terminal" in lower_text
+    assert "host" in lower_text and "git" in lower_text
+    assert "host-side" in lower_text and "compose" in lower_text
+    assert (
+        "docker supplies" in lower_text or "docker is the reproducibility" in lower_text
+    )
+
+
+def test_chapter_zero_includes_host_repository_maintenance() -> None:
+    """Keep Git maintenance on the host side of the Chapter 0 boundary."""
+    text = Path("book/00-setting-up-your-laboratory.md").read_text()
+    lines = set(text.splitlines())
+
+    assert {"git status", "git pull"} <= lines
+    assert "Git is normally used outside the Dev Container" in text
 
 
 @pytest.mark.parametrize(

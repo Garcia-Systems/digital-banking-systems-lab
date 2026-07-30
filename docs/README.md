@@ -3,9 +3,11 @@
 This documentation supports an executable textbook set at the fictional Harbor
 Community Credit Union:
 
-Docker Compose is the canonical environment throughout the documentation. Commands
-run through the `lab` service unless explicitly labeled as optional host-Python
-instructions; CI uses that same container environment.
+Direct commands in the VS Code Dev Container are the normal interactive convention
+throughout the documentation. Docker Compose commands are host-side alternatives
+and validation tools; documents label host-only commands when context could be
+ambiguous. See [Chapter 0](../book/00-setting-up-your-laboratory.md) for the complete
+host, Dev Container, and debugger workflow.
 
 - [Architecture principles](architecture-principles.md) defines the boundaries that
   keep simulations deterministic and inspectable.

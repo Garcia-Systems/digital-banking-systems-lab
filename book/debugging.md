@@ -6,15 +6,31 @@ Start there for the beginner-friendly VS Code and Dev Container setup and the
 explanation of debugger controls and state views. Chapter 5 contains the canonical
 exercise that later chapters should follow.
 
-Remember the environment boundary:
-
-- From a host terminal, use `docker compose run --rm lab bank-sim ...`.
-- From VS Code's Dev Container terminal, use `bank-sim ...` directly because that
-  terminal is already inside the reproducible environment.
+Open the repository in VS Code and run **Dev Containers: Reopen in Container**.
+The Dev Container terminal is the primary Run Mode environment: run `bank-sim ...`
+directly because the terminal is already inside the reproducible environment.
+Host-side Compose is an alternative for readers without VS Code and for validation
+or troubleshooting; [Chapter 0](00-setting-up-your-laboratory.md#8-host-side-docker-compose-alternatives)
+documents that boundary.
 
 Run Mode answers **“What happened?”** Debug Mode answers **“How did it happen?”**
 Both execute the same deterministic simulation; the debugger only lets you pause
 and observe the banking objects along the way.
+
+## Normal Run and Debug workflow
+
+1. Open the repository in the Dev Container.
+2. In its terminal, run the chapter's direct command and observe the CLI result.
+3. Open **Run and Debug** and select the prepared chapter launch configuration.
+4. Open the source named by the chapter and set its documented breakpoint at the
+   recognizable operation (not a brittle line number).
+5. Press **F5**.
+6. Inspect **Variables**, **Call Stack**, and the execution flow at the pause.
+7. Use Step Over, Step Into, Step Out, and Continue as directed by the chapter.
+8. Compare the observed debugger state with the original CLI result.
+
+This is one learning loop: direct Run Mode establishes what happened, then Debug
+Mode reveals how it happened.
 
 ## Reusable Debugging Laboratory template
 

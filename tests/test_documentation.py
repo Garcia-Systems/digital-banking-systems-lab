@@ -11,16 +11,26 @@ READER_DOCUMENTS = (
     *sorted(Path("docs").glob("*.md")),
 )
 EXECUTABLE_FENCES = {"bash", "sh"}
-COMMAND_PREFIXES = (
-    ". ",
-    "bank-sim ",
-    "cd ",
-    "docker ",
-    "git ",
-    "python ",
-    "python3 ",
-    "python3.13 ",
+COMMAND_NAMES = (
+    ".",
+    "bank-sim",
+    "cd",
+    "docker",
+    "git",
+    "pytest",
+    "python",
+    "python3",
+    "python3.13",
+    "rm",
+    "ruff",
+    "twine",
 )
+
+
+def is_command_line(line: str) -> bool:
+    """Recognize a supported shell command without accepting arbitrary prose."""
+    command = line.split(maxsplit=1)[0] if line else ""
+    return command in COMMAND_NAMES
 
 
 def markdown_fences(document: Path) -> list[tuple[str, list[str]]]:
@@ -65,7 +75,7 @@ def test_book_commands_are_separate_from_output(document: Path) -> None:
         output_like_lines: list[str] = []
         for line in lines:
             stripped = line.strip()
-            is_command = stripped.startswith(COMMAND_PREFIXES)
+            is_command = is_command_line(stripped)
             if stripped and not stripped.startswith("#"):
                 if not is_command and not previous_was_continued:
                     output_like_lines.append(line)
