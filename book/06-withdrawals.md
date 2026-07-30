@@ -107,3 +107,33 @@ An internal transfer will coordinate movement between two accounts while retaini
 the same discipline: decide whether the complete operation is valid before writing
 authoritative history. Transfers, including their atomicity and paired entries, are
 intentionally deferred to a later chapter.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe withdrawal approval without recording rejected intent.
+
+### Open the Source
+
+Open `src/bank_sim/withdrawals.py` and find `process_withdrawal`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the calculation of `available` with `project_balances`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Process Withdrawals** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `request`, `ledger`, `pending`, and `available`. Before stepping, expect the following: For the first request, the ledger contains only the opening credit and `available` is $500.00. For the second, the successful debit is already present and available funds are $380.00.
+
+### Step Through
+
+Step over the insufficient-funds comparison. The first request proceeds to `ledger.append`, adding one debit and becoming `POSTED`. On the second call the comparison is true: the returned withdrawal becomes `REJECTED`, `rejection_reason` is populated, and `ledger.entries` does not change.
+
+### Engineering Observation
+
+A rejection is workflow evidence, not a financial fact. Production ledgers must contain only approved effects so replay cannot mistake an attempted withdrawal for money that moved.

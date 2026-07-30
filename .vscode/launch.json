@@ -9,6 +9,71 @@
       "args": ["deposit"],
       "console": "integratedTerminal",
       "justMyCode": true
+    },
+    {
+      "name": "Debug: Process Withdrawals",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["withdrawals"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Process Internal Transfers",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["transfers"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run ACH Timeline",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["ach-timeline"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run ACH Return Timeline",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["ach-return-timeline"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Reconcile Settlement",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["reconciliation-exceptions"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Process Payment Queue",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["payment-queue"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run Worker Capacity",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["worker-capacity", "--workers", "2"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run Retries",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["retry-timeline"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Observe Duplicate Payments",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["duplicate-timeline"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Process Idempotently",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["idempotency"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Process Out-of-Order Events",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["out-of-order"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Isolate Dead Letters",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["dead-letter"], "console": "integratedTerminal", "justMyCode": true
+    },
+    {
+      "name": "Debug: Run End-to-End Laboratory",
+      "type": "debugpy", "request": "launch", "module": "bank_sim.cli",
+      "args": ["laboratory"], "console": "integratedTerminal", "justMyCode": true
     }
   ]
 }

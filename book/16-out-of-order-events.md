@@ -143,3 +143,33 @@ or a malformed event may require investigation. A later chapter can introduce
 dead-letter queues and operational resolution for work that cannot proceed. This
 chapter intentionally stops at deterministic detection, freshness validation, and
 safe processing.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe sequence, revision, and event identity deciding whether an arrival may advance state.
+
+### Open the Source
+
+Open `src/bank_sim/ordering.py` and find `OrderedEventProcessor.receive`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the comparisons that buffer a future event or reject a stale revision. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Process Out-of-Order Events** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `event`, `state`, `expected`, `state.last_sequence`, `state.last_revision`, `self._buffers`, `self._processed_event_ids`, and `self.ledger.entries`. Before stepping, expect the following: The arriving event may be newer than the expected sequence even though it arrived now. Processor state—not arrival position—defines whether it can apply.
+
+### Step Through
+
+Step through a future event and see it enter `self._buffers[event.payment_id]` without a ledger effect. When the missing event applies, step into `_drain` and watch buffered work become eligible. Continue through stale and duplicate arrivals; their decisions change statistics, not workflow or ledger state.
+
+### Engineering Observation
+
+Deterministic ordering prevents late, duplicated, or stale messages from rewriting current truth. Production event consumers need state-based acceptance rules rather than trusting arrival order.

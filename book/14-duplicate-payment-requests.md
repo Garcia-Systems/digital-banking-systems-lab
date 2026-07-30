@@ -134,3 +134,33 @@ Chapter 15 will introduce idempotent processing so repeated deliveries of one
 business operation can produce one financial effect. Until then, the incorrect
 second debit remains visible: observing the risk before solving it is the purpose of
 this chapter.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe why repeated delivery is not the same as repeated business intent.
+
+### Open the Source
+
+Open `src/bank_sim/duplicates.py` and find `process_naively`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the ledger append performed for every delivery. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Observe Duplicate Payments** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `scenario`, the loop local `item`, `attempts`, and `ledger.entries`. Before stepping, expect the following: Before the first delivery is processed, several deliveries may share one `payment_id`, while the ledger contains only the opening credit. The naïve path has no remembered identity.
+
+### Step Through
+
+Step through the loop and ledger append. After the first delivery there is one debit; after the duplicate there is another debit with the same business identity. Watch `attempts` and `ledger.entries` grow; replaying those entries will make the reported balance fall again.
+
+### Engineering Observation
+
+Transport delivery is not authority to move money. Production systems must recognize business identity before posting, because networks and clients legitimately deliver the same request more than once.

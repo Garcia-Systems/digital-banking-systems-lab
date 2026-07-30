@@ -118,3 +118,33 @@ after accepting an item, forcing a system to decide whether and how to attempt i
 again without duplicating money movement. The next chapter can introduce retries,
 attempt limits, backoff, and idempotency while retaining this deterministic capacity
 foundation.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe a bounded worker pool assigning queued work without changing financial results.
+
+### Open the Source
+
+Open `src/bank_sim/worker_capacity.py` and find `WorkerPool._dispatch`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the assignment to `worker.current_payment`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Run Worker Capacity** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `self._waiting`, `self.workers`, `worker`, `item`, `self.scheduler.clock.time`, and `self._completed`. Before stepping, expect the following: With two workers, idle workers have no current payment and accepted items wait in arrival order. No item is complete merely because it has arrived.
+
+### Step Through
+
+Step over the dequeue and assignment, then inspect the scheduled completion. At `WorkerPool._complete`, step over `item._work()` and watch the completed collection and worker statistics change before `_dispatch` fills the newly idle slot.
+
+### Engineering Observation
+
+Capacity controls when work finishes, not what money movement means. Keeping worker utilization outside ledger semantics lets banks scale throughput without changing outcomes.

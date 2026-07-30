@@ -119,3 +119,33 @@ fail after leaving a waiting state, raising questions about safe redelivery and
 attempt limits. Retries, backoff, duplicate detection, idempotency, dead-letter
 queues, failures, distributed workers, and load balancing are deliberately deferred.
 The next lesson can introduce retries without confusing them with basic queueing.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe accepted payment work becoming decoupled from arrival time.
+
+### Open the Source
+
+Open `src/bank_sim/payment_queues.py` and find `QueueWorker._process_tick`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the `popleft()` that dequeues work. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Process Payment Queue** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `self.queue._waiting`, `item`, `now`, `self.queue._completed`, `self.queue._events`, and the scenario ledger. Before stepping, expect the following: At the tick, accepted items wait in FIFO order, completed work excludes the next item, and its ledger effect has not happened.
+
+### Step Through
+
+Step over `popleft`: queue depth falls and `item` is the oldest arrival. Step over `item._work()`: the corresponding ledger effect appears. Completion time and the completed collection are then updated. Continue to see the queue drain in the same order.
+
+### Engineering Observation
+
+A queue separates request acceptance from execution. In production this absorbs uneven demand and changes latency without changing the ordered financial intent.

@@ -132,3 +132,33 @@ controls. Those concerns must not be inferred from this teaching implementation.
 The next step is the end-to-end laboratory, where the earlier controls can be
 observed together. Recovery actions remain future work: isolation comes before a
 carefully authorized recovery design.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe permanently unprocessable work leaving the active retry path.
+
+### Open the Source
+
+Open `src/bank_sim/dead_letters.py` and find `DeadLetterProcessor._isolate`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the call to `self.dead_letters.isolate(entry)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Isolate Dead Letters** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `payment`, `reason`, `diagnostic`, `entry`, `payment.retry_count`, `payment.isolated`, and `self.dead_letters.entries`. Before stepping, expect the following: The failed payment is not yet isolated and the DLQ lacks its entry. Its reason and retry count explain whether it is invalid immediately or exhausted after bounded retries.
+
+### Step Through
+
+Step over construction and insertion of the `DeadLetterEntry`. The immutable entry appears in DLQ insertion order; then `payment.isolated` becomes true and a “moved to DLQ” result is recorded. Continue to compare immediate isolation with retry exhaustion.
+
+### Engineering Observation
+
+A DLQ stops poison work from consuming capacity or causing endless effects while preserving investigation context. Isolation is an operational safety boundary, not a ledger posting.

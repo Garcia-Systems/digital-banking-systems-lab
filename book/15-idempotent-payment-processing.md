@@ -133,3 +133,33 @@ Idempotency answers whether an operation has already produced its business resul
 it does not decide whether events arrived in a meaningful order. The next chapter
 can preserve the one-effect guarantee while examining out-of-order events as a
 separate coordination problem.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe duplicate recognition occurring before a second financial effect.
+
+### Open the Source
+
+Open `src/bank_sim/idempotency.py` and find `IdempotentPaymentProcessor.process`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the lookup `record = self.store.get(key)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Process Idempotently** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `delivery`, `key`, `record`, `self.store.records()`, `self.ledger.entries`, and `self._acknowledgements`. Before stepping, expect the following: For the first delivery no record exists and only opening history is present. For later deliveries the same key resolves to a completed record before any append.
+
+### Step Through
+
+On the first call, step through remembering the result and posting its debit. On the next call, the stored-record branch returns the stored result and records a duplicate acknowledgement; confirm the ledger entry count and balance do not change.
+
+### Engineering Observation
+
+Idempotency makes repeated delivery safe by storing the result of stable business identity. This permits production retries and replays without repeating financial effects.

@@ -107,3 +107,33 @@ Moving money outside an institution introduces payment rails, counterparties,
 messages, settlement, failure handling, and reconciliation. ACH, wires, card
 networks, and every other external payment mechanism remain intentionally
 unimplemented for later chapters.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe an internal transfer becoming two coordinated ledger facts.
+
+### Open the Source
+
+Open `src/bank_sim/transfers.py` and find `process_transfer`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the call to `ledger.append_batch(entries)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Process Internal Transfers** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `request`, `entries`, `ledger.entries`, and the source and destination results from `account_balance`. Before stepping, expect the following: The valid request has passed the funds check; `entries` contains a debit and credit with adjacent sequences, but neither is yet in the ledger.
+
+### Step Through
+
+Step into `Ledger.append_batch`. Before its final extension, the ledger has neither transfer entry; after it, both appear together. Step out and inspect the posted `transfer`. Continue to a rejected scenario and confirm no batch is appended.
+
+### Engineering Observation
+
+A transfer is one business decision with two inseparable accounting consequences. Atomic recording prevents production systems from exposing money removed from one account but never credited to the other.
