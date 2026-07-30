@@ -321,15 +321,25 @@ No previous VS Code or debugging experience is required.
 3. Choose **File > Open Folder…** and open the cloned `digital-banking-systems-lab` repository—the folder containing `docker-compose.yml`.
 4. Open the Command Palette with **View > Command Palette…**, type `Dev Containers: Reopen in Container`, and select that command.
 5. Wait while VS Code builds and opens the container. The first build can take several minutes. When it is ready, the lower-left remote indicator identifies the Dev Container and the Explorer shows the repository at `/workspace`.
-6. Open **Terminal > New Terminal** and verify the installed command:
+6. Open **Terminal > New Terminal** and verify the installed commands:
 
    ```bash
+   git --version
+   git status
+   git branch
    bank-sim --help
    ```
 
-   A list of laboratory commands confirms that this terminal is inside the container. If the command is missing, make sure the container finished building and that VS Code says it is connected to the Dev Container before retrying.
+   Git reports its version and the current checkout before the project CLI lists the
+   laboratory commands. If a command is missing, make sure the container finished
+   building and that VS Code says it is connected to the Dev Container before
+   retrying.
 
-The repository selects `/usr/local/bin/python` and installs VS Code's Python debugging support in the container. You do not need to select a host Python interpreter or install `debugpy` yourself.
+Once the build finishes, the Dev Container is a complete development environment:
+it includes Python, Git, the project CLI, VS Code debugging support, and the
+development tools required by the laboratory. The repository selects
+`/usr/local/bin/python`; you do not need to select a host Python interpreter or
+install `debugpy` yourself.
 
 ## Meet Run and Debug
 
