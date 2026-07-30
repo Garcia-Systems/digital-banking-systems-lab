@@ -138,3 +138,33 @@ AML, sanctions screening, and automatic discrepancy correction remain out of sco
 We can now produce trustworthy, stable evidence of disagreement. A future chapter
 may introduce controlled operational resolution; it must explain exceptions without
 rewriting the evidence or silently changing financial history.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe independent internal expectations being compared with external evidence.
+
+### Open the Source
+
+Open `src/bank_sim/settlement.py` and find `reconcile`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the loop over sorted payment identities. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Reconcile Settlement** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `internal_by_id`, `external_by_id`, `payment_id`, `expected`, `actual`, and `items`. Before stepping, expect the following: The two snapshots are indexed but unchanged. Before each iteration, `items` contains only classifications already made; no discrepancy has altered either source.
+
+### Step Through
+
+Step through missing, amount-mismatch, duplicate, and unexpected identities. Watch one `ReconciliationItem` enter `items` for each classified result (or the duplicate aggregate), then inspect sorted `items` and `status_totals` in the returned report.
+
+### Engineering Observation
+
+Reconciliation detects disagreement without “fixing” its evidence. Banking operations need stable exceptions so people and controls can investigate external settlement differences safely.

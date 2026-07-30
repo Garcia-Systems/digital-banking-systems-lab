@@ -223,3 +223,33 @@ observability, controlled recovery, and broader account lifecycle exercises.
 Later volumes may address lending, fraud, analytics, and other domains. Those
 topics should preserve Volume I's central habits: exact money, explicit state,
 narrow ownership, deterministic tests, and independent verification.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe the complete deterministic system composing capacity, retry, idempotency, ordering, ledger, reconciliation, and isolation.
+
+### Open the Source
+
+Open `src/bank_sim/laboratory.py` and find `run_laboratory`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the final construction of `LaboratoryResult`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Run End-to-End Laboratory** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `queue`, `processor`, `idempotency`, `ordering`, `dead_letters`, `ledger`, `settlements`, and `report`. Before stepping, expect the following: Before the result is assembled, every scripted event has run. Subsystems retain different evidence: operational attempts and exceptions are separate from the authoritative ledger.
+
+### Step Through
+
+Inspect each subsystem’s statistics and collections, then step over result construction. Trace `ledger.entries` to the derived balance, idempotency records to suppressed duplicates, ordering results to buffered/rejected events, DLQ entries to isolated failures, and reconciliation items to the matched external evidence.
+
+### Engineering Observation
+
+No single mechanism makes a banking system reliable. The end-to-end result is trustworthy because narrow controls compose: failures remain visible, duplicate intent has one effect, history stays immutable, and external evidence is checked independently.

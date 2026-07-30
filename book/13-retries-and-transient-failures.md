@@ -97,3 +97,33 @@ This chapter prevents several attempts inside one retry process from posting mor
 than once. A later chapter must address a different problem: the same payment request
 may arrive multiple times from outside the process. Duplicate detection and
 idempotency keys will preserve one intended result across those separate requests.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe a transient failure scheduling bounded future work while preserving one intent.
+
+### Open the Source
+
+Open `src/bank_sim/retries.py` and find `RetryScheduler._enqueue_attempt`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the branch that calls `self.scheduler.schedule_at(retry_time, retry)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Run Retries** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `payment`, `number`, `reason`, `retry_time`, `self.queue.queued`, `self._attempts`, and `self.scheduler.clock.time`. Before stepping, expect the following: Before the failing work runs, the payment has one intent and no successful financial effect. Its attempt count reflects only attempts already begun.
+
+### Step Through
+
+Step through the scripted-failure branch. Observe the failed attempt, incremented retry count, and a new queued attempt with later eligibility. Continue until success: outcome becomes `SUCCEEDED` and the callback posts once; exhausted work becomes `FAILED` instead.
+
+### Engineering Observation
+
+Retries preserve intent across temporary outages, but attempts are not additional payments. Bounded scheduling plus a single success effect prevents reliability machinery from multiplying money movement.

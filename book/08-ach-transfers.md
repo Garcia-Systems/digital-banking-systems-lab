@@ -142,3 +142,33 @@ Completion is the final state in this simplified chapter. Real payment workflows
 can later report that a payment could not be completed or must be returned. A
 future chapter will introduce ACH returns explicitly; no return behavior or
 placeholder is implemented here.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe an ACH instruction moving through delayed states while pending funds protect availability.
+
+### Open the Source
+
+Open `src/bank_sim/ach.py` and find `AchNetwork._mark_pending`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the append to `self.pending`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Run ACH Timeline** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `transfer`, `self.scheduler.clock.time`, `self.pending`, `self.ledger.entries`, and `self.available_balance(...)`. Before stepping, expect the following: At virtual time 2 the transfer is validated, the ledger still holds only opening history, and no completed ACH debit exists. Available balance still equals current balance.
+
+### Step Through
+
+Step over the transition and pending append: status becomes `PENDING`, one pending debit appears, and available balance falls while ledger history does not change. Continue to `AchNetwork.complete`; the hold is removed, one debit is appended, and status becomes `COMPLETED`.
+
+### Engineering Observation
+
+External payments cross time and institutional boundaries. A pending hold prevents double commitment before completion, while only the completed debit enters authoritative history.

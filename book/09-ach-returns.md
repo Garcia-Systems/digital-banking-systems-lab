@@ -95,3 +95,33 @@ Partial returns, fees, notices of change, reinitiation, contested returns, proof
 ## Transition to settlement and reconciliation
 
 Returns show that external outcomes can correct completed-looking history. A later chapter will distinguish payment workflow from settlement and use reconciliation to compare internal records with external evidence. Neither settlement nor reconciliation is implemented here.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe an ACH return correcting history by addition rather than mutation.
+
+### Open the Source
+
+Open `src/bank_sim/ach_returns.py` and find `AchReturnProcessor.complete`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+
+### Set the Breakpoint
+
+Set a breakpoint at the call to `self.network.ledger.append`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+
+### Launch the Debugger
+
+Select **Debug: Run ACH Return Timeline** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+
+### Observe
+
+Inspect `item`, `request`, `self.network.ledger.entries`, `item.completed_at`, and `item.corrective_entry_id`. Before stepping, expect the following: The original ACH is complete and its debit remains in the ledger; the return is processing, with no corrective entry identifier yet.
+
+### Step Through
+
+Step over the guarded transition, then step into the ledger append. A new credit referencing both transfer and return is added. After stepping onward, `completed_at` and `corrective_entry_id` are set; the old debit is unchanged.
+
+### Engineering Observation
+
+Append-only correction preserves what was true before the return and explains what became true afterward. Production audit and reconciliation depend on retaining both facts.
