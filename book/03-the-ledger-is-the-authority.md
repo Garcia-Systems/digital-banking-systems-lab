@@ -165,3 +165,36 @@ often need to distinguish posted money from pending activity, holds, and funds t
 are available to use. The next chapter will build those balance concepts without
 changing the principle established here: derived views do not replace their
 authoritative history.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe immutable ledger facts being replayed in order to derive, rather than store, a balance.
+
+### Open the Source
+
+Open `src/bank_sim/ledger.py`. Find `replay`, which validates sequence order and applies each entry's credit or debit direction.
+
+### Set the Breakpoint
+
+Set a breakpoint on `balance = 0` in `replay`. At this boundary `entries` already contains the three authoritative `LedgerEntry` objects, but `balance` does not exist until the highlighted initialization executes.
+
+### Launch the Debugger
+
+Select **Debug: Replay Chapter Ledger**. It runs `ledger-replay` over the fixed Chapter 3 ledger.
+
+### Observe
+
+Before stepping, inspect `entries`: the ordered, frozen entries are a 100000-cent credit, a 12000-cent debit, and a 5525-cent debit, with sequences 1, 2, and 3. They are authoritative history. There is not yet a `balance`, `expected_sequence`, `entry`, or `direction` local.
+
+### Step Through
+
+1. Step Over initialization: `balance` appears as `0`; history is unchanged.
+2. Enter the loop. `expected_sequence` and `entry` appear for sequence 1. After direction and accumulation, balance is `100000`.
+3. Repeat for sequences 2 and 3. The progression is exactly `0`, `100000`, `88000`, `82475`; each frozen entry remains unchanged.
+4. Continue. The CLI independently renders the same history and final `$824.75` projection.
+
+### Engineering Observation
+
+The ledger contains immutable financial facts; balance is a reconstruction derived by replaying those facts. Because history is authoritative, the result can be reproduced and explained without trusting a mutable running total.

@@ -112,28 +112,30 @@ intentionally deferred to a later chapter.
 
 ### Goal
 
-Observe withdrawal approval without recording rejected intent.
+Observe available-funds approval and rejection without recording rejected intent.
 
 ### Open the Source
 
-Open `src/bank_sim/withdrawals.py` and find `process_withdrawal`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/withdrawals.py` and find `process_withdrawal`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the calculation of `available` with `project_balances`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on `available = project_balances(ledger, pending).available_balance`. The debugger pauses before the projection call: only `ledger`, `request`, and `pending` (plus the function arguments' validated state) are available; `available` does not exist yet.
 
 ### Launch the Debugger
 
-Select **Debug: Process Withdrawals** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Process Withdrawals**. It runs one approved request followed by one rejected request.
 
 ### Observe
 
-Inspect `request`, `ledger`, `pending`, and `available`. Before stepping, expect the following: For the first request, the ledger contains only the opening credit and `available` is $500.00. For the second, the successful debit is already present and available funds are $380.00.
+On the first call, `ledger` contains the 50000-cent opening credit, `pending` is empty, and `request.amount_cents` is `12000`. On the second call, the approved debit is already in the ledger and the request is for `40000`. Do not inspect `available` until after stepping over its assignment.
 
 ### Step Through
 
-Step over the insufficient-funds comparison. The first request proceeds to `ledger.append`, adding one debit and becoming `POSTED`. On the second call the comparison is true: the returned withdrawal becomes `REJECTED`, `rejection_reason` is populated, and `ledger.entries` does not change.
+1. Step Over the projection on the first call. `available` appears as `50000`; the ledger is unchanged. The comparison is false, so a 12000-cent debit is appended and the result is `POSTED`.
+2. Continue to the second call. Before projection the ledger already contains that debit. Step Over: `available` appears as `38000`.
+3. The `40000 > 38000` comparison is true. Step through the early return: the result is `REJECTED` with `Insufficient available funds`. The ledger remains at two entries; no debit represents the rejected request.
 
 ### Engineering Observation
 
-A rejection is workflow evidence, not a financial fact. Production ledgers must contain only approved effects so replay cannot mistake an attempted withdrawal for money that moved.
+A rejection is workflow evidence, not a financial fact. Authoritative history contains only approved effects, so replay cannot mistake attempted spending for money that moved.

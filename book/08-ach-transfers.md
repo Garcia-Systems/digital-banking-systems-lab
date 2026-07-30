@@ -147,28 +147,30 @@ placeholder is implemented here.
 
 ### Goal
 
-Observe an ACH instruction moving through delayed states while pending funds protect availability.
+Observe an ACH instruction transition to pending, acquire a hold, and later become a posted debit.
 
 ### Open the Source
 
-Open `src/bank_sim/ach.py` and find `AchNetwork._mark_pending`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/ach.py` and find `AchNetwork._mark_pending`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the append to `self.pending`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set a breakpoint on `transfer.transition(AchTransferStatus.PENDING, 2, "Funds marked pending")`. This pauses before the status transition and before pending-list insertion.
 
 ### Launch the Debugger
 
-Select **Debug: Run ACH Timeline** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Run ACH Timeline**.
 
 ### Observe
 
-Inspect `transfer`, `self.scheduler.clock.time`, `self.pending`, `self.ledger.entries`, and `self.available_balance(...)`. Before stepping, expect the following: At virtual time 2 the transfer is validated, the ledger still holds only opening history, and no completed ACH debit exists. Available balance still equals current balance.
+At virtual time `2`, `transfer.status` is `VALIDATED`, `self.pending` is empty, and the ledger contains only the 100000-cent opening credit. Current and available balances are both `100000`; no hold or ACH debit exists yet.
 
 ### Step Through
 
-Step over the transition and pending append: status becomes `PENDING`, one pending debit appears, and available balance falls while ledger history does not change. Continue to `AchNetwork.complete`; the hold is removed, one debit is appended, and status becomes `COMPLETED`.
+1. Step Over the transition. Status is now `PENDING`, while `self.pending` and the ledger are still unchanged.
+2. Step Over `self.pending.append(...)`. One 25000-cent pending debit appears. Available balance becomes `75000`, current balance remains `100000`, and posted history remains unchanged.
+3. Continue through submission and processing to `complete`: status becomes `COMPLETED`, the hold is removed, and a 25000-cent debit is appended. Current and available balances then both equal `75000`.
 
 ### Engineering Observation
 
-External payments cross time and institutional boundaries. A pending hold prevents double commitment before completion, while only the completed debit enters authoritative history.
+A pending hold protects available funds while an external payment is unfinished, without claiming that settlement-like processing has already created a posted fact.

@@ -112,28 +112,29 @@ unimplemented for later chapters.
 
 ### Goal
 
-Observe an internal transfer becoming two coordinated ledger facts.
+Observe a valid transfer append two entries atomically and a rejected transfer append none.
 
 ### Open the Source
 
-Open `src/bank_sim/transfers.py` and find `process_transfer`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/transfers.py` and find `process_transfer`.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the call to `ledger.append_batch(entries)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Set the primary breakpoint on `ledger.append_batch(entries)`. Also set a rejection-boundary breakpoint on the insufficient-funds branch's `transfer = Transfer(...)`; this second boundary is reached before the rejected path returns and never reaches `append_batch`.
 
 ### Launch the Debugger
 
-Select **Debug: Process Internal Transfers** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Process Internal Transfers**.
 
 ### Observe
 
-Inspect `request`, `entries`, `ledger.entries`, and the source and destination results from `account_balance`. Before stepping, expect the following: The valid request has passed the funds check; `entries` contains a debit and credit with adjacent sequences, but neither is yet in the ledger.
+At the primary pause, `request`, `first_sequence`, and the two-entry `entries` tuple exist. The valid request has passed its funds check, but neither transfer entry is in `ledger.entries`. At the rejection boundary, inspect `request` and `ledger`; `transfer` does not exist until its highlighted assignment executes, and no `entries` tuple is constructed on this path.
 
 ### Step Through
 
-Step into `Ledger.append_batch`. Before its final extension, the ledger has neither transfer entry; after it, both appear together. Step out and inspect the posted `transfer`. Continue to a rejected scenario and confirm no batch is appended.
+1. Step Into `Ledger.append_batch`. Before its final extension neither transfer entry exists in the ledger; afterward both adjacent debit and credit entries appear together.
+2. Continue to the rejection breakpoint. Step Over to create the rejected `transfer`, then the return creates `TransferResult(transfer, ())`. Confirm the ledger entry count does not change and no partial batch is appended.
 
 ### Engineering Observation
 
-A transfer is one business decision with two inseparable accounting consequences. Atomic recording prevents production systems from exposing money removed from one account but never credited to the other.
+A transfer is one business decision with two inseparable accounting consequences. Validation before batch construction and atomic append prevent a debit without its matching credit.

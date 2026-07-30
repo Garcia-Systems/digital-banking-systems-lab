@@ -75,15 +75,41 @@ chapter:
 - an existing launch configuration reaches the chapter's real execution flow;
 - the named source path, function, and variables still exist at the current
   revision;
-- the chosen pause occurs before the state transition, so the before and after
-  states can both be observed;
+- the breakpoint scope is verified explicitly: identify what exists before the
+  highlighted line, what is created by executing it, what object state changed
+  earlier, and what changes only later;
 - the scenario is deterministic and its expected values agree with its tests;
 - stepping into a helper reveals a useful domain rule rather than library or
   generated code; and
 - the laboratory adds an internal observation that the chapter's CLI output does
   not already teach.
 
-At present the repository has one prepared configuration, **Debug: Post One
-Deposit**. Other chapters may therefore require separately reviewed debugger
-configurations before they can adopt the pattern; this documentation task does not
-add or rename any configuration.
+## Prepared launch configurations
+
+The repository provides one convenient CLI entry point for every Chapter 1–18
+Debugging Laboratory:
+
+- **Debug: Compare Institutions**
+- **Debug: Run Member Onboarding**
+- **Debug: Replay Chapter Ledger**
+- **Debug: Project Balances**
+- **Debug: Post One Deposit**
+- **Debug: Process Withdrawals**
+- **Debug: Process Internal Transfers**
+- **Debug: Run ACH Timeline**
+- **Debug: Run ACH Return Timeline**
+- **Debug: Reconcile Settlement**
+- **Debug: Process Payment Queue**
+- **Debug: Run Worker Capacity**
+- **Debug: Run Retries**
+- **Debug: Observe Duplicate Payments**
+- **Debug: Process Idempotently**
+- **Debug: Process Out-of-Order Events**
+- **Debug: Isolate Dead Letters**
+- **Debug: Run End-to-End Laboratory**
+
+These names are the exact inventory in `.vscode/launch.json`. A launch
+configuration is only a convenient entry point. The educational value comes from
+choosing a meaningful breakpoint, verifying its scope, and observing a real state
+transition with accurate before-and-after expectations. Chapter 5 remains the
+reference implementation for the canonical seven-heading format.

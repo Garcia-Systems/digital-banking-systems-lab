@@ -102,28 +102,28 @@ idempotency keys will preserve one intended result across those separate request
 
 ### Goal
 
-Observe a transient failure scheduling bounded future work while preserving one intent.
+Observe a transient failure schedule bounded future work while preserving one payment intent.
 
 ### Open the Source
 
-Open `src/bank_sim/retries.py` and find `RetryScheduler._enqueue_attempt`. Follow calls into adjacent domain objects when stepping; this function is the chapter's clearest observation boundary.
+Open `src/bank_sim/retries.py` and find the nested function `attempt` defined inside `RetryScheduler._enqueue_attempt`. This callback—not merely the outer method—is where queued work increments attempts and decides whether to retry.
 
 ### Set the Breakpoint
 
-Set a breakpoint at the branch that calls `self.scheduler.schedule_at(retry_time, retry)`. This logical operation is more stable than a line number and pauses immediately before the chapter's important state transition.
+Inside nested `attempt`, set a breakpoint on `self.scheduler.schedule_at(retry_time, retry)`.
 
 ### Launch the Debugger
 
-Select **Debug: Run Retries** in **Run and Debug** and start it. The configuration runs the chapter's deterministic CLI scenario, so debugging exposes the same execution described above.
+Select **Debug: Run Retries**.
 
 ### Observe
 
-Inspect `payment`, `number`, `reason`, `retry_time`, `self.queue.queued`, `self._attempts`, and `self.scheduler.clock.time`. Before stepping, expect the following: Before the failing work runs, the payment has one intent and no successful financial effect. Its attempt count reflects only attempts already begun.
+At this pause, failure bookkeeping has already happened: `payment.attempts` and local `number` are incremented; `reason`, `retries_used`, `remaining`, and `retry_time` exist; a failed `RetryAttempt` and `failed` event have been appended; and `self._pending_retries` is `1`. For `PAY-ONE-RETRY` the real first-failure values are `number == 1`, `reason == "processor unavailable"`, `remaining == 3`, and `retry_time == 4`. The future scheduler event has not yet been inserted.
 
 ### Step Through
 
-Step through the scripted-failure branch. Observe the failed attempt, incremented retry count, and a new queued attempt with later eligibility. Continue until success: outcome becomes `SUCCEEDED` and the callback posts once; exhausted work becomes `FAILED` instead.
+Step Over `schedule_at`: the scheduler now contains the event at `retry_time`, while the existing failure bookkeeping is unchanged. When nested `retry` later runs it decrements `_pending_retries`, appends `retry scheduled` for `number + 1`, and calls `_enqueue_attempt` to enqueue a new callback. Continue until successful payments post their callback once and `PAY-EXHAUSTED` becomes `PERMANENTLY_FAILED` after four attempts.
 
 ### Engineering Observation
 
-Retries preserve intent across temporary outages, but attempts are not additional payments. Bounded scheduling plus a single success effect prevents reliability machinery from multiplying money movement.
+Retries create additional attempts, not additional payment intent. Bounded future scheduling and a single successful callback keep reliability machinery from multiplying money movement.

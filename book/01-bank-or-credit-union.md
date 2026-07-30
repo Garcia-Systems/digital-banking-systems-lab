@@ -160,3 +160,36 @@ The next chapter can add its own focused banking concept on top of this stable
 institutional identity. It should introduce that concept only when its business
 rules, engineering model, deterministic experiment, and limitations can be taught
 together.
+
+## Debugging Laboratory
+
+### Goal
+
+Observe institution type and ownership as explicit, immutable domain identity, including the invariant that rejects contradictory pairings.
+
+### Open the Source
+
+Open `src/bank_sim/institutions.py`. Find `compare_institutions` and `FinancialInstitution.__post_init__`, where each constructed institution is validated.
+
+### Set the Breakpoint
+
+In `FinancialInstitution.__post_init__`, set a breakpoint on `required = _REQUIRED_OWNERSHIP.get(self.institution_type)`. The text fields have already been checked, but `required` does not exist until this highlighted assignment executes and the type/ownership comparison occurs later.
+
+### Launch the Debugger
+
+Select **Debug: Compare Institutions**. It runs `compare-institutions`, constructing the shareholder-owned bank and then the member-owned credit union.
+
+### Observe
+
+At the first pause, inspect `self`: its frozen fields identify Tidewater Regional Bank, `InstitutionType.BANK`, and `OwnershipModel.SHAREHOLDER_OWNED`. `_REQUIRED_OWNERSHIP` maps banks to shareholder ownership and credit unions to member ownership. There is no `required` local yet. The frozen, slotted dataclass prevents later reassignment of identity fields.
+
+### Step Through
+
+1. Step Over the lookup. `required` appears as `OwnershipModel.SHAREHOLDER_OWNED`; `self` is unchanged.
+2. Step through the identity comparison. It agrees, so construction completes. Continue to the second pause and observe `InstitutionType.CREDIT_UNION` paired with `OwnershipModel.MEMBER_OWNED`.
+3. Inspect the following contradictory-pairing guard: if `self.ownership_model is not required`, it raises `InstitutionValidationError` before an invalid object can be returned. Do not change the running scenario merely to trigger it; the guard and tests demonstrate the rejected path.
+4. Continue. The CLI prints both distinct ownership models followed by the capabilities they share.
+
+### Engineering Observation
+
+Institutional identity is explicit domain state. It cannot be inferred from shared capabilities such as accounts, transaction processing, or digital banking; enforcing the type/ownership pairing prevents a contradictory identity from entering the system.
