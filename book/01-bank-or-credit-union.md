@@ -88,10 +88,12 @@ without erasing the business distinction.
 
 ## Try the command line
 
+Commands in this book are intended to be run from the Dev Container introduced in Chapter 0.
+
 Describe Harbor Community Credit Union:
 
 ```bash
-docker compose run --rm lab bank-sim institution
+bank-sim institution
 ```
 
 Expected output:
@@ -107,7 +109,7 @@ Purpose: Serve families and businesses by strengthening the financial well-being
 Compare the two ownership models:
 
 ```bash
-docker compose run --rm lab bank-sim compare-institutions
+bank-sim compare-institutions
 ```
 
 Expected output:

@@ -130,12 +130,14 @@ processing state, virtual isolation time, and diagnostic. Normal work has alread
 continued around its retries. As Chapter 17 emphasized, isolation preserves
 evidence but does not authorize replay or modify the ledger.
 
-## Run the laboratory
+## Try the command line
+
+From the Dev Container terminal:
 
 Install the project, then print the full timeline:
 
 ```bash
-docker compose run --rm lab bank-sim laboratory
+bank-sim laboratory
 ```
 
 Selected expected output:
@@ -163,7 +165,7 @@ Final balance: $850.00
 For a concise operating report, run:
 
 ```bash
-docker compose run --rm lab bank-sim operational-summary
+bank-sim operational-summary
 ```
 
 Selected expected output:

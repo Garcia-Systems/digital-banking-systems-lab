@@ -89,26 +89,28 @@ transfer, return, balance, ledger entry, or original expectation, and it appends
 balancing entry. Exceptions are retained until people can explain them. Automatic
 resolution could conceal the very evidence an investigation needs.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 List the two expectations and their T+40 generation time:
 
 ```bash
-docker compose run --rm lab bank-sim settlement
+bank-sim settlement
 ```
 
 Print two matches, zero exceptions, separate direction totals, and `Final result:
 Reconciled`:
 
 ```bash
-docker compose run --rm lab bank-sim reconcile
+bank-sim reconcile
 ```
 
 Show ACH-002 missing, ACH-003 short by $1.00, ACH-004 duplicated, and
 ACH-EXTERNAL-999 unexpected:
 
 ```bash
-docker compose run --rm lab bank-sim reconciliation-exceptions
+bank-sim reconciliation-exceptions
 ```
 
 Run the commands repeatedly: wording, ordering, amounts, and timestamps remain

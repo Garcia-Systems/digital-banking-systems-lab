@@ -64,12 +64,14 @@ mutates a balance total.
 A rejected withdrawal contributes no replay step. Replaying after rejection yields
 the same result as replaying immediately before it.
 
-## Deterministic CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run a successful $120.00 withdrawal against $500.00:
 
 ```bash
-docker compose run --rm lab bank-sim withdrawal
+bank-sim withdrawal
 ```
 
 The output shows the request, validation, posted debit, replay, and final balance of
@@ -78,7 +80,7 @@ The output shows the request, validation, posted debit, replay, and final balanc
 Run both a successful request and an insufficient-funds request:
 
 ```bash
-docker compose run --rm lab bank-sim withdrawals
+bank-sim withdrawals
 ```
 
 The rejected request reports `Insufficient available funds` and zero appended

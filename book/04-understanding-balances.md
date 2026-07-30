@@ -74,12 +74,14 @@ Real institutions may calculate available funds differently according to product
 rules, regulation, risk controls, and transaction processing. This formula is a
 transparent teaching rule, not production policy.
 
-## Deterministic experiment
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the projection repeatedly:
 
 ```bash
-docker compose run --rm lab bank-sim balance
+bank-sim balance
 ```
 
 ```text
@@ -92,7 +94,7 @@ Available Balance:     $729.75
 Inspect the ordered pending input separately:
 
 ```bash
-docker compose run --rm lab bank-sim pending
+bank-sim pending
 ```
 
 ```text

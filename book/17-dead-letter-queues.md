@@ -65,7 +65,9 @@ This chapter intentionally stops there. Reading a report is not approval to repl
 work. Safe replay would need authorization, fresh validation, audit history, and a
 new idempotent recovery design.
 
-## Deterministic demonstrations
+## Try the command line
+
+From the Dev Container terminal:
 
 The scenario mixes two successful payments with three permanent failures. One
 payment fails through its complete retry allowance. A completed event arriving from
@@ -75,7 +77,7 @@ continues, while each failed item appears once in insertion order in the DLQ.
 Run the processing view:
 
 ```bash
-docker compose run --rm lab bank-sim dead-letter
+bank-sim dead-letter
 ```
 
 Selected expected output:
@@ -94,7 +96,7 @@ DLQ entries: 3
 Then inspect the isolated records:
 
 ```bash
-docker compose run --rm lab bank-sim dead-letter-report
+bank-sim dead-letter-report
 ```
 
 Expected output:

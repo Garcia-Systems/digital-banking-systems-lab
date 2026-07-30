@@ -74,12 +74,14 @@ logic. In the chapter workload, callbacks append the same ordered ACH debit and
 return credit effects for every capacity. Therefore ledger replay produces the same
 final balance even though entry timestamps differ.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run:
 
 ```bash
-docker compose run --rm lab bank-sim payment-queue
+bank-sim payment-queue
 ```
 
 The output lists all arrivals and queue sizes, followed by processing and completion
@@ -89,7 +91,7 @@ integer waits, maximum depth, an empty queue, and the replayed balance.
 Then compare one workload without changing its instructions:
 
 ```bash
-docker compose run --rm lab bank-sim payment-capacity
+bank-sim payment-capacity
 ```
 
 Capacity one finishes at T+6, capacity two at T+3, and capacity four at T+2. The

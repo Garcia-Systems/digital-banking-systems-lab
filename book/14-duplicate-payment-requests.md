@@ -85,12 +85,14 @@ unique payment identifiers, duplicate deliveries, financial operations performed
 duplicate financial operations, and duplicate percentage. Percentages use integer
 hundredths rather than floating-point arithmetic.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Observe every workload:
 
 ```bash
-docker compose run --rm lab bank-sim duplicates
+bank-sim duplicates
 ```
 
 The observation report displays every delivery and debit, then contrasts requests
@@ -100,7 +102,7 @@ is deliberate: every delivery is processed and duplicate effects remain visible.
 Inspect the canonical timeline:
 
 ```bash
-docker compose run --rm lab bank-sim duplicate-timeline
+bank-sim duplicate-timeline
 ```
 
 ```text

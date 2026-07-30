@@ -89,10 +89,12 @@ are non-sensitive teaching data, and scenario and event order never vary.
 
 ## Try the command line
 
+From the Dev Container terminal:
+
 Run the successful path:
 
 ```bash
-docker compose run --rm lab bank-sim member-apply
+bank-sim member-apply
 ```
 
 Expected output:
@@ -115,7 +117,7 @@ Final decision: Approved
 Run all three outcomes:
 
 ```bash
-docker compose run --rm lab bank-sim member-onboarding
+bank-sim member-onboarding
 ```
 
 Expected output:

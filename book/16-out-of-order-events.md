@@ -101,19 +101,21 @@ out-of-order CLI scenario, six deliveries yield four applied workflow events, tw
 future events buffered, one stale event, one duplicate, and exactly one settlement
 entry.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the baseline:
 
 ```bash
-docker compose run --rm lab bank-sim ordering
+bank-sim ordering
 ```
 
 It prints each sequence decision and the final completed state and `$750.00`
 balance. Then run the disrupted delivery:
 
 ```bash
-docker compose run --rm lab bank-sim out-of-order
+bank-sim out-of-order
 ```
 
 It prints expected order, arrival order, buffer and rejection decisions, stale and

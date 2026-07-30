@@ -63,12 +63,14 @@ Account replay scans canonical ledger order and applies only facts belonging to 
 requested account. Repeating the fixed scenario always produces source `$850.00`
 and destination `$400.00`. Rejected scenarios add no facts, so replay is unchanged.
 
-## Deterministic CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the successful scenario:
 
 ```bash
-docker compose run --rm lab bank-sim transfer
+bank-sim transfer
 ```
 
 The command displays the request, validation, paired debit and credit, replay, and
@@ -77,7 +79,7 @@ both resulting balances.
 Run all three teaching outcomes:
 
 ```bash
-docker compose run --rm lab bank-sim transfers
+bank-sim transfers
 ```
 
 This adds a $100.00 request against $50.00 and a same-account request. Each is
