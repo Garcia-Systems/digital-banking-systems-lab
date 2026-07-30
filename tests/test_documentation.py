@@ -13,6 +13,7 @@ READER_DOCUMENTS = (
 EXECUTABLE_FENCES = {"bash", "sh"}
 COMMAND_PREFIXES = (
     ". ",
+    "bank-sim ",
     "cd ",
     "docker ",
     "git ",

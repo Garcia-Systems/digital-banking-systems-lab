@@ -17,7 +17,9 @@ instructions; CI uses that same container environment.
   stabilization and executable validation.
 
 Begin with [Chapter 0](../book/00-setting-up-your-laboratory.md) for the deterministic
-laboratory foundation, then continue to
+laboratory foundation and the Run Mode and Debug Mode skills used throughout the
+book. A concise [debugging guide](../book/debugging.md) links back to that guided
+first exercise. Then continue to
 [Chapter 1: Bank or Credit Union?](../book/01-bank-or-credit-union.md) for the first
 banking-domain model, then [Chapter 2: Member Onboarding](../book/02-member-onboarding.md)
 for a validated person-level application workflow, and then
