@@ -61,12 +61,14 @@ Repeating the same return identifier yields its existing workflow. A different i
 
 Unknown or incomplete transfers, a second return, blank identifiers, unsupported reasons, and mismatched amounts lead to deterministic rejection. Existing workflow, pending, and ledger state remains intact; no rejected return has a financial effect.
 
-## CLI walkthroughs and expected output
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the return scenario:
 
 ```bash
-docker compose run --rm lab bank-sim ach-return
+bank-sim ach-return
 ```
 
 It shows the opening balance, outbound amount, $750.00 post-debit balance, return
@@ -75,7 +77,7 @@ reason, correction, preserved entries, and restored $1,000.00 balance.
 See the exact timeline above:
 
 ```bash
-docker compose run --rm lab bank-sim ach-return-timeline
+bank-sim ach-return-timeline
 ```
 
 Both outputs have exact deterministic tests.

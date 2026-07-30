@@ -94,12 +94,14 @@ any financial mutation. It fails immediately, so the ledger contains exactly one
 outgoing debit. This is intentionally smaller than the comprehensive idempotency
 and retry architecture reserved for later distributed-systems lessons.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the successful scenario:
 
 ```bash
-docker compose run --rm lab bank-sim ach
+bank-sim ach
 ```
 
 It shows the source, fictional destination, amount, initial and final balances,
@@ -109,7 +111,7 @@ successful scenario begins with $1,000.00, sends $250.00, and finishes at $750.0
 Print the exact timeline above:
 
 ```bash
-docker compose run --rm lab bank-sim ach-timeline
+bank-sim ach-timeline
 ```
 
 Both commands are deterministic and covered by exact-output tests.

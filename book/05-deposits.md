@@ -54,12 +54,14 @@ $0.00, applies that fact, and returns $500.00. Posting $250.00 and $75.50 afterw
 does not edit either previous fact. Replay applies all three credits in sequence
 and returns $825.50, with exact integer-cent precision.
 
-## Deterministic CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run one request from receipt through replay:
 
 ```bash
-docker compose run --rm lab bank-sim deposit
+bank-sim deposit
 ```
 
 ```text
@@ -75,7 +77,7 @@ $500.00
 Run all three requests and observe replay after each append:
 
 ```bash
-docker compose run --rm lab bank-sim deposits
+bank-sim deposits
 ```
 
 The running balances are `$500.00`, `$750.00`, and `$825.50`, in that order.

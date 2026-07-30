@@ -55,12 +55,14 @@ This separation models an important boundary: retrying execution must not reinte
 the payment or append partial financial history. The scenario can prove that several
 attempts still have one financial result.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run the mixed workload:
 
 ```bash
-docker compose run --rm lab bank-sim retries
+bank-sim retries
 ```
 
 The report includes immediate success, one retry, two retries, and exhaustion. It
@@ -71,7 +73,7 @@ queue size. Average attempts is computed in integer hundredths.
 Inspect the stable event sequence:
 
 ```bash
-docker compose run --rm lab bank-sim retry-timeline
+bank-sim retry-timeline
 ```
 
 A failure on an attempt at `T+1` schedules retry eligibility for `T+3`; queue

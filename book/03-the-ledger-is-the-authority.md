@@ -89,10 +89,12 @@ lost, replay recreates it. If projection code changes, the immutable history can
 replayed under the corrected rule. This is why the balance is useful but is not
 authoritative.
 
-## Try the deterministic timeline
+## Try the command line
+
+From the Dev Container terminal:
 
 ```bash
-docker compose run --rm lab bank-sim ledger
+bank-sim ledger
 ```
 
 Expected output:
@@ -107,10 +109,10 @@ Seq  Type      Amount
 The timeline is stable because all data and ordering are fixed. Formatting also
 works directly from cents rather than converting through floating point.
 
-## Replay it step by step
+Replay it step by step:
 
 ```bash
-docker compose run --rm lab bank-sim ledger-replay
+bank-sim ledger-replay
 ```
 
 Expected output:

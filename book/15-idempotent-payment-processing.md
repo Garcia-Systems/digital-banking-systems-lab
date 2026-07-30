@@ -83,12 +83,14 @@ created. Counts use integers and all arrival and processing times are scripted.
 In the triple-delivery example the measurements are three received requests, one
 unique operation, two duplicates prevented, one stored record, and one debit.
 
-## CLI walkthroughs
+## Try the command line
+
+From the Dev Container terminal:
 
 Run protected processing:
 
 ```bash
-docker compose run --rm lab bank-sim idempotency
+bank-sim idempotency
 ```
 
 The report shows all three deliveries, their shared key, original processing,
@@ -97,7 +99,7 @@ duplicate acknowledgements, the `$750.00` final balance, and one ledger debit.
 Compare the same workload under both approaches:
 
 ```bash
-docker compose run --rm lab bank-sim idempotency-comparison
+bank-sim idempotency-comparison
 ```
 
 Chapter 14 produces three debits and `$250.00`; Chapter 15 produces one debit and
