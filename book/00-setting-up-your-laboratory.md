@@ -1,6 +1,8 @@
 # Chapter 0: Setting Up Your Digital Banking Laboratory
 
-![A digital banking laboratory combining a textbook, Python simulations, tests, and reproducible Docker tooling](../images/chapters/chapter-00-setting-up-your-digital-banking-laboratory.png)
+![A digital banking laboratory combining a textbook, Python simulations, tests, and reproducible Docker tooling](../images/chapters/chapter-00-00-setting-up-your-digital-banking-laboratory.png)
+
+![A guide to debugging the digital banking laboratory with VS Code and the Dev Container](../images/chapters/chapter-00-01-debugging-the-digital-banking-laboratory.png)
 
 ## Purpose of the laboratory
 
