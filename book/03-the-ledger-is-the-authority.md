@@ -180,11 +180,18 @@ Open `src/bank_sim/ledger.py`. Find `replay`, which validates sequence order and
 
 ### Set the Breakpoint
 
-Set a breakpoint on `balance = 0` in `replay`. At this boundary `entries` already contains the three authoritative `LedgerEntry` objects, but `balance` does not exist until the highlighted initialization executes.
+Inside the `replay` function, set a breakpoint on its `balance = 0` executable
+line (not on the similar pseudocode in this chapter or the separate initialization
+inside `describe_replay`). A solid red dot in the editor gutter confirms that VS
+Code registered it. At this boundary `entries` already contains the three
+authoritative `LedgerEntry` objects, but `balance` does not exist until the
+highlighted initialization executes.
 
 ### Launch the Debugger
 
-Select **Debug: Replay Chapter Ledger**. It runs `ledger-replay` over the fixed Chapter 3 ledger.
+In **Run and Debug**, select **Debug: Replay Chapter Ledger** and press **F5**. Do
+not use **Run Python File**, because the prepared configuration runs
+`ledger-replay` over the fixed Chapter 3 ledger and deliberately invokes `replay`.
 
 ### Observe
 

@@ -201,6 +201,7 @@ def describe_ledger(ledger: Ledger) -> str:
 
 def describe_replay(ledger: Ledger) -> str:
     """Render each uncomplicated replay step and its running balance."""
+    projected_balance = replay(ledger.entries)
     lines = ["Ledger replay"]
     balance = 0
     for entry in ledger.entries:
@@ -215,5 +216,5 @@ def describe_replay(ledger: Ledger) -> str:
             f"{format_money(signed_cents, show_sign=True)} "
             f"→ {format_money(balance)}"
         )
-    lines.extend(("", "Final balance:", format_money(balance)))
+    lines.extend(("", "Final balance:", format_money(projected_balance)))
     return "\n".join(lines)
