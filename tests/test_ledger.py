@@ -4,12 +4,15 @@ from dataclasses import FrozenInstanceError
 
 import pytest
 
+import bank_sim.ledger as ledger_module
 from bank_sim.ledger import (
     EntryType,
     Ledger,
     LedgerEntry,
     LedgerValidationError,
     Money,
+    chapter_ledger,
+    describe_replay,
     replay,
 )
 
@@ -122,3 +125,21 @@ def test_replay_rejects_out_of_order_history_without_mutating_it() -> None:
     with pytest.raises(LedgerValidationError, match="contiguous sequence"):
         replay(entries)
     assert entries == before
+
+
+def test_describe_replay_runs_the_authoritative_projection(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    ledger = chapter_ledger()
+    replayed_entries: list[tuple[LedgerEntry, ...]] = []
+
+    def recording_replay(entries: tuple[LedgerEntry, ...] | list[LedgerEntry]) -> int:
+        replayed_entries.append(tuple(entries))
+        return 82_475
+
+    monkeypatch.setattr(ledger_module, "replay", recording_replay)
+
+    output = describe_replay(ledger)
+
+    assert replayed_entries == [ledger.entries]
+    assert output.endswith("Final balance:\n$824.75")
